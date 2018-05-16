@@ -1,0 +1,27 @@
+\begin{thebibliography}{}
+
+\bibitem[De~Choudhury et~al., 2016]{deChoudhury16}
+De~Choudhury, M., Kiciman, E., Dredze, M., Coppersmith, G., and Kumar, M.
+  (2016).
+\newblock Discovering shifts to suicidal ideation from mental health content in
+  social media.
+\newblock In {\em Proceedings of the 2016 CHI conference on human factors in
+  computing systems}, pages 2098--2110. ACM.
+
+\bibitem[Vioul{\`e}s et~al., 2018]{Vioules18}
+Vioul{\`e}s, M.~J., Moulahi, B., Az{\'e}, J., and Bringay, S. (2018).
+\newblock Detection of suicide-related posts in twitter data streams.
+\newblock {\em IBM Journal of Research and Development}, 62(1):7--1.
+
+\bibitem[Witte et~al., 2005]{witte05}
+Witte, T.~K., Fitzpatrick, K.~K., Joiner, T.~E., and Schmidt, N.~B. (2005).
+\newblock Variability in suicidal ideation: a better predictor of suicide
+  attempts than intensity or duration of ideation?
+\newblock {\em Journal of Affective Disorders}, 88(2):131--136.
+
+\bibitem[Yates et~al., 2017]{yates17}
+Yates, A., Cohan, A., and Goharian, N. (2017).
+\newblock Depression and self-harm risk assessment in online forums.
+\newblock {\em arXiv preprint arXiv:1709.01848}.
+
+\end{thebibliography}

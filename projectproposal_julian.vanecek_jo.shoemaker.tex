@@ -1,0 +1,75 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin = 1in]{geometry} 
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabu}
+\usepackage{color}
+\usepackage{linguex}
+\usepackage{multicol}
+
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\usepackage{titling}
+\setlength\droptitle{-3em}
+
+\newcommand{\ul}{\underline}
+\newcommand{\J}{\textcolor{white}j}
+\newcommand{\ar}{$\Longrightarrow$}
+\newcommand{\3}{$|$}
+\newcommand{\Bf}{\textbf}
+\newcommand{\reddit}{\texttt{reddit}}
+
+\title{{\bfseries CMSC 773 Project Proposal}\\{\small Jo Shoemaker and Julian Vanecek}}
+\begin{document}
+\maketitle
+\vspace{-4em}
+
+\section{Introduction}
+
+This group is comprised of Julian Vanecek and Jo Shoemaker. Given the small size of this group, we plan to contribute roughly equally to all the tasks described below.\\
+We first hope to find the most predictive features during our data exploration phase, and then to build a logistic regression model to classify users as either positive or negative instances of ``high risk for suicide within two weeks.'' We chose this two week cutoff for two reasons: first, suicidal crises on average last for 1-2 weeks \citep{witte05}, and so it makes more sense to classify a person based on this timeframe, rather than once across their entire history. Second, by considering snapshots of user behavior in two-week windows rather than all at once, we can increase the number of training instances to the model (i.e. we go from having one training instance per user $n$ to having $n \times \frac{w_n}{2}$ instances, where $w_n$ is the number of weeks that user $n$ has used \reddit. For labeling purposes in our training, a positively CrowdFlower-labelled user's behavior-snapshots will not be labelled as a positive instances of suicide risk until two weeks before their first post in \texttt{r/SuicideWatch}, and won't be labelled as such two weeks after their last post to this subreddit. 
+
+\section{Data and Methods}
+\subsection{Exploratory Analysis}
+
+Using Pearson's \emph{r}, we would like to test the strength and significance of correlation between suicide risk (according to CrowdFlower ratings on 4-point scale) and the following potentially interesting features:
+\begin{itemize}
+\item \Bf{Ratio of singular personal pronouns to all other pronouns.} This has widely been considered an approximation for inward-focus, which is higher among the depressed and suicidal \citep{Vioules18}. This measure can easily be retrieved using regular expression matching.
+\item \Bf{Ratio of present tense verbs to all verb tenses.} We have a hunch that suicidal people may be more focused on the present than on the past or future. We will extract this feature using a POS tagger (probably Stanford's) that categorizes verbs by tense.
+\item \Bf{Percentage of vocabulary items from the following LIWC categories:}
+	\begin{itemize}
+	\item ``Anger'' 
+	\item ``Sad''
+	\item ``Health''
+	\item ``Sexual''
+	\item ``Money''
+	\item ``Death''
+	\item ``Friends''
+	\item ``Family''
+	\end{itemize}
+\item \Bf{Degree of ``linguistic accommodation''.} This feature was determined to be highly correlated with suicidality by \citet{deChoudhury16}. We will use their reported strategy for measuring linguistic accommodation.
+\item \Bf{Readability.} This feature was determined to be highly correlated with suicidality by \citet{deChoudhury16}. We will use their reported strategies for measuring readability.
+\item \Bf{`Mental health thematicity' of subreddits the user contributes to.} We suspect that certain subreddits, while not explicitly about mental health, will allude to the same themes. Using word2vec vectors, we will create an average vector representation of mental health subreddits. We will measure cosine similarity of this vector to an averaged vector of non-explicitly mental-health-related subreddits which the user contributes to. 
+\item \Bf{Thematic fit of contributions to subreddits.} A suicidal user might be more likely to post erratically or without social awareness. Given a word2vec average vector representation of a subreddit, we will report the cosine similarity of this vector with a vector representing an individual user's posts on that subreddit.
+\item \Bf{Spelling accuracy.} A high degree of misspelled words might indicate distractedness or impulsiveness. We will run a user's input through a spell checker to figure out their percentage of misspelled words.
+\end{itemize}
+We also want to investigate the following non-linguistic measures:
+\begin{itemize}
+\item \Bf{Time distribution of posts.} We suspect that posting throughout the day might indicate low community engagement and isolation, which is correlated with depression. We will operationalize this as high average standard deviation in times of posts for the same days of the week.
+\item \Bf{Frequency of posting.} \citet{deChoudhury16} found that suicidal individuals only posted about half as frequently as non-suicidal individuals.\footnote{They were, however, just as likely to comment.}
+\item \Bf{Average post length.} 
+\item \Bf{Standard deviation of post length.}
+\end{itemize}
+Finally, suicidality (at least for first-time attempters \citep{witte05}) is usually brought on by sudden changes, rather than by ongoing but stable bad situations. Because of this, for all the features $x$ listed above we will consider the ``change in x'' in a user's behavior in the last two weeks compared to their aggregated previous behavior. 
+
+\subsection{Final Model}
+
+For whichever of the above features turn out to be most predictive, we would like to train a neural logistic regression model to binarily classify training instances. Depending on if time allows, we might try training models with increasing complexity, including convolutional layers similar to \citet{yates17}. Since we are extracting features manually, we would not expect to need as many layers as in that paper.
+
+\section{Evaluation}
+We will evaluate intermediate models trained on the training set using the dev set in order to tune our hyperparameters. Additionally, we would like to use an objective function that penalizes low recall more heavily than low precision, but we haven't decided on one yet. 
+
+\bibliography{sources}
+\end{document}

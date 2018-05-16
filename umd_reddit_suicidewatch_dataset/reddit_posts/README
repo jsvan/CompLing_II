@@ -1,0 +1,32 @@
+
+ORGANIZATION OF POSTS
+
+At the top level we have two directories, one for users who posted to SuicideWatch (sw_users) and one for people who didn't (controls).
+
+Within each of those two subdirectories you'll find files of the form N.posts. Each such file contains one line per post. 
+
+The full set of posts is the concatentation of the N.posts files in that directory. The posts have been broken into sets of files for convenience of processing, but note that for any given user, all of that users' posts will be contained within a single file; that is, no user's posts should be split across files. You can map from a user ID to the file containing their posts as follows: N = abs(floor(user_id/2000)).posts. 
+
+In any N.posts file, each line contains the following (tab-separated):
+
+  [post_id]
+  [user_id]
+  [timestamp]
+  [subreddit]
+  [post_title]
+  [post_body]
+
+The timestamp is expressed as a Unix "epoch" (or Unix time or POSIX time or Unix timestamp), i.e. the number of seconds that have elapsed since January 1, 1970 (midnight UTC/GMT), not counting leap seconds (in ISO 8601: 1970-01-01T00:00:00Z). All major programming languages have libraries that convert between epochs, e.g. see https://wiki.python.org/moin/WorkingWithTime.
+
+For convenience, a somewhat nonstandard convention has been adopted for user IDs: all control instances have negative numbers for their unique user IDs.  Here's an example control post (with tabs replaced by spaces):
+
+  1vekxj  -46008  1389916807      food    Just a light lunch at a vineyard in Sicily. On the side of a volcano!   
+
+In any N.posts file, the posts for each user are sorted by time. 
+
+Each of the controls and sw_users directories contains a subdirectory called split_80-10-10 with three files containing user IDs.  These provide a standardized 80-10-10 split of user IDs, e.g. in case one wanted to work on supervised classification experiments using the sw_users as positives and the controls as negatives.   However, note that just because someone posted to SuicideWatch, it doesn't necessarily mean they're a positive instance. See the ../reddit_annotation directory for crowdsourced and expert annotations for a subset of the users.
+
+
+
+
+
