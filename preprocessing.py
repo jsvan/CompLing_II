@@ -47,6 +47,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	allText = list()
 	allPosts = list()
 	dataFilenames = list()
+	suicideTimes = dict()
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 	for dataFile in dataFilenames:
@@ -64,6 +65,8 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						allText += (spellcheck(wrd.lower(),False,msdict) for wrd in word_tokenize(post[5]))
 						allText.append("$|$")
 						allPosts.append("IGNORE")
+						if subreddit == "SuicideWatch":
+							suicideTimes[post[1]] = suicideTimes.get(post[1],list()).append(post[2])
 					else:
 						features = [0]*30
 						features[0] = post[1]
@@ -117,7 +120,9 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	with open("mentalHealthVec.p","wb") as tp:
 		pickle.dump(mentalHealthVec,tp)
 	with open("subredditVecs.p","wb") as tp:
-		pickle.dump(subredditVecDict)
+		pickle.dump(subredditVecDict,tp)
+	with open("suicideTimes.p","wb") as tp:
+		pickle.dump(suicideTimes,tp)
 
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
 def processPostText(post, docFile, tagger, msdict, liwcDict, featureList):
