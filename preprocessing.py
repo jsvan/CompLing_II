@@ -37,7 +37,7 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 			total = tfile.readlines()
 			allocationDict.update({line.strip():(2,allocationDict.get(line.strip(),-1)) for line in total[1::2]})
 			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),-1)) for line in total[0::2]})
-
+#[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
 	tagger = stanf.StanfordPOSTagger("/Users/owner/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger")
 	with open(liwcFile,"rb") as lfile:
@@ -66,11 +66,11 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						allText.append("$|$")
 						allPosts.append("IGNORE")
 						if subreddit == "SuicideWatch":
-							suicideTimes[post[1]] = suicideTimes.get(post[1],list()).append(post[2])
+							suicideTimes[post[1]] = suicideTimes.get(post[1],list()).append(int(post[2]))
 					else:
 						features = [0]*30
 						features[0] = post[1]
-						features[-2] = post[2]
+						features[-2] = int(post[2])
 						features[1] = subreddit
 						features = processPostText(post[4],allText,tagger,msDict,liwc,features)
 						allPosts.append(features)
