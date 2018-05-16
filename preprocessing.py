@@ -88,9 +88,9 @@ def processDataset(dataFiles,liwcFile,stopFile):
 			totMH += 1
 		else:
 			subreddit = post[1]
-			subredditVec,count = subredditVecDict.get(subreddit,([0]*longVeclen,0))
+			subredditVec,count,words = subredditVecDict.get(subreddit,([0]*longVeclen,0,0))
 			longVec = post[8:8+TOTAL_LIWC]+docTopicVecs[i]
-			subredditVecDict[subreddit] = ([subredditVec[i]+longVec[i] for i in range(longVeclen)],count+1)
+			subredditVecDict[subreddit] = ([subredditVec[i]+longVec[i] for i in range(longVeclen)],count+1,words+post[2])
 			post[-5] = docTopicVecs[idx]
 			val,lab = allocationDict.get(post[0],(0,-1))
 			post[-1] = lab
@@ -104,8 +104,8 @@ def processDataset(dataFiles,liwcFile,stopFile):
 				devTestPosts.append(post)		 
 		idx += 1
 	mentalHealthVec = [mentalHealthVec[i]/totMH for i in range(ntopics)]
-	for (subreddit, (vec,n)) in subredditVecDict.items():
-		subredditVecDict[subreddit] = [vec[i]/n for i in range(longVeclen)]
+	for (subreddit, (vec,n,w)) in subredditVecDict.items():
+		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
 	with open("trainPosts.p","wb") as tp:
 		pickle.dump(trainPosts,tp)
 	with open("testPosts.p","wb") as tp:
