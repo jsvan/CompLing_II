@@ -1,0 +1,20 @@
+
+THIS DATASET IS NOT TO BE REDISTRIBUTED.
+
+This dataset contains text and neuroticism scores for 12750 users in
+the MyPersonality dataset.
+
+
+Files in this directory include the following:
+
+userDictionary.csv
+
+  Data for 12750 Facebook users including user ID, number of statuses
+  in their text file, gender code, neuroticism score.
+
+text/
+
+  A directory containing the aggregated statuses for each of the 12750
+  users.  The name of the file contains the user ID.
+
+

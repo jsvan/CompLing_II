@@ -2,8 +2,8 @@ import feature_intepretation as feat
 
 TWO_WEEKS = 1209600
 MIN = -99999
-TIMESTAMP_IDX = 28
-LABEL_IDX = 29
+TIMESTAMP_IDX = 29
+LABEL_IDX = 30
 USER_ID_IDX=0
 
 def _is_sorted(l):
@@ -18,12 +18,12 @@ def _is_sorted(l):
 # idx:  0       1                       2               3           4       5           6
 # post: [userid,subreddit,              totw,           totmissp,   tot1sg, totpron,    totpres,
 #
-# ...   7       8 - 24                   25             26          27      28          29
+# ...   7       8 - 25                   26             27          28      29          30
 # ...   totvrb, [funcwrdcts and liwc],  [topicSpaceVec],wkday,      hr,     timestamp,  label]
 
 # LIWC CATEGORIES
 #{0: 'verb', 1: 'auxverb', 2: 'past', 3: 'present', 4: 'future', 5: 'adverb', 6: 'conj', 7: 'negate', 8: 'quant',
-# 9: 'number', 10: 'family', 11: 'anger', 12: 'sad', 13: 'health', 14: 'sexual', 15: 'money', 16: 'death'}
+# 9: 'number', 10: 'family', 11: 'friend', 12: 'anger', 13: 'sad', 14: 'health', 15: 'sexual', 16: 'money', 17: 'death'}
 
 def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec):
 	'''
@@ -120,9 +120,15 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 
 
 	u = userList[0][USER_ID_IDX]
+	truck = []
 	if u in suicideDic:
-		return _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec)
+		truck= _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec)
 	else:
-		return _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec)
+		truck= _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec)
 
+	steady_label = truck[0][LABEL_IDX]
+	for post in truck:
+		if post[LABEL_IDX] != steady_label:
+			raise "Bucket with Unmatchin Labels Found with User "+ post[USER_ID_IDX]+". Label "+ post[LABEL_IDX]+" Does Not Match with Expected "+ steady_label+ "."
 
+	return truck
