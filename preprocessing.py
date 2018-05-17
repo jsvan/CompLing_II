@@ -53,6 +53,9 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						features[-2] = int(post[2])
 						features[1] = subreddit
 						features = processPostText(post[4],allText,tagger,msDict,liwc,features)
+						weekend, daytime = timeToDate(int(post[2]))
+						features[-4] = weekend
+						features[-3] = daytime
 						allPosts.append(features)
 	docTopicVecs = collocateAndLDA(allText,stopFile)
 	ntopics = len(docTopicVecs[0])
@@ -140,9 +143,6 @@ def processPostText(post, docFile, tagger, msdict, liwcDict, featureList):
 			themes=liwcDict[wrd]
 			for theme in themes:
 				featureList[8+theme] += 1
-	weekend,daytime = timeToDate(post[2])
-	featureList[-4] = weekend
-	featureList[-3] = daytime
 	return featureList
 
 def spellcheck(wrd,lst,msdict):
