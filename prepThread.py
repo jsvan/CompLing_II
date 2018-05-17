@@ -25,7 +25,7 @@ TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/
 DEVFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
 ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
 thread_pool = ThreadPool(processes=8)
-msDict = dict()
+msdict = dict()
 liwc = dict()
 # tagger = Tagger(PATH_TO_STANF,PATH_TO_JAR)
 
@@ -58,7 +58,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	with open("allPosts.p", "wb") as f:
 		pickle.dump(allPosts, f)
 	with open("msdict.p", "wb") as f:
-		pickle.dump(msDict, f)
+		pickle.dump(msdict, f)
 	with open("suicideTimes.p", "wb") as f:
 		pickle.dump(suicideTimes, f)
 
