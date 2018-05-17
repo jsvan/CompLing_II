@@ -11,7 +11,7 @@ from data_utils import *
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
-TOTAL_LIWC = 18
+TOTAL_LIWC = 17
 TRAINFS = []
 TESTFS = []
 DEVFS = []
@@ -48,7 +48,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						if subreddit == "SuicideWatch":
 							suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
 					else:
-						features = [0]*31
+						features = [0]*30
 						features[0] = post[1]
 						features[-2] = int(post[2])
 						features[1] = subreddit
@@ -90,21 +90,17 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
 		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
 
-
-	#split instances. First give only data with label -1 or 1 from TRAIN
-				#     Run test on dev with -1 1 people
-		#             iterate until feel good
-	#                 Then need to label 0 from TRAIN
-
 	for postList,fname in ((trainPosts,"train.p"),(testPosts,"test.p"),(devPosts,"dev.p"),(devTestPosts,"devTest.p")):
 		userPostDict = dict()
 		for post in postList:
 			userPostDict[post[0]] = userPostDict.get(post[0],list()) + [post]
 		outList = list()
 		for user in userPostDict:
-			outList.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes))
-		with open(fname,"wb") as f:
-			pickle.dump(outList,f)
+			outList.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec))
+		if fname in ("train.p","dev.p"):
+			outTup = ([],[])
+		
+			
 
 	with open("mentalHealthVec.p","wb") as tp:
 		pickle.dump(mentalHealthVec,tp)
