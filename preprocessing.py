@@ -45,7 +45,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 					post[4] = " ".join(post[4:])
 					subreddit = post[3]
 					if subreddit in EXCLUDE:
-						allText += (spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[5]))
+						allText += [spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[5])]
 						allText.append("$|$")
 						allPosts.append("IGNORE")
 						if subreddit == "SuicideWatch":
@@ -133,7 +133,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
 def processPostText(post, docFile, tagger, msdict, liwcDict, featureList):
-	wrdList = (spellcheck(wrd.lower(),featureList,msdict) for wrd in word_tokenize(post))
+	wrdList = [spellcheck(wrd.lower(),featureList,msdict) for wrd in word_tokenize(post)]
 	docFile += wrdList
 	docFile.append("$|$")
 	tags = tagger.tag(wrdList)
