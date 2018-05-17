@@ -4,9 +4,9 @@ from torch.autograd import Variable
 import numpy
 from random import randint
 
-input_size = 6       # The image size = 28 x 28 = 784
-hidden_size = 3      # The number of nodes at the hidden layer
-num_classes = 1       # The number of output classes. In this case, from 0 to 9
+input_size = 30 
+hidden_size = 40      # The number of nodes at the hidden layer
+num_classes = 2       # The number of output classes. In this case, from 0 to 9
 num_epochs = 10         # The number of times entire dataset is trained
 batch_size = 1       # The size of input data took for one iteration
 learning_rate = 0.01 # The speed of convergence
