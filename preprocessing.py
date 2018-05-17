@@ -60,6 +60,17 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						features[-4] = weekend
 						features[-3] = daytime
 						allPosts.append(features)
+			print('Pickling')
+			with open("allText.p", "wb") as f:
+				pickle.dump(allText, f)
+			with open("allPosts.p", "wb") as f:
+				pickle.dump(allPosts, f)
+			with open("msdict.p", "wb") as f:
+				pickle.dump(msDict, f)
+			with open("suicideTimes.p", "wb") as f:
+				pickle.dump(suicideTimes, f)
+			with open("mostRecentFileCompletedStepA.txt", 'w') as f:
+				f.write(dataFile)
 	print('B')
 	docTopicVecs = collocateAndLDA(allText,stopFile)
 	ntopics = len(docTopicVecs[0])
