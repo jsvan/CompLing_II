@@ -64,8 +64,8 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 			suicideTime=suicideList.pop()
 
 		if suicideTime < begin_of_two_weeks or end_of_two_weeks < suicideTime: #this bucket is NOT SW
-			post[LABEL_IDX] = 0
-	#   else:
+			post[LABEL_IDX] = -1
+	#   else:                                                                   #ths bucket is SW
 	#      maintain label
 
 	if bucket:

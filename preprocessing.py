@@ -89,6 +89,13 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	mentalHealthVec = [mentalHealthVec[i]/totMH for i in range(ntopics)]
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
 		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
+
+
+	#split instances. First give only data with label -1 or 1 from TRAIN
+				#     Run test on dev with -1 1 people
+		#             iterate until feel good
+	#                 Then need to label 0 from TRAIN
+
 	for postList,fname in ((trainPosts,"train.p"),(testPosts,"test.p"),(devPosts,"dev.p"),(devTestPosts,"devTest.p")):
 		userPostDict = dict()
 		for post in postList:
@@ -98,6 +105,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 			outList.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes))
 		with open(fname,"wb") as f:
 			pickle.dump(outList,f)
+
 	with open("mentalHealthVec.p","wb") as tp:
 		pickle.dump(mentalHealthVec,tp)
 	with open("subredditVecs.p","wb") as tp:

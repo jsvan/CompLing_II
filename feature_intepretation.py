@@ -14,10 +14,10 @@
 def interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec):
 	bucket_features=[] # only filled by bucket level features
 	interpretted_bucket = [] #will fill with interpretted lists
-	for post in bucket : #for every incoming post, first fill interp_buck with post lvel features. To be concat
-		post_features = []
-		fill post_features
-		new bucket.append post features
+	for post in bucket : #for every incoming post, first fill interp_buck with post lvel features. To be concatd
+		post_features = _interpret_bucket(post, dicSub2TopVec, mentalHealthVec)
+		interpretted_bucket.append(post_features)
+
 
 	magic
 
