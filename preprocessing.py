@@ -48,7 +48,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						if subreddit == "SuicideWatch":
 							suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
 					else:
-						features = [0]*30
+						features = [0]*31
 						features[0] = post[1]
 						features[-2] = int(post[2])
 						features[1] = subreddit
