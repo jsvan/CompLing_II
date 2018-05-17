@@ -62,7 +62,9 @@ def processDataset(dataFiles,liwcFile,stopFile):
 							features[-3] = daytime
 							allPosts.append(features)
 					except Exception as e:
-						raise e
+						print (e)
+
+
 			print('Pickling')
 			with open("allText.p", "wb") as f:
 				pickle.dump(allText, f)
