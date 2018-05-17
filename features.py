@@ -1,4 +1,5 @@
-import nltk 
+'''import nltk
+import pickle
 
 
 trainSet = pickle.load(open("train_set.p"), "rb")
@@ -40,5 +41,5 @@ for post in trainSet:
 
 userToAvg = {}
 
-
+'''
 
