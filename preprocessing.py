@@ -32,6 +32,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 	for dataFile in dataFilenames:
+		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
 			for post in data:
 				post = post.strip()
