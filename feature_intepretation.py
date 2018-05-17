@@ -57,6 +57,16 @@ def cos_sim(a,b):
 	b = np.array(b)
 	return 1.0 - distance.cosine(a, b)
 
+def day_time_probs(bucket):
+	t_buck = np.array(bucket).T
+	weekends = t_buck[27][:]
+	day_quartile = t_buck[28][:]
+	day_time_buckets = np.zeros(8)
+	weekends = 4 * weekends
+	tot = len(weekends)
+	for post_idx in range(tot):
+		day_time_buckets[weekends[post_idx] + day_quartile[post_idx]] += (1.0 / float(tot))
+	return day_time_buckets
 
 def interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec):
 	'''
@@ -74,7 +84,7 @@ def interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec):
 	bucket_features = _interpret_bucket(bucket, dicSub2TopVec, mentalHealthVec)
 
 	for i in range(len(interpretted_bucket)):
-		interpretted_bucket[i]=interpretted_bucket[i] + bucket_features
+		interpretted_bucket[i] += bucket_features
 
 	return interpretted_bucket
 
@@ -96,12 +106,9 @@ def _interpret_single_post(p, dicSub2TopVec, mentalHealthVec):
 	interpretted_post.append(float(p[w['liwc_friend']]) / float(p[w['totw']]))
 	interpretted_post.append(float(p[w['liwc_fam']]) / float(p[w['totw']]))
 
-
 	# cos sim (first half liwc cat to funct words), (liwc func words subreddit)
-	avgVec = [v/p[w["totw"]] for v in p[8:18]]
-	interpretted_post.append(cos_sim(avgVec,dicSub2TopVec[p[w["subreddit"]]][:10] ))
 
-
+	interpretted_post.append(cos_sim([v/p[w["totw"]] for v in p[8:18]], dicSub2TopVec[p[w["subreddit"]]][:10]))
 
 	#   cosine sim (topic vec post), (topic vec mental health)
 	interpretted_post.append(cos_sim(p[w["topic_space_vec"]], mentalHealthVec))
@@ -110,19 +117,28 @@ def _interpret_single_post(p, dicSub2TopVec, mentalHealthVec):
 	interpretted_post.append(cos_sim(p[w["topic_space_vec"]], dicSub2TopVec[p[w["subreddit"]]][18:]))
 
 	#   Spelling accuracy
-	interpretted_post.append(p[w["totmissp"]]/p[w["totw"]])
+	interpretted_post.append(p[w["totmissp"]] / p[w["totw"]])
+
 	return interpretted_post
 
 def _interpret_bucket(bucket, dicSub2TopVec, mentalHealthVec):
-	for post in bucket:
+	num_posts=len(bucket)
+	interpretted_bucket=[]
+
 
 	#CHANGE 1:
 	#   Time Dist Posts
 	#       vector of eight probabilities: one for each TOD x WKT
+	interpretted_bucket += (day_time_probs(bucket))
+
 	#CHANGE 2:
 	#   Post Frequency
 	#   	total posts in bucket; an int
+	interpretted_bucket.append(num_posts)
+
 	#CHANGE 3:
 	#   Avg Post Length
 	#       Sum(totalWords)/Total posts in bucket
+	interpretted_bucket.append(float(sum([bucket[i][2] for i in range(num_posts)])) / float(num_posts))
+
 	return interpretted_bucket
