@@ -88,7 +88,7 @@ def timeToDate(time):
 	if dayOfTheWeek=='Sat' or dayOfTheWeek=='Sun':
 		weekend = 1
 	hour24=s.strftime("%H")
-	bucket = math.floor(hour24/6)
+	bucket = math.floor(int(hour24)/6)
 	return (weekend,bucket)
 
 def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
