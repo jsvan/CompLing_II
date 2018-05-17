@@ -35,7 +35,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
 			for post in data: #post string, a line from file
-				print('*', end='')
+				print('*', end='', flush=True)
 				post = post.strip()
 				if post:
 					post = post.split("\t") #post a list of strings (post info)
