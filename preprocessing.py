@@ -96,7 +96,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 			userPostDict[post[0]] = userPostDict.get(post[0],list()) + [post]
 		outList = list()
 		for user in userPostDict:
-			outList.append(uwb.bucket_user_list(userPostDict[user],suicideTimes))
+			outList.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes))
 		with open(fname,"wb") as f:
 			pickle.dump(outList,f)
 	with open("mentalHealthVec.p","wb") as tp:

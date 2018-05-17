@@ -15,6 +15,11 @@ def _is_sorted(l):
 #    7       8                      9             10    11 12       13
 # ...totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
 def _create_suicide_bucket(userList, suicideList):
+	'''
+
+	:param userList:
+	:return: list (truck) of lists (buckets) of lists (posts) of strings
+	'''
 	suicideTime=0
 	begin_of_two_weeks = userList[0][13]
 	end_of_two_weeks=userList[0][13]
@@ -54,7 +59,11 @@ def _create_suicide_bucket(userList, suicideList):
 	return truck
 
 def _create_safe_bucket(userList):
+	'''
 
+	:param userList:
+	:return: list (truck) of lists (buckets) of lists (posts) of strings
+	'''
 	end_of_two_weeks = userList[0][13] + TWO_WEEKS
 	truck = []
 	bucket = []
@@ -83,7 +92,7 @@ def _create_safe_bucket(userList):
 #post: [userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,
 #    7       8                      9             10    11 12       13
 # ...totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
-def bucket_user_list(userList, suicideDic):
+def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalHealthVec):
 	'''
 	:param userList: list for a single user of their posts
 	:param suicideDic: dic of user to list of timestamp of every time posted in suicide watch
@@ -91,9 +100,20 @@ def bucket_user_list(userList, suicideDic):
 	'''
 
 	u = userList[0][0]
-
+	truck = []
 	if u in suicideDic:
-		return _create_suicide_bucket(userList, suicideDic[userList[0][0]])
+		truck = _create_suicide_bucket(userList, suicideDic[userList[0][0]])
 	else:
-		return _create_safe_bucket(userList)
+		truck = _create_safe_bucket(userList)
 
+	return _interpretFeatures(truck, dicSub2TopVec, mentalHealthVec)
+
+
+def _interpretFeatures(truck, dicSub2TopVec, mentalHealthVec):
+	'''
+
+	:param truck: list of buckets of posts for a single user
+	:param dicSub2TopVec:
+	:param mentalHealthVec:
+	:return: truck of buckets of (posts of updated dimensions/features), ready to be fed into RNN
+	'''

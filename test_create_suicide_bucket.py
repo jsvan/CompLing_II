@@ -35,7 +35,7 @@ class Test_create_suicide_bucket(TestCase):
 		user.append(TWO_WEEKS+TWO_WEEKS+TWO_WEEKS+TWO_WEEKS+2)
 		suicideList[0]=(user)
 
-		truck = b.bucket_user_list(userList, suicideList)
+		truck = b.interpret_post_features_by_user(userList, suicideList)
 		for i in truck:
 			print(i)
 
