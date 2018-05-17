@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d788d4c-5675-47d0-963d-f7dbc009520f" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/feature_intepretation.py" afterPath="$PROJECT_DIR$/feature_intepretation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user_week_buckets.py" afterPath="$PROJECT_DIR$/user_week_buckets.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,8 +17,8 @@
       <file leaf-file-name="feature_intepretation.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/feature_intepretation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="10" selection-end-column="106" />
+            <state relative-caret-position="345">
+              <caret line="23" column="10" lean-forward="false" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -73,8 +73,8 @@
         <option value="$PROJECT_DIR$/test_create_suicide_bucket.py" />
         <option value="$PROJECT_DIR$/data_utils.py" />
         <option value="$PROJECT_DIR$/preprocessing.py" />
-        <option value="$PROJECT_DIR$/feature_intepretation.py" />
         <option value="$PROJECT_DIR$/user_week_buckets.py" />
+        <option value="$PROJECT_DIR$/feature_intepretation.py" />
       </list>
     </option>
   </component>
@@ -296,8 +296,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/preprocessing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="13" column="15" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="15" />
+        <state relative-caret-position="330">
+          <caret line="30" column="34" lean-forward="true" selection-start-line="30" selection-start-column="34" selection-end-line="30" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -312,8 +312,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/feature_intepretation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="10" selection-end-column="106" />
+        <state relative-caret-position="345">
+          <caret line="23" column="10" lean-forward="false" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
           <folding />
         </state>
       </provider>

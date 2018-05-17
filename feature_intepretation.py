@@ -18,12 +18,12 @@ w = {
 	'totpron':5,
 	'totpres':6,
 	'totvrb':7,
-	'f_words_liwc':8,
+	'liwc_verb':8,
 	'top_space_vec':26,
 	'wkday':27,
-	'hr':28,
-	'timestamp':29,
-	'label':30
+	'hr':2,
+	'timestamp':28,
+	'label':29
 	}
 
 
