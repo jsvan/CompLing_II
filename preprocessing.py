@@ -176,3 +176,6 @@ def spellcheck(wrd,lst,msdict):
   [post_body]'''
 
 
+if __name__ =='__main__':
+	processDataset(["umd_reddit_suicidewatch_dataset/reddit_posts/controls/*.posts",
+	                "umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/*.posts"], "./liwc.p", "engStops")
