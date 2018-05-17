@@ -20,6 +20,7 @@ EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch",
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
 TOTAL_LIWC = 18
+THREAD_COUNT = 128
 TRAINFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt', 'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
 TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
 DEVFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
@@ -210,7 +211,7 @@ def delegate_file_to_threads(dataFile):
 						features[-3] = daytime
 						all_posts_portion.append(features)
 				except Exception as e:
-					print (e, " -- ",dataFile, "  @ line ", count, " -- \n", post )
+					pass
 
 			count +=1
 	return (all_text_portion, all_posts_portion, suicide_times_portion)
