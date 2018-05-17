@@ -11,7 +11,7 @@ from data_utils import *
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
-TOTAL_LIWC = 17
+TOTAL_LIWC = 18
 TRAINFS = []
 TESTFS = []
 DEVFS = []
@@ -48,7 +48,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						if subreddit == "SuicideWatch":
 							suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
 					else:
-						features = [0]*30
+						features = [0]*31
 						features[0] = post[1]
 						features[-2] = int(post[2])
 						features[1] = subreddit
@@ -90,17 +90,29 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
 		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
 
-	for postList,fname in ((trainPosts,"train.p"),(testPosts,"test.p"),(devPosts,"dev.p"),(devTestPosts,"devTest.p")):
+	for postList,fname in ((trainPosts,"train.p"),(devPosts,"dev.p"),(devTestPosts,"devTest.p")):
 		userPostDict = dict()
 		for post in postList:
 			userPostDict[post[0]] = userPostDict.get(post[0],list()) + [post]
-		outList = list()
+		outLabelled = list()
+		outUnlabelled = list()
 		for user in userPostDict:
-			outList.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec))
-		if fname in ("train.p","dev.p"):
-			outTup = ([],[])
-		
-			
+			if allocationDict[user][1] == 0:
+				bucketList = uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec)
+				outUnlabelled.append([bucket for bucket in bucketList if bucket[0][-1] == 0])
+				outLabelled.append([bucket for bucket in bucketList if bucket[0][-1] == -1])
+			else:
+				outLabelled.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec))
+		outTup = (outLabelled,outUnlabelled)
+		with open(fname,"wb") as f:
+			pickle.dump(outTup,f)
+
+	userPostDict = dict()
+	for post in testPosts:
+		userPostDict[post[0]] = userPostDict.get(post[0],list()) + [post]
+	outList = [uwb.interpret_post_features_by_user(userList,suicideTimes,subredditVecDict,mentalHealthVec) for user,userList in userPostDict.items()]
+	with open("test.p","wb") as f:
+		pickle.dump(outList,f)
 
 	with open("mentalHealthVec.p","wb") as tp:
 		pickle.dump(mentalHealthVec,tp)
