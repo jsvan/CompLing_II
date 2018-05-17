@@ -180,6 +180,7 @@ def delegate_file_to_threads(dataFile):
 	all_posts_portion =[] # list of 1 element of either IGNORE or [features]
 	suicide_times_portion = {} # dic from user id to post time?
 	print(dataFile)
+	count = 0
 	with open(dataFile, "rU", errors="surrogateescape") as data:
 		for post in data:  # post string, a line from file
 			print('*', end='', flush=True)
@@ -209,8 +210,8 @@ def delegate_file_to_threads(dataFile):
 						features[-3] = daytime
 						all_posts_portion.append(features)
 				except Exception as e:
-					print (e)
-
+					print (e, " -- ",dataFile, "  @ line ", count )
+		count +=1
 	return (all_text_portion, all_posts_portion, suicide_times_portion)
 
 
