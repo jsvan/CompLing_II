@@ -40,8 +40,8 @@
       <file leaf-file-name="prepThread.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/prepThread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1012">
-              <caret line="22" column="18" lean-forward="false" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
+            <state relative-caret-position="366">
+              <caret line="27" column="47" lean-forward="false" selection-start-line="27" selection-start-column="47" selection-end-line="27" selection-end-column="47" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -118,7 +118,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>stopF</find>
       <find>collocateAndLDA</find>
       <find>collocRecursively</find>
       <find>ngrams</find>
@@ -148,6 +147,7 @@
       <find>for</find>
       <find>word_tokenize</find>
       <find>msDict</find>
+      <find>8</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -504,8 +504,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/prepThread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1012">
-          <caret line="22" column="18" lean-forward="false" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
+        <state relative-caret-position="366">
+          <caret line="27" column="47" lean-forward="false" selection-start-line="27" selection-start-column="47" selection-end-line="27" selection-end-column="47" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
