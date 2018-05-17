@@ -13,6 +13,7 @@ import user_week_buckets as uwb
 from data_utils import *
 
 download("averaged_perceptron_tagger")
+download("punkt")
 # PATH_TO_STANF = "/home/ubuntu/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger"
 # PATH_TO_JAR = "/home/ubuntu/stanford-postagger-full-2018-02-27/stanford-postagger-3.9.1.jar"
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
