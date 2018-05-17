@@ -34,10 +34,11 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	for dataFile in dataFilenames:
 		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
-			for post in data:
+			for post in data: #post string, a line from file
+				print('*', end='')
 				post = post.strip()
-				if post != "":
-					post = post.split("\t")
+				if post:
+					post = post.split("\t") #post a list of strings (post info)
 					titleLast = post[4][-1:]
 					if titleLast.isalnum(): #i.e. not a punctuation mark:
 						post[4] += "."
