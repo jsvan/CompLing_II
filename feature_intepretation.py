@@ -96,26 +96,26 @@ def _interpret_single_post(p, dicSub2TopVec, mentalHealthVec):
 	interpretted_post.append(float(p[w['liwc_friend']]) / float(p[w['totw']]))
 	interpretted_post.append(float(p[w['liwc_fam']]) / float(p[w['totw']]))
 
-	#CHANGE 11:
-	#   degree ling accomm dunno how
-	#   cos sim (first half liwc cat to funct words), (liwc func words subreddit)
-	interpretted_post.append(cos_sim())
 
-	#CHANGE 12:
-	#   READABILITY
-	interpretted_post.append()
+	# cos sim (first half liwc cat to funct words), (liwc func words subreddit)
+	avgVec = [v/p[w["totw"]] for v in p[8:18]]
+	interpretted_post.append(cos_sim(avgVec,dicSub2TopVec[p[w["subreddit"]]][:10] ))
 
-	#CHANGE 13:
-	#   mental health themacity
+
+
 	#   cosine sim (topic vec post), (topic vec mental health)
-	#CHANGE 14:
+	interpretted_post.append(cos_sim(p[w["topic_space_vec"]], mentalHealthVec))
+
 	#   cosine sim (topic vec post), (topic vec subreddit)
-	#CHANGE 15:
+	interpretted_post.append(cos_sim(p[w["topic_space_vec"]], dicSub2TopVec[p[w["subreddit"]]][18:]))
+
 	#   Spelling accuracy
-	#   number misspelled / total words post
+	interpretted_post.append(p[w["totmissp"]]/p[w["totw"]])
 	return interpretted_post
 
-def _interpret_bucket(post, dicSub2TopVec, mentalHealthVec):
+def _interpret_bucket(bucket, dicSub2TopVec, mentalHealthVec):
+	for post in bucket:
+
 	#CHANGE 1:
 	#   Time Dist Posts
 	#       vector of eight probabilities: one for each TOD x WKT
