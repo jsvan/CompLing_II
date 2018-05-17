@@ -114,6 +114,8 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	:param suicideDic: dic of user to list of timestamp of every time posted in suicide watch
 	:return: list of buckets (list) of posts, with labels changed
 	'''
+	if len(userList[0]) != 31:
+		raise "post wrong size, reevaluate. Thought 30, was " + len(userList[0]) +"\n"+userList[0]
 	u = userList[0][USER_ID_IDX]
 	if u in suicideDic:
 		return _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec)
