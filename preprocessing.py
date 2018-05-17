@@ -8,7 +8,6 @@ import user_week_buckets as uwb
 
 from data_utils import *
 
-TWO_WEEKS = 1209600
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}

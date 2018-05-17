@@ -9,6 +9,12 @@ from string import punctuation as punct
 import datetime
 import math
 
+'''
+A file of self contained methods, used in preprocessing
+'''
+
+
+
 def pearsonsR(masterList):
 	# input masterlist[featurelist, featurelist, featurelist, featurelist ...]
 	# where featurelist has the label at last spot
@@ -73,8 +79,6 @@ def collocateAndLDA(allWords, stopFile):
 				 lambda bg: bg.apply_ngram_filter(lambda w1,w2: (w1 in stops) and (w2 in stops))]
 	return toLdaModel(makeCollocated(collocRecursively(\
 		allWords,interpFunc,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
-
-
 
 
 def timeToDate(time):
