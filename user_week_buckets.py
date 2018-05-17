@@ -11,15 +11,19 @@ def _is_sorted(l):
 		p=i
 	return True
 
-#labels in suicide bucket keep same
-#labels outside suicide bucket keep zero
-#       0       1        2    3        4      5       6
-#post: [userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,
-#    7       8                      9             10    11 12       13
-# ...totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
+
+# idx:  0       1                       2               3           4       5           6
+# post: [userid,subreddit,              totw,           totmissp,   tot1sg, totpron,    totpres,
+#
+# ...   7       8                       9               10          11      12          13
+# ...   totvrb, [funcwrdcts and liwc],  [topicSpaceVec],wkday,      hr,     timestamp,  label]
+
 
 def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec):
 	'''
+		labels in suicide bucket keep same
+		labels outside suicide bucket keep zero
+
 	:param userList:
 	:return: list (truck) of lists (buckets) of lists (posts) of strings
 	'''
@@ -38,28 +42,34 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	for post in userList:
 		if post[0] != user_id:
 			raise "Multiple users found in bucket. Expected "+ user_id+ " but found "+ post[0]
+
 		current_timestamp=post[12]
+		interpretted_post = feat.interpretFeatures(post, dicSub2TopVec, mentalHealthVec)
 
 		if current_timestamp < end_of_two_weeks:
-			bucket.append(post)
+			bucket.append(interpretted_post)
 		else:
 			if bucket:
 				truck.append(bucket)
 			begin_of_two_weeks=current_timestamp
 			end_of_two_weeks = begin_of_two_weeks+TWO_WEEKS
 			bucket=[]
-			bucket.append(post)
+			bucket.append(interpretted_post)
 
 		while suicideTime < begin_of_two_weeks and suicideList:
 			suicideTime=suicideList.pop()
 
-		if begin_of_two_weeks < suicideTime and suicideTime < end_of_two_weeks: #this bucket had at least one SW post
-			post[13] = 1
+		if suicideTime < begin_of_two_weeks or end_of_two_weeks < suicideTime: #this bucket is NOT SW
+			post[13] = 0
+	#   else:
+	#      maintain label
 
 	if bucket:
 		truck.append(bucket)
 
 	return truck
+
+
 
 def _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec):
 	'''
@@ -93,11 +103,7 @@ def _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec):
 
 	return truck
 
-#userList: [post, post, post]
-#       0       1        2    3        4      5       6
-#post: [userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,
-#    7       8                      9             10    11 12       13
-# ...totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
+
 def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalHealthVec):
 	'''
 	:param userList: list for a single user of their posts
