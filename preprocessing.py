@@ -12,7 +12,7 @@ from glob import glob
 import pickle
 import datetime
 import math
-import user_week_buckets
+import user_week_buckets as uwb
 
 TWO_WEEKS = 1209600
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
@@ -40,6 +40,7 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 			total = tfile.readlines()
 			allocationDict.update({line.strip():(2,allocationDict.get(line.strip(),-1)) for line in total[1::2]})
 			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),-1)) for line in total[0::2]})
+
 #[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
 	tagger = stanf.StanfordPOSTagger("/Users/owner/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger")
@@ -69,7 +70,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						allText.append("$|$")
 						allPosts.append("IGNORE")
 						if subreddit == "SuicideWatch":
-							suicideTimes[post[1]] = suicideTimes.get(post[1],list()).append(int(post[2]))
+							suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
 					else:
 						features = [0]*30
 						features[0] = post[1]
@@ -112,14 +113,15 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	mentalHealthVec = [mentalHealthVec[i]/totMH for i in range(ntopics)]
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
 		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
-	with open("trainPosts.p","wb") as tp:
-		pickle.dump(trainPosts,tp)
-	with open("testPosts.p","wb") as tp:
-		pickle.dump(testPosts,tp)
-	with open("devPosts.p","wb") as tp:
-		pickle.dump(devPosts,tp)
-	with open("devTestPosts.p","wb") as tp:
-		pickle.dump(devTestPosts,tp)
+	for postList,fname in ((trainPosts,"train.p"),(testPosts,"test.p"),(devPosts,"dev.p"),(devTestPosts,"devTest.p")):
+		userPostDict = dict()
+		for post in postList:
+			userPostDict[post[0]] = userPostDict.get(post[0],list()) + [post]
+		outList = list()
+		for user in userPostDict:
+			outList.append(uwb.bucket_user_list(userPostDict[user],suicideTimes))
+		with open(fname,"wb") as f:
+			pickle.dump(outList,f)
 	with open("mentalHealthVec.p","wb") as tp:
 		pickle.dump(mentalHealthVec,tp)
 	with open("subredditVecs.p","wb") as tp:
