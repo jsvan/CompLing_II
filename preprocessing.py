@@ -19,6 +19,7 @@ ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_red
 
 #[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
+	print('A')
 	tagger = stanf.StanfordPOSTagger("/Users/owner/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger")
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
@@ -57,6 +58,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						features[-4] = weekend
 						features[-3] = daytime
 						allPosts.append(features)
+	print('B')
 	docTopicVecs = collocateAndLDA(allText,stopFile)
 	ntopics = len(docTopicVecs[0])
 	longVeclen = ntopics + TOTAL_LIWC
@@ -90,6 +92,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 				devTestPosts.append(post)		 
 		idx += 1
 	mentalHealthVec = [mentalHealthVec[i]/totMH for i in range(ntopics)]
+	print('C')
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
 		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
 
@@ -111,9 +114,11 @@ def processDataset(dataFiles,liwcFile,stopFile):
 			pickle.dump(outTup,f)
 
 	userPostDict = dict()
+	print('D')
 	for post in testPosts:
 		userPostDict[post[0]] = userPostDict.get(post[0],list()) + [post]
 	outList = [uwb.interpret_post_features_by_user(userList,suicideTimes,subredditVecDict,mentalHealthVec) for user,userList in userPostDict.items()]
+	print('Pickling')
 	with open("test.p","wb") as f:
 		pickle.dump(outList,f)
 
