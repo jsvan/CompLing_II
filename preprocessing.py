@@ -1,15 +1,18 @@
 from nltk import word_tokenize
 from nltk.tag import stanford as stanf
-from autocorrect import spell
-import pickle
-import datetime
+from nltk.collocations import *
+#from nltk.util import ngrams
+from nltk.metrics import BigramAssocMeasures
+
 from gensim import corpora, models, similarities
 from scipy.stats.stats import pearsonr as pr
-from glob import glob
-from nltk.collocations import *
-from nltk.util import ngrams
-from nltk.metrics import BigramAssocMeasures
 from string import punctuation as punct
+from autocorrect import spell
+from glob import glob
+import pickle
+import datetime
+import math
+import user_week_buckets
 
 TWO_WEEKS = 1209600
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
@@ -62,7 +65,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 					post[4] = " ".join(post[4:])
 					subreddit = post[3]
 					if subreddit in EXCLUDE:
-						allText += (spellcheck(wrd.lower(),False,msdict) for wrd in word_tokenize(post[5]))
+						allText += (spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[5]))
 						allText.append("$|$")
 						allPosts.append("IGNORE")
 						if subreddit == "SuicideWatch":
@@ -92,7 +95,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		else:
 			subreddit = post[1]
 			subredditVec,count,words = subredditVecDict.get(subreddit,([0]*longVeclen,0,0))
-			longVec = post[8:8+TOTAL_LIWC]+docTopicVecs[i]
+			longVec = post[8:8+TOTAL_LIWC]+docTopicVecs[idx]
 			subredditVecDict[subreddit] = ([subredditVec[i]+longVec[i] for i in range(longVeclen)],count+1,words+post[2])
 			post[-5] = docTopicVecs[idx]
 			val,lab = allocationDict.get(post[0],(0,-1))
@@ -163,17 +166,17 @@ def spellcheck(wrd,lst,msdict):
 	else:
 		return wrd
 
-def appendTimeToDate(time):
+def timeToDate(time):
 	weekend = 0
 	s= datetime.datetime.fromtimestamp(time)
 	dayOfTheWeek=s.strftime("%a")
 	if dayOfTheWeek=='Sat' or dayOfTheWeek=='Sun':
 		weekend = 1
 	hour24=s.strftime("%H")
-	bucket = floor(hour24/6)
+	bucket = math.floor(hour24/6)
 	return (weekend,bucket)
 
-def collocateAndLDA(allWords):
+def collocateAndLDA(allWords, stopFile):
 	with open(stopFile,"rU") as sf:
 		stops = {line.strip() for line in sf.readlines()}
 	interpFunc = lambda x: x
@@ -186,6 +189,8 @@ def collocateAndLDA(allWords):
 				 lambda bg: bg.apply_ngram_filter(lambda w1,w2: (w1 in stops) and (w2 in stops))]
 	return toLdaModel(makeCollocated(collocRecursively(\
 		allWords,interpFunc,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
+
+
 
 def collocRecursively(corp,interp,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters=None):
 	bgFinder = constructor(corp)
@@ -228,12 +233,14 @@ def makeCollocated(corp,interpFunc):
 			curDoc.append(word)
 	return newCorp
 
-def pearsonsR(masterlist):
+def pearsonsR(masterList):
 	# input masterlist[featurelist, featurelist, featurelist, featurelist ...]
 	# where featurelist has the label at last spot
 	# want pr(x,y) to output (1.0, 0.0) or (-1.0, 0.0). (0, 1) is very uncorrelated.
+	featlen = len(masterList[0])
 	y = [instance[-1] for instance in masterList]
 	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
+	return vals
 
 def toLdaModel(docLists,num_topics):
 	dictionary = corpora.Dictionary(docLists)
@@ -241,3 +248,21 @@ def toLdaModel(docLists,num_topics):
 	model = models.LdaModel(corpus, dictionary, num_topics)
 	return [[t[1] for t in sorted(model.get_document_topics(doc),key=lambda tup: tup[0])] for doc in corpus]
 	
+
+
+
+
+
+
+
+'''post from TEXT FILE
+  RAW POST
+
+  [post_id]
+  [user_id]
+  [timestamp]
+  [subreddit]
+  [post_title]
+  [post_body]'''
+
+
