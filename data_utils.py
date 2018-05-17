@@ -104,7 +104,7 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 			allocationDict.update({line.strip():(1,allocationDict.get(line.strip(),-1)) for line in tfile.readlines()})
 	for devFile in devFiles:
 		with open(devFile) as dfile:
-			total = tfile.readlines()
+			total = dfile.readlines()
 			allocationDict.update({line.strip():(2,allocationDict.get(line.strip(),-1)) for line in total[1::2]})
 			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),-1)) for line in total[0::2]})
 	return allocationDict
