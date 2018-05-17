@@ -2,8 +2,8 @@ import feature_intepretation as feat
 
 TWO_WEEKS = 1209600
 MIN = -99999
-TIMESTAMP_IDX = 29
-LABEL_IDX = 30
+TIMESTAMP_IDX = 28
+LABEL_IDX = 29
 USER_ID_IDX=0
 
 def _is_sorted(l):
@@ -18,10 +18,12 @@ def _is_sorted(l):
 # idx:  0       1                       2               3           4       5           6
 # post: [userid,subreddit,              totw,           totmissp,   tot1sg, totpron,    totpres,
 #
-# ...   7       8 - 25                   26             27          28      29          30
+# ...   7       8 - 24                   25             26          27      28          29
 # ...   totvrb, [funcwrdcts and liwc],  [topicSpaceVec],wkday,      hr,     timestamp,  label]
 
-
+# LIWC CATEGORIES
+#{0: 'verb', 1: 'auxverb', 2: 'past', 3: 'present', 4: 'future', 5: 'adverb', 6: 'conj', 7: 'negate', 8: 'quant',
+# 9: 'number', 10: 'family', 11: 'anger', 12: 'sad', 13: 'health', 14: 'sexual', 15: 'money', 16: 'death'}
 
 def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec):
 	'''
