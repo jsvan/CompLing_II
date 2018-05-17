@@ -35,31 +35,32 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
 			for post in data: #post string, a line from file
-				print('*', end='', flush=True)
-				post = post.strip()
 				if post:
-					post = post.split("\t") #post a list of strings (post info)
-					titleLast = post[4][-1:]
-					if titleLast.isalnum(): #i.e. not a punctuation mark:
-						post[4] += "."
-					post[4] = " ".join(post[4:])
-					subreddit = post[3]
-					if subreddit in EXCLUDE:
-						allText += [spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[5])]
-						allText.append("$|$")
-						allPosts.append("IGNORE")
-						if subreddit == "SuicideWatch":
-							suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
-					else:
-						features = [0]*31
-						features[0] = post[1]
-						features[-2] = int(post[2])
-						features[1] = subreddit
-						features = processPostText(post[4],allText,tagger,msDict,liwc,features)
-						weekend, daytime = timeToDate(int(post[2]))
-						features[-4] = weekend
-						features[-3] = daytime
-						allPosts.append(features)
+					print('*', end='', flush=True)
+					post = post.strip()
+					if post:
+						post = post.split("\t") #post a list of strings (post info)
+						titleLast = post[4][-1:]
+						if titleLast.isalnum(): #i.e. not a punctuation mark:
+							post[4] += "."
+						post[4] = " ".join(post[4:])
+						subreddit = post[3]
+						if subreddit in EXCLUDE:
+							allText += [spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[5])]
+							allText.append("$|$")
+							allPosts.append("IGNORE")
+							if subreddit == "SuicideWatch":
+								suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
+						else:
+							features = [0]*31
+							features[0] = post[1]
+							features[-2] = int(post[2])
+							features[1] = subreddit
+							features = processPostText(post[4],allText,tagger,msDict,liwc,features)
+							weekend, daytime = timeToDate(int(post[2]))
+							features[-4] = weekend
+							features[-3] = daytime
+							allPosts.append(features)
 			print('Pickling')
 			with open("allText.p", "wb") as f:
 				pickle.dump(allText, f)
