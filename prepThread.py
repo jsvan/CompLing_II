@@ -1,5 +1,5 @@
 from nltk import word_tokenize
-from nltk.tag import stanford as stanf #TODO core
+from nltk import pos_tag, download
 from multiprocessing.pool import ThreadPool
 
 #l is input list of posts
@@ -12,6 +12,9 @@ import user_week_buckets as uwb
 
 from data_utils import *
 
+download("averaged_perceptron_tagger")
+# PATH_TO_STANF = "/home/ubuntu/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger"
+# PATH_TO_JAR = "/home/ubuntu/stanford-postagger-full-2018-02-27/stanford-postagger-3.9.1.jar"
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
@@ -23,8 +26,7 @@ ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_red
 thread_pool = ThreadPool(processes=8)
 msDict = dict()
 liwc = dict()
-tagger = stanf.StanfordPOSTagger(
-	"/Users/owner/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger")
+# tagger = Tagger(PATH_TO_STANF,PATH_TO_JAR)
 
 
 #[postid, userid, timestamp, subreddit]
@@ -131,11 +133,13 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		pickle.dump(suicideTimes,tp)
 
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
-def processPostText(post, docFile, tagger, msdict, liwcDict, featureList):
-	wrdList = [spellcheck(wrd.lower(),featureList,msdict) for wrd in word_tokenize(post)]
+def processPostText(post, docFile, liwcDict, featureList):
+	wrdList = [spellcheck(wrd.lower(),featureList) for wrd in word_tokenize(post)]
+	if not wrdList:
+		print(post)
 	docFile += wrdList
 	docFile.append("$|$")
-	tags = tagger.tag(wrdList)
+	tags = pos_tag(wrdList)
 	for wrd, tag in tags:
 		if tag[0:1] == "V":
 			featureList[7] += 1
@@ -151,7 +155,8 @@ def processPostText(post, docFile, tagger, msdict, liwcDict, featureList):
 				featureList[8+theme] += 1
 	return featureList
 
-def spellcheck(wrd,lst,msdict):
+def spellcheck(wrd,lst):
+	global msdict
 	if wrd.isalpha():
 		if wrd in msdict:
 			new = msdict[wrd]
@@ -169,7 +174,6 @@ def spellcheck(wrd,lst,msdict):
 
 
 def delegate_file_to_threads(dataFile):
-	global msDict
 	# liwc
 	all_text_portion = [] # wil lbe string, '$|$'
 	all_posts_portion =[] # list of 1 element of either IGNORE or [features]
@@ -188,7 +192,7 @@ def delegate_file_to_threads(dataFile):
 					post[4] = " ".join(post[4:])
 					subreddit = post[3]
 					if subreddit in EXCLUDE:
-						all_text_portion = [spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[5])]
+						all_text_portion = [spellcheck(wrd.lower(),False) for wrd in word_tokenize(post[5])]
 						all_text_portion.append("$|$")
 						all_posts_portion.append("IGNORE")
 						if subreddit == "SuicideWatch":
@@ -198,7 +202,7 @@ def delegate_file_to_threads(dataFile):
 						features[0] = post[1]
 						features[-2] = int(post[2])
 						features[1] = subreddit
-						features = processPostText(post[4],all_text_portion,tagger,msDict,liwc,features)
+						features = processPostText(post[4],all_text_portion,liwc,features)
 						weekend, daytime = timeToDate(int(post[2]))
 						features[-4] = weekend
 						features[-3] = daytime
