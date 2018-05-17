@@ -92,18 +92,17 @@ def _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec):
 			raise "Multiple users found in bucket. Expected " + user_id + " but found " + post[0]
 
 		current_timestamp = post[TIMESTAMP_IDX]
-		interpretted_post = feat.interpretFeatures(post, dicSub2TopVec, mentalHealthVec)
 		if current_timestamp < end_of_two_weeks:
-			bucket.append(interpretted_post)
+			bucket.append(post)
 		else:
 			if bucket:
-				truck.append(bucket)
+				truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
 			end_of_two_weeks = current_timestamp + TWO_WEEKS
 			bucket = []
-			bucket.append(interpretted_post)
+			bucket.append(post)
 
 	if bucket:
-		truck.append(bucket)
+		truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
 
 	return truck
 
@@ -116,6 +115,8 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	'''
 	if len(userList[0]) != 31:
 		raise "post wrong size, reevaluate. Thought 30, was " + len(userList[0]) +"\n"+userList[0]
+
+
 	u = userList[0][USER_ID_IDX]
 	if u in suicideDic:
 		return _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec)
