@@ -35,10 +35,10 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
 			for post in data: #post string, a line from file
+				print('*', end='', flush=True)
+				post = post.strip()
 				if post:
-					print('*', end='', flush=True)
-					post = post.strip()
-					if post:
+					try:
 						post = post.split("\t") #post a list of strings (post info)
 						titleLast = post[4][-1:]
 						if titleLast.isalnum(): #i.e. not a punctuation mark:
@@ -61,6 +61,8 @@ def processDataset(dataFiles,liwcFile,stopFile):
 							features[-4] = weekend
 							features[-3] = daytime
 							allPosts.append(features)
+					except Exception as e:
+						raise e
 			print('Pickling')
 			with open("allText.p", "wb") as f:
 				pickle.dump(allText, f)
