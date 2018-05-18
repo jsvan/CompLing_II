@@ -18,7 +18,7 @@ ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_red
 
 #[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
-	print('A')
+	print(dataFiles)
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
 	# allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
@@ -26,7 +26,9 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	dataFilenames = list()
 	# suicideTimes = dict()
 	for dataFilePtrn in dataFiles:
+		print(dataFilePtrn)
 		dataFilenames += glob(dataFilePtrn)
+	print(dataFilenames)
 	for dataFile in dataFilenames:
 		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
@@ -160,7 +162,7 @@ def processPostText(post, docFile, msdict, liwcDict, featureList):
 	return featureList
 
 def spellcheck(wrd,lst,msdict):
-	if wrd.isalpha():
+	if (len(wrd) < 20) and wrd.isalpha():
 		if wrd in msdict:
 			new = msdict[wrd]
 		else:
