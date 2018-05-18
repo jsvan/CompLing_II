@@ -146,7 +146,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		pickle.dump(subredditVecDict,tp)
 	with open("suicideTimes.p","wb") as tp:
 		pickle.dump(suicideTimes,tp)
-
+'''
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
 def processPostText(post, docFile, liwcDict, featureList):
 	wrdList = [spellcheck(wrd.lower(),featureList) for wrd in word_tokenize(post)]
@@ -216,7 +216,7 @@ def delegate_file_to_threads(post):
 				all_posts.append(features)
 	return
 
-'''
+
 '''post from TEXT FILE
   RAW POST
 

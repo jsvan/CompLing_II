@@ -2,8 +2,8 @@ from nltk import word_tokenize
 from nltk import pos_tag, download
 from multiprocessing.pool import ThreadPool
 from subprocess import run
-#l is input list of posts
-#tp.map(f, l)
+# l is input list of posts
+# tp.map(f, l)
 
 from autocorrect import spell
 from glob import glob
@@ -16,25 +16,31 @@ download("averaged_perceptron_tagger")
 download("punkt")
 # PATH_TO_STANF = "/home/ubuntu/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger"
 # PATH_TO_JAR = "/home/ubuntu/stanford-postagger-full-2018-02-27/stanford-postagger-3.9.1.jar"
-EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
-			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
-			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
+EXCLUDE = {"Anger", "BPD", "EatingDisorders", "MMFB", "StopSelfHarm", "SuicideWatch", "addiction", "alcoholism", \
+           "depression", "feelgood", "getting_over_it", "hardshipmates", "mentalhealth", "psychoticreddit", \
+           "ptsd", "rapecounseling", "schizophrenia", "socialanxiety", "survivorsofabuse", "traumatoolbox"}
 TOTAL_LIWC = 18
 THREAD_COUNT = 8
-TRAINFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt', 'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
-TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
-DEVFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
-ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
+TRAINFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt',
+           'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
+TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt',
+          'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
+DEVFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt',
+         'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
+ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv',
+          'umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
 thread_pool = ThreadPool(processes=THREAD_COUNT)
 msdict = dict()
 liwc = dict()
+
+
 # tagger = Tagger(PATH_TO_STANF,PATH_TO_JAR)
 
 
-#[postid, userid, timestamp, subreddit]
-def processDataset(dataFiles,liwcFile,stopFile):
+# [postid, userid, timestamp, subreddit]
+def processDataset(dataFiles, liwcFile, stopFile):
 	print('A')
-	with open(liwcFile,"rb") as lfile:
+	with open(liwcFile, "rb") as lfile:
 		liwc = pickle.load(lfile)
 	allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
 	allText = list()
@@ -44,7 +50,8 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 
-	thread_pool.map(delegate_file_to_threads, dataFilenames)  # return list of size file_count, of tuples (all_text_portion, all_posts_portion, suicide_times_portion)
+	thread_pool.map(delegate_file_to_threads,
+	                dataFilenames)  # return list of size file_count, of tuples (all_text_portion, all_posts_portion, suicide_times_portion)
 
 
 '''def build_dictionaries():
@@ -142,28 +149,30 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	with open("suicideTimes.p","wb") as tp:
 		pickle.dump(suicideTimes,tp)'''
 
-#[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
+
+# [userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
 def processPostText(post, docFile, liwcDict, featureList):
-	wrdList = [spellcheck(wrd.lower(),featureList) for wrd in word_tokenize(post)]
+	wrdList = [spellcheck(wrd.lower(), featureList) for wrd in word_tokenize(post)]
 	docFile += wrdList
 	docFile.append("$|$")
 	tags = pos_tag(wrdList)
 	for wrd, tag in tags:
 		if tag[0:1] == "V":
 			featureList[7] += 1
-			if tag in {"VBG","VBP","VBZ"}:
+			if tag in {"VBG", "VBP", "VBZ"}:
 				featureList[6] += 1
 		elif tag[0:3] == "PRP":
 			featureList[5] += 1
-			if wrd in {"me","my","I","myself","mine"}:
+			if wrd in {"me", "my", "I", "myself", "mine"}:
 				featureList[4] += 1
 		elif wrd in liwcDict:
-			themes=liwcDict[wrd]
+			themes = liwcDict[wrd]
 			for theme in themes:
-				featureList[8+theme] += 1
+				featureList[8 + theme] += 1
 	return featureList
 
-def spellcheck(wrd,lst):
+
+def spellcheck(wrd, lst):
 	global msdict
 	if wrd.isalpha():
 		if wrd in msdict:
@@ -180,47 +189,46 @@ def spellcheck(wrd,lst):
 		return wrd
 
 
-
 def delegate_file_to_threads(dataFile):
 	# liwc
-	all_text_portion = [0]*50000 # wil lbe string, '$|$'
-	all_posts_portion =[] # list of 1 element of either IGNORE or [features]
-	suicide_times_portion = {} # dic from user id to post time?
+	all_text_portion = [0] * 50000  # wil lbe string, '$|$'
+	all_posts_portion = []  # list of 1 element of either IGNORE or [features]
+	suicide_times_portion = {}  # dic from user id to post time?
 	print(dataFile)
 	with open(dataFile, "rU", errors="surrogateescape") as data:
 		for post in data:  # post string, a line from file
 			#   print('*', end='', flush=True)
 			post = post.strip()
 			if post:
-				post = post.split("\t") #post a list of strings (post info)
+				post = post.split("\t")  # post a list of strings (post info)
 				if len(post) > 4:
 					titleLast = post[4][-1:]
-					if titleLast.isalnum(): #i.e. not a punctuation mark:
+					if titleLast.isalnum():  # i.e. not a punctuation mark:
 						post[4] += "."
 					post = post[:4] + [" ".join(post[4:])]
 					subreddit = post[3]
 					if subreddit in EXCLUDE:
-						all_text_portion = [spellcheck(wrd.lower(),False) for wrd in word_tokenize(post[5])]
+						all_text_portion = [spellcheck(wrd.lower(), False) for wrd in word_tokenize(post[5])]
 						all_text_portion.append("$|$")
 						all_posts_portion.append("IGNORE")
 						if subreddit == "SuicideWatch":
-							suicide_times_portion[post[1]] = suicide_times_portion.get(post[1],list()) + [int(post[2])]
+							suicide_times_portion[post[1]] = suicide_times_portion.get(post[1], list()) + [int(post[2])]
 					else:
-						features = [0]*31
+						features = [0] * 31
 						features[0] = post[1]
 						features[-2] = int(post[2])
 						features[1] = subreddit
-						features = processPostText(post[4],all_text_portion,liwc,features)
+						features = processPostText(post[4], all_text_portion, liwc, features)
 						weekend, daytime = timeToDate(int(post[2]))
 						features[-4] = weekend
 						features[-3] = daytime
 						all_posts_portion.append(features)
-	with open(dataFile+"_text.p","wb") as f:
-		pickle.dump(all_text_portion,f)
-	with open(dataFile+"_posts.p","wb") as f:
-		pickle.dump(all_posts_portion,f)
-	with open(dataFile+"_suicide.p","wb") as f:
-		pickle.dump(suicide_times_portion,f)
+	with open(dataFile + "_text.p", "wb") as f:
+		pickle.dump(all_text_portion, f)
+	with open(dataFile + "_posts.p", "wb") as f:
+		pickle.dump(all_posts_portion, f)
+	with open(dataFile + "_suicide.p", "wb") as f:
+		pickle.dump(suicide_times_portion, f)
 	run(['mv', dataFile, dataFile[:-1]])
 	return None
 
@@ -235,7 +243,6 @@ def delegate_file_to_threads(dataFile):
   [post_title]
   [post_body]'''
 
-
-if __name__ =='__main__':
+if __name__ == '__main__':
 	processDataset(["umd_reddit_suicidewatch_dataset/reddit_posts/controls/*.posts",
 	                "umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/*.posts"], "./liwc.p", "engStops")
