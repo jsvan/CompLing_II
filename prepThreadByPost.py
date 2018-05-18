@@ -31,8 +31,8 @@ thread_pool = ThreadPool(processes=THREAD_COUNT)
 msdict = dict()
 liwc = dict()
 # tagger = Tagger(PATH_TO_STANF,PATH_TO_JAR)
-all_text = [None] * 50000  # wil lbe string, '$|$'
-all_posts = [None] * 20000  # list of 1 element of either IGNORE or [features]
+all_text = []#[None] * 50000  # wil lbe string, '$|$'
+all_posts =[]# [None] * 20000  # list of 1 element of either IGNORE or [features]
 suicide_times={}
 #[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
