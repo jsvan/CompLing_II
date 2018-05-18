@@ -16,7 +16,7 @@ num_data_d2=num_data/2
 
 
 labels = torch.from_numpy(numpy.array([[0 if j < num_data_d2 else 1] for j in range(num_data)])).type(torch.LongTensor)
-train = torch.from_numpy(numpy.array([labels[j] for j in range(num_data)])).type(torch.FloatTensor)
+train = torch.from_numpy(numpy.array([[labels[j] for i in range(input_size)] for j in range(num_data)])).type(torch.FloatTensor)
 
 def tupleToTensor(a):
     tens = torch.zeros(1, len(a))
@@ -119,10 +119,10 @@ med=0.0
 avg=0.0
 print("\n\n\n***TESTING***\n\n\n")
 
-ltest = torch.from_numpy(numpy.array([[0 if j<num_test_data_d2 else 1] for j in range(num_test_data)])).type(torch.LongTensor)
-ttest = torch.from_numpy(numpy.array([[normal(float(j)/float(num_test_data), 0.3) for _ in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
+tlabels = torch.from_numpy(numpy.array([[0 if j < num_test_data_d2 else 1] for j in range(num_test_data)])).type(torch.LongTensor)
+ttrain = torch.from_numpy(numpy.array([[labels[j] for i in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
 count=0
-for x, y in data_batcher(ttest, ltest, 25):
+for x, y in data_batcher(ttrain, tlabels, 25):
 
     print('VAR X')
     X=Variable(x)
