@@ -1,5 +1,5 @@
 from nltk import word_tokenize,pos_tag,download
-
+from sys import argv
 from autocorrect import spell
 from glob import glob
 import pickle
@@ -191,5 +191,4 @@ def spellcheck(wrd,lst,msdict):
 
 
 if __name__ =='__main__':
-	processDataset(["umd_reddit_suicidewatch_dataset/reddit_posts/controls/*.posts",
-	                "umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/*.posts"], "./liwc.p", "engStops")
+	processDataset([argv[1]], "./liwc.p", "engStops")
