@@ -44,7 +44,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 
-	res = thread_pool.map(delegate_file_to_threads, dataFilenames)  # treturn list of size file_count, of tuples (all_text_portion, all_posts_portion, suicide_times_portion)
+	res = thread_pool.map(delegate_file_to_threads, dataFilenames)  # return list of size file_count, of tuples (all_text_portion, all_posts_portion, suicide_times_portion)
 	all_text_portions=[]
 	all_posts_portions=[]
 	all_suicide_portions={}
@@ -188,7 +188,7 @@ def delegate_file_to_threads(dataFile):
 					titleLast = post[4][-1:]
 					if titleLast.isalnum(): #i.e. not a punctuation mark:
 						post[4] += "."
-					post[4] = " ".join(post[4:])
+					post = post[:4] + [" ".join(post[4:])]
 					subreddit = post[3]
 					if subreddit in EXCLUDE:
 						all_text_portion = [spellcheck(wrd.lower(),False) for wrd in word_tokenize(post[5])]
