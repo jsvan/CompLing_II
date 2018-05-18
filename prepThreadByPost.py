@@ -25,9 +25,9 @@ EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch",
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
 TOTAL_LIWC = 18
 THREAD_COUNT = 8
-COMMON_WORDS={}
+#COMMON_WORDS={}
 #initial = time.time()
-COMMON_WORDS_FILE='commonWords.txt'
+#COMMON_WORDS_FILE='commonWords.txt'
 TRAINFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt', 'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
 TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
 DEVFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
@@ -70,8 +70,8 @@ def processDataset(dataFiles,liwcFile,stopFile):
 			pickle.dump(suicide_times,f)
 
 		run(['mv', dataFile, dataFile[:-1]])
-		all_text = [None] * 50000  # wil lbe string, '$|$'
-		all_posts = [None] * 20000  # list of 1 element of either IGNORE or [features]
+		all_text = []  # wil lbe string, '$|$'
+		all_posts = [] # list of 1 element of either IGNORE or [features]
 		suicide_times = {}
 		gc.collect()
 		'''
@@ -199,7 +199,7 @@ def delegate_file_to_threads(post):
 	global all_text
 	global all_posts
 	global suicide_times
-	#global count
+	global count
 
 	post = post.strip()
 	if post:
@@ -226,15 +226,15 @@ def delegate_file_to_threads(post):
 				features[-3] = daytime
 				all_posts.append(features)
 	#print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
-	'''
-	count += 1
-	if count>>8==0:
-		print(count)
-	if count >=10000:
-		print(time.time() - initial)
+
+	if count % 250 == 0:
+		print(count, time.time()-initial)
+	count +=1
+	if count >=5000:
+		print('*', time.time() - initial)
 		sys.exit()
 	return
-'''
+
 
 '''post from TEXT FILE
   RAW POST
@@ -246,14 +246,14 @@ def delegate_file_to_threads(post):
   [post_title]
   [post_body]'''
 
-def word2IntRep(word):
-	return COMMON_WORDS.get(word, word)
+#def word2IntRep(word):
+#	return COMMON_WORDS.get(word, word)
 
 if __name__ =='__main__':
-	with open(COMMON_WORDS_FILE, 'r') as f:
-		count=0
-		for line in f.readlines():
-			COMMON_WORDS[line.strip()] = str(count)
-			count+=1
+	#with open(COMMON_WORDS_FILE, 'r') as f:
+	#	count=0
+	#	for line in f.readlines():
+	#		COMMON_WORDS[line.strip()] = str(count)
+	#		count+=1
 	processDataset(["umd_reddit_suicidewatch_dataset/reddit_posts/controls/*.posts",
 	                "umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/*.posts"], "./liwc.p", "engStops")

@@ -44,8 +44,8 @@
       <file leaf-file-name="prepThread.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prepThread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="229" column="25" lean-forward="false" selection-start-line="229" selection-start-column="25" selection-end-line="229" selection-end-column="25" />
+            <state relative-caret-position="324">
+              <caret line="229" column="29" lean-forward="false" selection-start-line="229" selection-start-column="29" selection-end-line="229" selection-end-column="29" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -56,8 +56,8 @@
       <file leaf-file-name="prepThreadByPost.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/prepThreadByPost.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="201" column="5" lean-forward="false" selection-start-line="201" selection-start-column="5" selection-end-line="201" selection-end-column="5" />
+            <state relative-caret-position="611">
+              <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -122,7 +122,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>corpora</find>
       <find>TWO_WEE</find>
       <find>TWO_WEEKS</find>
       <find>features =</find>
@@ -151,6 +150,7 @@
       <find>word_tokenize</find>
       <find>print</find>
       <find>collocateAndLDA</find>
+      <find>suicideTimes</find>
       <find>docTopicVecs</find>
     </findStrings>
   </component>
@@ -496,6 +496,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1685">
           <caret line="3647" column="8" lean-forward="false" selection-start-line="3647" selection-start-column="8" selection-end-line="3647" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -613,6 +614,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1685">
           <caret line="3647" column="8" lean-forward="false" selection-start-line="3647" selection-start-column="8" selection-end-line="3647" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -730,6 +732,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1685">
           <caret line="3647" column="8" lean-forward="false" selection-start-line="3647" selection-start-column="8" selection-end-line="3647" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -827,8 +830,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/prepThread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="229" column="25" lean-forward="false" selection-start-line="229" selection-start-column="25" selection-end-line="229" selection-end-column="25" />
+        <state relative-caret-position="324">
+          <caret line="229" column="29" lean-forward="false" selection-start-line="229" selection-start-column="29" selection-end-line="229" selection-end-column="29" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -837,8 +840,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/prepThreadByPost.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="201" column="5" lean-forward="false" selection-start-line="201" selection-start-column="5" selection-end-line="201" selection-end-column="5" />
+        <state relative-caret-position="611">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>

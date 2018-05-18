@@ -226,9 +226,11 @@ def delegate_file_to_threads(dataFile):
 						features[-4] = weekend
 						features[-3] = daytime
 						all_posts_portion.append(features)
+			if count % 250 == 0:
+				print(count, time.time()-initial)
 			count +=1
-			if count >= 1000:
-				print(time.time() - initial)
+			if count >= 5000:
+				print('*', time.time() - initial)
 				sys.exit()
 	with open(dataFile + "_text.p", "wb") as f:
 		pickle.dump(all_text_portion, f)
