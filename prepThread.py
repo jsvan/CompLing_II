@@ -1,7 +1,7 @@
 from nltk import word_tokenize
 from nltk import pos_tag, download
 from multiprocessing.pool import ThreadPool
-
+from subprocess import run
 #l is input list of posts
 #tp.map(f, l)
 
@@ -44,10 +44,18 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 
-	res = thread_pool.map(delegate_file_to_threads, dataFilenames)  # return list of size file_count, of tuples (all_text_portion, all_posts_portion, suicide_times_portion)
-	all_text_portions=[]
-	all_posts_portions=[]
-	all_suicide_portions={}
+	thread_pool.map(delegate_file_to_threads, dataFilenames)  # return list of size file_count, of tuples (all_text_portion, all_posts_portion, suicide_times_portion)
+
+
+'''def build_dictionaries():
+	for dataFile in dataFilenames:
+		with open(dataFile+"_text.p","wb") as f:
+			pickle.dump(all_text_portion,f)
+		with open(dataFile+"_posts.p","wb") as f:
+			pickle.dump(all_posts_portion,f)
+		with open(dataFile+"_suicide.p","wb") as f:
+			pickle.dump(suicide_times_portion,f)
+
 	for tuple in res:
 		all_text_portions += tuple[0]
 		all_posts_portions += tuple[1]
@@ -132,7 +140,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 	with open("subredditVecs.p","wb") as tp:
 		pickle.dump(subredditVecDict,tp)
 	with open("suicideTimes.p","wb") as tp:
-		pickle.dump(suicideTimes,tp)
+		pickle.dump(suicideTimes,tp)'''
 
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
 def processPostText(post, docFile, liwcDict, featureList):
@@ -174,6 +182,7 @@ def spellcheck(wrd,lst):
 
 
 def delegate_file_to_threads(dataFile):
+
 	# liwc
 	all_text_portion = [] # wil lbe string, '$|$'
 	all_posts_portion =[] # list of 1 element of either IGNORE or [features]
@@ -213,8 +222,9 @@ def delegate_file_to_threads(dataFile):
 		pickle.dump(all_posts_portion,f)
 	with open(dataFile+"_suicide.p","wb") as f:
 		pickle.dump(suicide_times_portion,f)
+	run(['mv', dataFile, dataFile[:-1]])
 
-	return (all_text_portion, all_posts_portion, suicide_times_portion)
+	return
 
 
 '''post from TEXT FILE

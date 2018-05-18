@@ -5,20 +5,18 @@ import numpy
 from numpy.random import normal
 
 input_size = 24       #
-hidden_size_a = 10      # The number of nodes at the hidden layer
-hidden_size_b = 10     # The number of nodes at the hidden layer
+hidden_size_a = 12      # The number of nodes at the hidden layer
+hidden_size_b = 6     # The number of nodes at the hidden layer
 
 num_classes = 2      # The number of output classes. -1, 1
 num_epochs = 20         # The number of times entire dataset is trained
-batch_size = 1       # The size of input data took for one iteration
 learning_rate = 0.01 # The speed of convergence
 num_data=18000*60
 num_data_d2=num_data/2
 
 
-
 labels = torch.from_numpy(numpy.array([[0 if j < num_data_d2 else 1] for j in range(num_data)])).type(torch.LongTensor)
-train = torch.from_numpy(numpy.array([[normal(float(j) / float(num_data), 0.5) for _ in range(input_size)] for j in range(num_data)])).type(torch.FloatTensor)
+train = torch.from_numpy(numpy.array([labels[j] for j in range(num_data)])).type(torch.FloatTensor)
 
 def tupleToTensor(a):
     tens = torch.zeros(1, len(a))
@@ -58,7 +56,7 @@ class RNN(nn.Module):
     def forward(self, input):
         hidden_a = self.i2ha(input)
         hidden_b = self.ha2hb(self.relu(hidden_a))
-        out = self.hc2o(self.relu(hidden_b))
+        out = self.hb2o(self.relu(hidden_b))
         return self.softmax(out)
 
 net = RNN(input_size, hidden_size_a, hidden_size_b, num_classes)
@@ -122,8 +120,8 @@ avg=0.0
 print("\n\n\n***TESTING***\n\n\n")
 
 ltest = torch.from_numpy(numpy.array([[0 if j<num_test_data_d2 else 1] for j in range(num_test_data)])).type(torch.LongTensor)
-ttest = torch.from_numpy(numpy.array([[normal(float(j)/float(num_test_data), 0.1) for _ in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
-
+ttest = torch.from_numpy(numpy.array([[normal(float(j)/float(num_test_data), 0.3) for _ in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
+count=0
 for x, y in data_batcher(ttest, ltest, 25):
 
     print('VAR X')
@@ -134,4 +132,7 @@ for x, y in data_batcher(ttest, ltest, 25):
     ls+=loss
     print("OUT")
     print(out)
-print(ls/100.0)
+    print(ttest[count][0], ltest[count])
+
+    count+=25
+print(ls/num_test_data)

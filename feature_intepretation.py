@@ -105,17 +105,12 @@ def _interpret_single_post(p, dicSub2TopVec, mentalHealthVec):
 	interpretted_post.append(float(p[w['liwc_death']]) / float(p[w['totw']]))
 	interpretted_post.append(float(p[w['liwc_friend']]) / float(p[w['totw']]))
 	interpretted_post.append(float(p[w['liwc_fam']]) / float(p[w['totw']]))
-
-	# cos sim (first half liwc cat to funct words), (liwc func words subreddit)
-
+	#   cos sim (first half liwc cat to funct words), (liwc func words subreddit)
 	interpretted_post.append(cos_sim([v/p[w["totw"]] for v in p[8:18]], dicSub2TopVec[p[w["subreddit"]]][:10]))
-
 	#   cosine sim (topic vec post), (topic vec mental health)
 	interpretted_post.append(cos_sim(p[w["topic_space_vec"]], mentalHealthVec))
-
 	#   cosine sim (topic vec post), (topic vec subreddit)
 	interpretted_post.append(cos_sim(p[w["topic_space_vec"]], dicSub2TopVec[p[w["subreddit"]]][18:]))
-
 	#   Spelling accuracy
 	interpretted_post.append(p[w["totmissp"]] / p[w["totw"]])
 
@@ -124,20 +119,16 @@ def _interpret_single_post(p, dicSub2TopVec, mentalHealthVec):
 def _interpret_bucket(bucket, dicSub2TopVec, mentalHealthVec):
 	num_posts=len(bucket)
 	interpretted_bucket=[]
-
-
-	#CHANGE 1:
-	#   Time Dist Posts
+	#   CHANGE 1:
+	#       Time Dist Posts
 	#       vector of eight probabilities: one for each TOD x WKT
 	interpretted_bucket += (day_time_probs(bucket))
-
-	#CHANGE 2:
-	#   Post Frequency
+	#   CHANGE 2:
+	#       Post Frequency
 	#   	total posts in bucket; an int
 	interpretted_bucket.append(num_posts)
-
-	#CHANGE 3:
-	#   Avg Post Length
+	#   CHANGE 3:
+	#       Avg Post Length
 	#       Sum(totalWords)/Total posts in bucket
 	interpretted_bucket.append(float(sum([bucket[i][2] for i in range(num_posts)])) / float(num_posts))
 
