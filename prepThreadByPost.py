@@ -214,6 +214,7 @@ def delegate_file_to_threads(post):
 				features[-4] = weekend
 				features[-3] = daytime
 				all_posts.append(features)
+	print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
 	return
 
 
