@@ -23,6 +23,8 @@ EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch",
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
 TOTAL_LIWC = 18
 THREAD_COUNT = 8
+COMMON_WORDS={}
+COMMON_WORDS_FILE='commonWords.txt'
 TRAINFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt', 'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
 TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
 DEVFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
@@ -52,11 +54,12 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		with open(dataFile, "rU", errors="surrogateescape") as data:
 			#for post in data:  # post string, a line from file
 			thread_pool.map(delegate_file_to_threads, data.readlines())  # return list of size file_count, of tuples (all_text_portion, all_posts_portion, suicide_times_portion)
-		with open(dataFile+"_text.p","wb") as f:
+		print('Picking', dataFile)
+		with open(dataFile+"_J_text.p","wb") as f:
 			pickle.dump(all_text,f)
-		with open(dataFile+"_posts.p","wb") as f:
+		with open(dataFile+"_J_posts.p","wb") as f:
 			pickle.dump(all_posts,f)
-		with open(dataFile+"_suicide.p","wb") as f:
+		with open(dataFile+"_J_suicide.p","wb") as f:
 			pickle.dump(suicide_times,f)
 
 		run(['mv', dataFile, dataFile[:-1]])
@@ -199,7 +202,7 @@ def delegate_file_to_threads(post):
 			post = post[:4] + [" ".join(post[4:])]
 			subreddit = post[3]
 			if subreddit in EXCLUDE:
-				all_text.append+= [spellcheck(wrd.lower(),False) for wrd in word_tokenize(post[5])]+ "$|$"
+				all_text.append+= [word2IntRep(spellcheck(wrd.lower(),False)) for wrd in word_tokenize(post[5])]+ "$|$"
 				all_posts.append("IGNORE")
 				if subreddit == "SuicideWatch":
 					suicide_times[post[1]] = suicide_times.get(post[1],list()) + [int(post[2])]
@@ -213,7 +216,7 @@ def delegate_file_to_threads(post):
 				features[-4] = weekend
 				features[-3] = daytime
 				all_posts.append(features)
-	print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
+	#print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
 	return
 
 
@@ -227,7 +230,14 @@ def delegate_file_to_threads(post):
   [post_title]
   [post_body]'''
 
+def word2IntRep(word):
+	return COMMON_WORDS.get(word, word)
 
 if __name__ =='__main__':
+	with open(COMMON_WORDS_FILE, 'r') as f:
+		count=0
+		for line in f.readlines():
+			COMMON_WORDS[line.strip()] = str(count)
+			count+=1
 	processDataset(["umd_reddit_suicidewatch_dataset/reddit_posts/controls/*.posts",
 	                "umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/*.posts"], "./liwc.p", "engStops")
