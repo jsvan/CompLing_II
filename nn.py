@@ -4,9 +4,11 @@ from torch.autograd import Variable
 import numpy
 from numpy.random import normal
 
-input_size = 31       #
-hidden_size = 42      # The number of nodes at the hidden layer
-num_classes = 3      # The number of output classes. -1, 1
+input_size = 24       #
+hidden_size_a = 10      # The number of nodes at the hidden layer
+hidden_size_b = 10     # The number of nodes at the hidden layer
+
+num_classes = 2      # The number of output classes. -1, 1
 num_epochs = 20         # The number of times entire dataset is trained
 batch_size = 1       # The size of input data took for one iteration
 learning_rate = 0.01 # The speed of convergence
@@ -15,8 +17,8 @@ num_data_d2=num_data/2
 
 
 
-labels = torch.from_numpy(numpy.array([[0 if j<num_data_d2 else 1] for j in range(num_data)])).type(torch.LongTensor)
-train = torch.from_numpy(numpy.array([[normal(float(j)/float(num_data), 0.1) for _ in range(input_size)] for j in range(num_data)])).type(torch.FloatTensor)
+labels = torch.from_numpy(numpy.array([[0 if j < num_data_d2 else 1] for j in range(num_data)])).type(torch.LongTensor)
+train = torch.from_numpy(numpy.array([[normal(float(j) / float(num_data), 0.5) for _ in range(input_size)] for j in range(num_data)])).type(torch.FloatTensor)
 
 def tupleToTensor(a):
     tens = torch.zeros(1, len(a))
@@ -42,22 +44,24 @@ def data_batcher(X, Y, batch_size=25):
 
 
 class RNN(nn.Module):
-    def __init__(self, input_size, hidden_size, num_classes):
+    def __init__(self, input_size, hidden_size_a, hidden_size_b, num_classes):
         super(RNN, self).__init__()
-        self.hidden_size = hidden_size
+        self.hidden_size_a = hidden_size_a
+        self.hidden_size_b = hidden_size_b
 
-        self.i2h = nn.Linear(input_size, hidden_size)
         self.relu = nn.ReLU()                          # Non-Linear ReLU Layer: max(0,x)
-        self.i2o = nn.Linear(hidden_size, num_classes)
+        self.i2ha = nn.Linear(input_size, hidden_size_a)
+        self.ha2hb = nn.Linear(hidden_size_a, hidden_size_b)
+        self.hb2o = nn.Linear(hidden_size_b, num_classes)
         self.softmax = nn.Softmax(dim =1)
 
-
     def forward(self, input):
-        hidden = self.i2h(input)
-        out = self.i2o(self.relu(hidden))
+        hidden_a = self.i2ha(input)
+        hidden_b = self.ha2hb(self.relu(hidden_a))
+        out = self.hc2o(self.relu(hidden_b))
         return self.softmax(out)
 
-net = RNN(input_size, hidden_size, num_classes)
+net = RNN(input_size, hidden_size_a, hidden_size_b, num_classes)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
 
