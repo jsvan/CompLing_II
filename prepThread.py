@@ -182,9 +182,8 @@ def spellcheck(wrd,lst):
 
 
 def delegate_file_to_threads(dataFile):
-
 	# liwc
-	all_text_portion = []*50000 # wil lbe string, '$|$'
+	all_text_portion = [0]*50000 # wil lbe string, '$|$'
 	all_posts_portion =[] # list of 1 element of either IGNORE or [features]
 	suicide_times_portion = {} # dic from user id to post time?
 	print(dataFile)
@@ -223,7 +222,7 @@ def delegate_file_to_threads(dataFile):
 	with open(dataFile+"_suicide.p","wb") as f:
 		pickle.dump(suicide_times_portion,f)
 	run(['mv', dataFile, dataFile[:-1]])
-	return
+	return None
 
 
 '''post from TEXT FILE
