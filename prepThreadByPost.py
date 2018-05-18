@@ -199,7 +199,7 @@ def delegate_file_to_threads(post):
 	global all_text
 	global all_posts
 	global suicide_times
-	global count
+	#global count
 
 	post = post.strip()
 	if post:
@@ -227,12 +227,12 @@ def delegate_file_to_threads(post):
 				all_posts.append(features)
 	#print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
 
-	if count % 250 == 0:
-		print(count, time.time()-initial)
-	count +=1
-	if count >=5000:
-		print('*', time.time() - initial)
-		sys.exit()
+	#if count % 250 == 0:
+	#	print(count, time.time()-initial)
+	#count +=1
+	#if count >=5000:
+#		print('*', time.time() - initial)
+#		sys.exit()
 	return
 
 
