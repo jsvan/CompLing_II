@@ -53,7 +53,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 						features[0] = post[1]
 						features[-2] = int(post[2])
 						features[1] = subreddit
-						features = processPostText(post[4],allText,tagger,msDict,liwc,features)
+						features = processPostText(post[4],allText,msDict,liwc,features)
 						weekend, daytime = timeToDate(int(post[2]))
 						features[-4] = weekend
 						features[-3] = daytime
@@ -139,11 +139,11 @@ def nextStep():
 		pickle.dump(suicideTimes,tp)
 
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
-def processPostText(post, docFile, tagger, msdict, liwcDict, featureList):
+def processPostText(post, docFile, msdict, liwcDict, featureList):
 	wrdList = [spellcheck(wrd.lower(),featureList,msdict) for wrd in word_tokenize(post)]
 	docFile += wrdList
 	docFile.append("$|$")
-	tags = tagger.tag(wrdList)
+	tags = pos_tag(wrdList)
 	for wrd, tag in tags:
 		if tag[0:1] == "V":
 			featureList[7] += 1
