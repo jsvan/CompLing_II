@@ -73,7 +73,6 @@ def processDataset(dataFiles,liwcFile,stopFile):
 		all_text = []  # wil lbe string, '$|$'
 		all_posts = [] # list of 1 element of either IGNORE or [features]
 		suicide_times = {}
-		gc.collect()
 		'''
 	print('Pickling')
 	with open("allText.p", "wb") as f:
@@ -224,7 +223,8 @@ def delegate_file_to_threads(post):
 				features[-4] = weekend
 				features[-3] = daytime
 				all_posts.append(features)
-		if len(all_posts) % 100 == 0:
+		if len(all_posts) % 250 == 0:
+			gc.collect()
 			print('all_post, all_text, all_suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
 	return
 

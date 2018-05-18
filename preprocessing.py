@@ -38,7 +38,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 				print('*', end='', flush=True)
 				post = post.strip()
 				if post:
-					try:
+					if len(post) >4:
 						post = post.split("\t") #post a list of strings (post info)
 						titleLast = post[4][-1:]
 						if titleLast.isalnum(): #i.e. not a punctuation mark:
@@ -61,8 +61,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 							features[-4] = weekend
 							features[-3] = daytime
 							allPosts.append(features)
-					except Exception as e:
-						print (e)
+
 
 
 			print('Pickling')

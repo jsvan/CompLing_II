@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6d788d4c-5675-47d0-963d-f7dbc009520f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prepThreadByPost.py" afterPath="$PROJECT_DIR$/prepThreadByPost.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preprocessing.py" afterPath="$PROJECT_DIR$/preprocessing.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,8 +32,8 @@
       <file leaf-file-name="preprocessing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/preprocessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="63" selection-end-line="58" selection-end-column="70" />
+            <state relative-caret-position="-247">
+              <caret line="135" column="72" lean-forward="true" selection-start-line="135" selection-start-column="72" selection-end-line="135" selection-end-column="72" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -43,8 +44,8 @@
       <file leaf-file-name="prepThread.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prepThread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="229" column="29" lean-forward="false" selection-start-line="229" selection-start-column="29" selection-end-line="229" selection-end-column="29" />
+            <state relative-caret-position="323">
+              <caret line="218" column="25" lean-forward="false" selection-start-line="218" selection-start-column="24" selection-end-line="218" selection-end-column="25" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -55,8 +56,8 @@
       <file leaf-file-name="prepThreadByPost.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/prepThreadByPost.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="227" column="19" lean-forward="false" selection-start-line="227" selection-start-column="19" selection-end-line="227" selection-end-column="19" />
+            <state relative-caret-position="272">
+              <caret line="225" column="24" lean-forward="false" selection-start-line="225" selection-start-column="15" selection-end-line="225" selection-end-column="24" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -145,12 +146,12 @@
       <find>for</find>
       <find>dim=</find>
       <find>batch_size</find>
-      <find>word_tokenize</find>
       <find>print</find>
       <find>collocateAndLDA</find>
       <find>suicideTimes</find>
-      <find>docTopicVecs</find>
       <find>count</find>
+      <find>docTopicVecs</find>
+      <find>word_tokenize</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,12 +163,12 @@
         <option value="$PROJECT_DIR$/features.py" />
         <option value="$PROJECT_DIR$/test_create_suicide_bucket.py" />
         <option value="$PROJECT_DIR$/user_week_buckets.py" />
-        <option value="$PROJECT_DIR$/preprocessing.py" />
         <option value="$PROJECT_DIR$/feature_intepretation.py" />
         <option value="$PROJECT_DIR$/nn.py" />
         <option value="$PROJECT_DIR$/data_utils.py" />
         <option value="$PROJECT_DIR$/prepThread.py" />
         <option value="$PROJECT_DIR$/prepThreadByPost.py" />
+        <option value="$PROJECT_DIR$/preprocessing.py" />
       </list>
     </option>
   </component>
@@ -397,7 +398,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/preprocessing.py</url>
+          <line>166</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -807,16 +815,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/preprocessing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="63" selection-end-line="58" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="603">
@@ -829,8 +827,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/prepThread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="229" column="29" lean-forward="false" selection-start-line="229" selection-start-column="29" selection-end-line="229" selection-end-column="29" />
+        <state relative-caret-position="323">
+          <caret line="218" column="25" lean-forward="false" selection-start-line="218" selection-start-column="24" selection-end-line="218" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-247">
+          <caret line="135" column="72" lean-forward="true" selection-start-line="135" selection-start-column="72" selection-end-line="135" selection-end-column="72" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -839,8 +847,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/prepThreadByPost.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="227" column="19" lean-forward="false" selection-start-line="227" selection-start-column="19" selection-end-line="227" selection-end-column="19" />
+        <state relative-caret-position="272">
+          <caret line="225" column="24" lean-forward="false" selection-start-line="225" selection-start-column="15" selection-end-line="225" selection-end-column="24" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
