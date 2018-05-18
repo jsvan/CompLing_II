@@ -227,7 +227,7 @@ def delegate_file_to_threads(post):
 				all_posts.append(features)
 		count += 1
 		if count % 100 == 0:
-			print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
+			print('post#, all_post, all_text, all_suic', count, len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
 	return
 
 
