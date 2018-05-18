@@ -1,10 +1,9 @@
-
-from nltk.collocations import *
+# from nltk.collocations import *
 #from nltk.util import ngrams
-from nltk.metrics import BigramAssocMeasures
+# from nltk.metrics import BigramAssocMeasures
 
-from gensim import corpora, models, similarities
-from scipy.stats.stats import pearsonr as pr
+# from gensim import corpora, models, similarities
+# from scipy.stats.stats import pearsonr as pr
 from string import punctuation as punct
 import datetime
 import math

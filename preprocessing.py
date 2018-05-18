@@ -1,5 +1,4 @@
-from nltk import word_tokenize
-from nltk.tag import stanford as stanf
+from nltk import word_tokenize,pos_tag,download
 
 from autocorrect import spell
 from glob import glob
@@ -20,61 +19,54 @@ ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_red
 #[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
 	print('A')
-	tagger = stanf.StanfordPOSTagger("/Users/owner/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger")
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
-	allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
+	# allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
 	msDict = dict()	
-	allText = list()
-	allPosts = list()
 	dataFilenames = list()
-	suicideTimes = dict()
+	# suicideTimes = dict()
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 	for dataFile in dataFilenames:
 		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
+			allText = list()
+			allPosts = list()
+			suicideTimes = dict()
 			for post in data: #post string, a line from file
 				print('*', end='', flush=True)
-				post = post.strip()
-				if post:
-					if len(post) >4:
-						post = post.split("\t") #post a list of strings (post info)
-						titleLast = post[4][-1:]
-						if titleLast.isalnum(): #i.e. not a punctuation mark:
-							post[4] += "."
-						post[4] = " ".join(post[4:])
-						subreddit = post[3]
-						if subreddit in EXCLUDE:
-							allText += [spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[5])]
-							allText.append("$|$")
-							allPosts.append("IGNORE")
-							if subreddit == "SuicideWatch":
-								suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
-						else:
-							features = [0]*31
-							features[0] = post[1]
-							features[-2] = int(post[2])
-							features[1] = subreddit
-							features = processPostText(post[4],allText,tagger,msDict,liwc,features)
-							weekend, daytime = timeToDate(int(post[2]))
-							features[-4] = weekend
-							features[-3] = daytime
-							allPosts.append(features)
-
-
-
+				post = post.strip().split("\t")
+				if len(post) > 4: #post a list of strings (post info)
+					titleLast = post[4][-1:]
+					if titleLast.isalnum(): #i.e. not a punctuation mark:
+						post[4] += "."
+					post = post[:4] + [" ".join(post[4:])]
+					subreddit = post[3]
+					if subreddit in EXCLUDE:
+						allText += [spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[4])]
+						allText.append("$|$")
+						allPosts.append("IGNORE")
+						if subreddit == "SuicideWatch":
+							suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
+					else:
+						features = [0]*31
+						features[0] = post[1]
+						features[-2] = int(post[2])
+						features[1] = subreddit
+						features = processPostText(post[4],allText,tagger,msDict,liwc,features)
+						weekend, daytime = timeToDate(int(post[2]))
+						features[-4] = weekend
+						features[-3] = daytime
+						allPosts.append(features)
 			print('Pickling')
-			with open("allText.p", "wb") as f:
+			with open(dataFile+"_allText.p", "wb") as f:
 				pickle.dump(allText, f)
-			with open("allPosts.p", "wb") as f:
+			with open(dataFile+"_allPosts.p", "wb") as f:
 				pickle.dump(allPosts, f)
-			with open("msdict.p", "wb") as f:
-				pickle.dump(msDict, f)
-			with open("suicideTimes.p", "wb") as f:
+			with open(dataFile+"_suicideTimes.p", "wb") as f:
 				pickle.dump(suicideTimes, f)
-			with open("mostRecentFileCompletedStepA.txt", 'w') as f:
-				f.write(dataFile)
+
+def nextStep():
 	print('B')
 	docTopicVecs = collocateAndLDA(allText,stopFile)
 	ntopics = len(docTopicVecs[0])
