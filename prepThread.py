@@ -4,14 +4,16 @@ from multiprocessing.pool import ThreadPool
 from subprocess import run
 # l is input list of posts
 # tp.map(f, l)
-
+import sys
+import time
 from autocorrect import spell
 from glob import glob
 import pickle
 import user_week_buckets as uwb
-
 from data_utils import *
 
+initial = time.time()
+count =0
 download("averaged_perceptron_tagger")
 download("punkt")
 # PATH_TO_STANF = "/home/ubuntu/stanford-postagger-full-2018-02-27/models/english-caseless-left3words-distsim.tagger"
@@ -191,6 +193,7 @@ def spellcheck(wrd, lst):
 
 def delegate_file_to_threads(dataFile):
 	# liwc
+	global count
 	all_text_portion = [0] * 50000  # wil lbe string, '$|$'
 	all_posts_portion = []  # list of 1 element of either IGNORE or [features]
 	suicide_times_portion = {}  # dic from user id to post time?
@@ -223,6 +226,10 @@ def delegate_file_to_threads(dataFile):
 						features[-4] = weekend
 						features[-3] = daytime
 						all_posts_portion.append(features)
+			count +=1
+			if count >= 1000:
+				print(time.time() - initial)
+				sys.exit()
 	with open(dataFile + "_text.p", "wb") as f:
 		pickle.dump(all_text_portion, f)
 	with open(dataFile + "_posts.p", "wb") as f:

@@ -2,6 +2,8 @@ from nltk import word_tokenize
 from nltk import pos_tag, download
 from multiprocessing.pool import ThreadPool
 from subprocess import run
+#import sys
+#import time
 #l is input list of posts
 #tp.map(f, l)
 # ssh -i "cl2Key.pem" ubuntu@ec2-34-224-65-19.compute-1.amazonaws.com
@@ -9,7 +11,7 @@ import gc
 from autocorrect import spell
 from glob import glob
 import pickle
-import user_week_buckets as uwb
+#import user_week_buckets as uwb
 
 from data_utils import *
 
@@ -24,6 +26,7 @@ EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch",
 TOTAL_LIWC = 18
 THREAD_COUNT = 8
 COMMON_WORDS={}
+#initial = time.time()
 COMMON_WORDS_FILE='commonWords.txt'
 TRAINFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt', 'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
 TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
@@ -36,8 +39,12 @@ liwc = dict()
 all_text = []#[None] * 50000  # wil lbe string, '$|$'
 all_posts =[]# [None] * 20000  # list of 1 element of either IGNORE or [features]
 suicide_times={}
+#count = 0
 #[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
+	global all_text
+	global all_posts
+	global suicide_times
 	print('A')
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
@@ -191,7 +198,9 @@ def spellcheck(wrd,lst):
 def delegate_file_to_threads(post):
 	global all_text
 	global all_posts
-	global suicide_times 
+	global suicide_times
+	#global count
+
 	post = post.strip()
 	if post:
 		post = post.split("\t") #post a list of strings (post info)
@@ -217,8 +226,15 @@ def delegate_file_to_threads(post):
 				features[-3] = daytime
 				all_posts.append(features)
 	#print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
+	'''
+	count += 1
+	if count>>8==0:
+		print(count)
+	if count >=10000:
+		print(time.time() - initial)
+		sys.exit()
 	return
-
+'''
 
 '''post from TEXT FILE
   RAW POST
