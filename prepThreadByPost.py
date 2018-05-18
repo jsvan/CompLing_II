@@ -39,7 +39,7 @@ liwc = dict()
 all_text = []#[None] * 50000  # wil lbe string, '$|$'
 all_posts =[]# [None] * 20000  # list of 1 element of either IGNORE or [features]
 suicide_times={}
-#count = 0
+count = 0
 #[postid, userid, timestamp, subreddit]
 def processDataset(dataFiles,liwcFile,stopFile):
 	global all_text
@@ -199,7 +199,7 @@ def delegate_file_to_threads(post):
 	global all_text
 	global all_posts
 	global suicide_times
-	#global count
+	global count
 
 	post = post.strip()
 	if post:
@@ -225,14 +225,9 @@ def delegate_file_to_threads(post):
 				features[-4] = weekend
 				features[-3] = daytime
 				all_posts.append(features)
-	#print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
-
-	#if count % 250 == 0:
-	#	print(count, time.time()-initial)
-	#count +=1
-	#if count >=5000:
-#		print('*', time.time() - initial)
-#		sys.exit()
+		count += 1
+		if count % 100 == 0:
+			print('post, text, suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
 	return
 
 
@@ -250,10 +245,11 @@ def delegate_file_to_threads(post):
 #	return COMMON_WORDS.get(word, word)
 
 if __name__ =='__main__':
-	#with open(COMMON_WORDS_FILE, 'r') as f:
-	#	count=0
-	#	for line in f.readlines():
-	#		COMMON_WORDS[line.strip()] = str(count)
-	#		count+=1
+#	with open(COMMON_WORDS_FILE, 'r') as f:
+#		count=0
+#		for line in f.readlines():
+#			if len(line) > 2:
+#				COMMON_WORDS[line.strip()] = str(count)
+#				count+=1
 	processDataset(["umd_reddit_suicidewatch_dataset/reddit_posts/controls/*.posts",
 	                "umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/*.posts"], "./liwc.p", "engStops")
