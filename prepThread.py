@@ -178,6 +178,7 @@ def delegate_file_to_threads(dataFile):
 	all_text_portion = [] # wil lbe string, '$|$'
 	all_posts_portion =[] # list of 1 element of either IGNORE or [features]
 	suicide_times_portion = {} # dic from user id to post time?
+	print(dataFile)
 	with open(dataFile, "rU", errors="surrogateescape") as data:
 		for post in data:  # post string, a line from file
 			#   print('*', end='', flush=True)
