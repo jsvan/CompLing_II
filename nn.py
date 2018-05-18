@@ -2,27 +2,21 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 import numpy
-from random import choice, random
+from numpy.random import normal
 
-input_size = 1       #
-hidden_size = 5      # The number of nodes at the hidden layer
-num_classes = 2       # The number of output classes. -1, 1
+input_size = 31       #
+hidden_size = 42      # The number of nodes at the hidden layer
+num_classes = 3      # The number of output classes. -1, 1
 num_epochs = 20         # The number of times entire dataset is trained
 batch_size = 1       # The size of input data took for one iteration
 learning_rate = 0.01 # The speed of convergence
-num_data=18000
+num_data=18000*60
 num_data_d2=num_data/2
 
 
-def toBin(x):
-  l=list(bin(int(x))[2:])
-  while len(l)<6:
-    l.insert(0, 0)
-  return numpy.array([numpy.int64(int(i)) for i in l])
-
 
 labels = torch.from_numpy(numpy.array([[0 if j<num_data_d2 else 1] for j in range(num_data)])).type(torch.LongTensor)
-train = torch.from_numpy(numpy.array([[float(j)/float(num_data) for _ in range(input_size)] for j in range(num_data)])).type(torch.FloatTensor)
+train = torch.from_numpy(numpy.array([[normal(float(j)/float(num_data), 0.1) for _ in range(input_size)] for j in range(num_data)])).type(torch.FloatTensor)
 
 def tupleToTensor(a):
     tens = torch.zeros(1, len(a))
@@ -114,6 +108,8 @@ def go():
 '''
 go()
 
+num_test_data=18000
+num_test_data_d2=num_test_data /2
 ls = 0.0
 n =0
 tf='F'
@@ -121,16 +117,14 @@ med=0.0
 avg=0.0
 print("\n\n\n***TESTING***\n\n\n")
 
-ltest = torch.from_numpy(numpy.array([[0 if j<50 else 1] for j in range(100)])).type(torch.LongTensor)
-ttest = torch.from_numpy(numpy.array([[float(j)/float(100) for _ in range(input_size)] for j in range(100)])).type(torch.FloatTensor)
+ltest = torch.from_numpy(numpy.array([[0 if j<num_test_data_d2 else 1] for j in range(num_test_data)])).type(torch.LongTensor)
+ttest = torch.from_numpy(numpy.array([[normal(float(j)/float(num_test_data), 0.1) for _ in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
 
 for x, y in data_batcher(ttest, ltest, 25):
 
     print('VAR X')
     X=Variable(x)
     print(X)
-    print('VAR Y')
-    print(Variable(y).squeeze())
     out = net.forward(X)
     loss =criterion(out, Variable(y).squeeze())
     ls+=loss

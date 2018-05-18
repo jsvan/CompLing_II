@@ -137,8 +137,6 @@ def processDataset(dataFiles,liwcFile,stopFile):
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
 def processPostText(post, docFile, liwcDict, featureList):
 	wrdList = [spellcheck(wrd.lower(),featureList) for wrd in word_tokenize(post)]
-	if not wrdList:
-		print(post)
 	docFile += wrdList
 	docFile.append("$|$")
 	tags = pos_tag(wrdList)
@@ -180,15 +178,13 @@ def delegate_file_to_threads(dataFile):
 	all_text_portion = [] # wil lbe string, '$|$'
 	all_posts_portion =[] # list of 1 element of either IGNORE or [features]
 	suicide_times_portion = {} # dic from user id to post time?
-	print(dataFile)
-	count = 0
 	with open(dataFile, "rU", errors="surrogateescape") as data:
 		for post in data:  # post string, a line from file
-			print('*', end='', flush=True)
+			#   print('*', end='', flush=True)
 			post = post.strip()
 			if post:
-				try:
-					post = post.split("\t") #post a list of strings (post info)
+				post = post.split("\t") #post a list of strings (post info)
+				if len(post) > 4:
 					titleLast = post[4][-1:]
 					if titleLast.isalnum(): #i.e. not a punctuation mark:
 						post[4] += "."
@@ -210,10 +206,13 @@ def delegate_file_to_threads(dataFile):
 						features[-4] = weekend
 						features[-3] = daytime
 						all_posts_portion.append(features)
-				except Exception as e:
-					print(e)
+	with open(dataFile+"_text.p","wb") as f:
+		pickle.dump(all_text_portion,f)
+	with open(dataFile+"_posts.p","wb") as f:
+		pickle.dump(all_posts_portion,f)
+	with open(dataFile+"_suicide.p","wb") as f:
+		pickle.dump(suicide_times_portion,f)
 
-			count +=1
 	return (all_text_portion, all_posts_portion, suicide_times_portion)
 
 
