@@ -199,7 +199,6 @@ def delegate_file_to_threads(post):
 	global all_text
 	global all_posts
 	global suicide_times
-	global count
 
 	post = post.strip()
 	if post:
@@ -225,9 +224,8 @@ def delegate_file_to_threads(post):
 				features[-4] = weekend
 				features[-3] = daytime
 				all_posts.append(features)
-		count += 1
-		if count % 100 == 0:
-			print('post#, all_post, all_text, all_suic', count, len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
+		if len(all_posts) % 100 == 0:
+			print('all_post, all_text, all_suic', len(all_posts), ", ", len(all_text), ", ", len(suicide_times))
 	return
 
 
