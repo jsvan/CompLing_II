@@ -1,9 +1,9 @@
-# from nltk.collocations import *
-#from nltk.util import ngrams
-# from nltk.metrics import BigramAssocMeasures
+from nltk.collocations import *
+from nltk.util import ngrams
+from nltk.metrics import BigramAssocMeasures
 
-# from gensim import corpora, models, similarities
-# from scipy.stats.stats import pearsonr as pr
+from gensim import corpora, models, similarities
+from scipy.stats.stats import pearsonr as pr
 from string import punctuation as punct
 import datetime
 import math
@@ -114,4 +114,28 @@ def toLdaModel(docLists, num_topics):
 	corpus = [dictionary.doc2bow(docList) for docList in docLists]
 	model = models.LdaModel(corpus, dictionary, num_topics)
 	return [[t[1] for t in sorted(model.get_document_topics(doc), key=lambda tup: tup[0])] for doc in corpus]
+
+def stitchTogether(postFs, textFs, timeFs):
+	allPosts = list()
+	allText = list()
+	suicideTimes = dict()
+	for pf in glob(postFs):
+		with open(pf,'rb') as f:
+			allPosts += pickle.load(f)
+	for xf in glob(textFs):
+		with open(xf,'rb') as f:
+			allText += pickle.load(f)
+	for tf in glob(timeFs):
+		with open(tf,'rb') as f:
+			dct = pickle.load(f)
+			for usr,lst in dct.items():
+				suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
+	return allPosts,allText,suicideTimes
+
+
+
+
+
+
+
 

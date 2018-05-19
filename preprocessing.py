@@ -21,7 +21,6 @@ def processDataset(dataFiles,liwcFile,stopFile):
 #	print(dataFiles)
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
-	# allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
 	msDict = dict()	
 	dataFilenames = list()
 	# suicideTimes = dict()
@@ -68,7 +67,7 @@ def processDataset(dataFiles,liwcFile,stopFile):
 			with open(dataFile+"_suicideTimes.p", "wb") as f:
 				pickle.dump(suicideTimes, f)
 
-def nextStep():
+def nextStep(allocationDict,allPosts,allText,suicideTimes,stopFile):
 	print('B')
 	docTopicVecs = collocateAndLDA(allText,stopFile)
 	ntopics = len(docTopicVecs[0])
@@ -193,4 +192,13 @@ def spellcheck(wrd,lst,msdict):
 
 
 if __name__ =='__main__':
-	processDataset([argv[1]], "./liwc.p", "engStops")
+	# processDataset([argv[1]], "./liwc.p", "engStops")
+	# allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
+	# with open("allocator.p","wb") as f:
+	# 	pickle.dump(allocationDict,f)
+	with open("allocator.p",'rb') as f:
+		allocator = pickle.load(f)
+	a,b,c = stitchTogether(argv[1],argv[2],argv[3])
+	nextStep(allocator,a,b,c,"engStops")
+
+
