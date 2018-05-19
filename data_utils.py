@@ -120,17 +120,20 @@ def stitchTogether(postFs, textFs, timeFs):
 	allPosts = list()
 	allText = list()
 	suicideTimes = dict()
-	for pf in glob(postFs):
-		with open(pf,'rb') as f:
-			allPosts += pickle.load(f)
-	for xf in glob(textFs):
-		with open(xf,'rb') as f:
-			allText += pickle.load(f)
-	for tf in glob(timeFs):
-		with open(tf,'rb') as f:
-			dct = pickle.load(f)
-			for usr,lst in dct.items():
-				suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
+	try:
+		for pf in glob(postFs):
+			with open(pf,'rb') as f:
+				allPosts += pickle.load(f)
+		for pf in glob(textFs):
+			with open(pf,'rb') as f:
+				allText += pickle.load(f)
+		for pf in glob(timeFs):
+			with open(pf,'rb') as f:
+				dct = pickle.load(f)
+				for usr,lst in dct.items():
+					suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
+	except e:
+		print pf
 	return allPosts,allText,suicideTimes
 
 
