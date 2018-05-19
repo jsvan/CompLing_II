@@ -133,7 +133,7 @@ def stitchTogether(postFs, textFs, timeFs):
 				for usr,lst in dct.items():
 					suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
 	except e:
-		print pf
+		print(pf)
 	return allPosts,allText,suicideTimes
 
 
