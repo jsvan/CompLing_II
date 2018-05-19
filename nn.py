@@ -2,21 +2,25 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 import numpy
+import data_to_nn_sets
 from numpy.random import normal
 
 input_size = 24       #
 hidden_size_a = 12      # The number of nodes at the hidden layer
 hidden_size_b = 6     # The number of nodes at the hidden layer
-
 num_classes = 2      # The number of output classes. -1, 1
-num_epochs = 20         # The number of times entire dataset is trained
+
+num_epochs = 10         # The number of times entire dataset is trained
 learning_rate = 0.01 # The speed of convergence
-num_data=18000*60
-num_data_d2=num_data/2
+labels = []
+features = []
 
-
-labels = torch.from_numpy(numpy.array([[0 if j < num_data_d2 else 1] for j in range(num_data)])).type(torch.LongTensor)
-train = torch.from_numpy(numpy.array([[labels[j] for i in range(input_size)] for j in range(num_data)])).type(torch.FloatTensor)
+def prepareData():
+    global labels
+    global features
+    f, l = data_to_nn_sets.appendpickles()
+    labels = torch.from_numpy(f).type(torch.LongTensor)
+    features = torch.from_numpy(l).type(torch.FloatTensor)
 
 def tupleToTensor(a):
     tens = torch.zeros(1, len(a))
@@ -59,38 +63,13 @@ class RNN(nn.Module):
         out = self.hb2o(self.relu(hidden_b))
         return self.softmax(out)
 
-net = RNN(input_size, hidden_size_a, hidden_size_b, num_classes)
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
+def train(data):
 
-
-def go():
     net.zero_grad()
-    '''
-    for epoch in range(num_epochs):
-        totLoss=0.0
-        print(epoch)
-        for j in range(len(labels)):
-            x, y = train[j], labels[j]
-       # for x, y in data_batcher(train, labels[j]):
-
-            X=Variable(tupleToTensor(x))
-            out = net.forward(X)
-            Y = Variable(categoryToTensor(y).type(torch.LongTensor))
-            out = out
-            optimizer.zero_grad()
-            q, w = out.max(1)
-            printDots(Y.data[0].numpy()[0]-w.data[0])
-            loss = criterion(out, Y.squeeze()) #Needs a 1d list of correct index. Float -> Long
-            totLoss+=loss
-            loss.backward(retain_graph=True)
-            optimizer.step()
-        print totLoss.data[0]/len(labels)
-    '''
     for epoch in range(num_epochs):
         print(epoch)
         totLoss=0.0
-        for x, y in data_batcher(train, labels, 25):   # Load a batch of images with its (index, data, class)
+        for x, y in data_batcher(features, labels, 25):   # Load a batch of images with its (index, data, class)
             x = Variable(x)
             y = Variable(y)
             optimizer.zero_grad()
@@ -108,9 +87,18 @@ def go():
 '''
 
 '''
-go()
 
-num_test_data=18000
+def __init__(picklefile):
+    prepareData()
+
+    net = RNN(input_size, hidden_size_a, hidden_size_b, num_classes)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
+
+
+    train()
+
+num_test_data=1800
 num_test_data_d2=num_test_data /2
 ls = 0.0
 n =0
@@ -119,20 +107,19 @@ med=0.0
 avg=0.0
 print("\n\n\n***TESTING***\n\n\n")
 
-tlabels = torch.from_numpy(numpy.array([[0 if j < num_test_data_d2 else 1] for j in range(num_test_data)])).type(torch.LongTensor)
-ttrain = torch.from_numpy(numpy.array([[labels[j] for i in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
+tlabels = torch.from_numpy(numpy.array([1 for j in range(num_test_data)])).type(torch.LongTensor)
+ttrain = torch.from_numpy(numpy.array([[0 for i in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
 count=0
 for x, y in data_batcher(ttrain, tlabels, 25):
 
-    print('VAR X')
     X=Variable(x)
-    print(X)
     out = net.forward(X)
     loss =criterion(out, Variable(y).squeeze())
     ls+=loss
     print("OUT")
-    print(out)
-    print(ttest[count][0], ltest[count])
+    print(out.max(1)[1].data[0], out)
+    print("FROM")
+    print(ttrain[count][0], tlabels[count])
 
     count+=25
 print(ls/num_test_data)
