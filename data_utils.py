@@ -28,7 +28,9 @@ def makeCollocated(corp,interpFunc,stops):
 	newCorp = list()
 	curDoc = list()
 	for word in corp:
-		if interpFunc(word) == "$|$":
+		if type(word) != str:
+			print(word)
+		elif interpFunc(word) == "$|$":
 			newCorp.append(curDoc)
 			curDoc = list()
 		elif word in stops:
@@ -117,6 +119,8 @@ def toLdaModel(docLists, num_topics):
 	dictionary = corpora.dictionary.Dictionary(docLists)
 	corpus = [dictionary.doc2bow(docList) for docList in docLists]
 	model = models.LdaModel(corpus, dictionary, num_topics)
+	with open("ldaModel.p","wb") as f:
+		pickle.dump(model,f)
 	return [[t[1] for t in sorted(model.get_document_topics(doc), key=lambda tup: tup[0])] for doc in corpus]
 
 def stitchTogether(postFs, textFs, timeFs):
