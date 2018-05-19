@@ -118,7 +118,7 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 def toLdaModel(docLists, num_topics):
 	dictionary = corpora.dictionary.Dictionary(docLists)
 	corpus = [dictionary.doc2bow(docList) for docList in docLists]
-	model = models.LdaModel(corpus, dictionary, num_topics)
+	model = models.LdaModel(corpus, num_topics)
 	with open("ldaModel.p","wb") as f:
 		pickle.dump(model,f)
 	return [[t[1] for t in sorted(model.get_document_topics(doc), key=lambda tup: tup[0])] for doc in corpus]
