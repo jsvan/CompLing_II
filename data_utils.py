@@ -24,13 +24,15 @@ def pearsonsR(masterList):
 	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
 	return vals
 
-def makeCollocated(corp,interpFunc):
+def makeCollocated(corp,interpFunc,stops):
 	newCorp = list()
 	curDoc = list()
 	for word in corp:
 		if interpFunc(word) == "$|$":
 			newCorp.append(curDoc)
 			curDoc = list()
+		elif word in stops:
+			pass
 		else:
 			curDoc.append(word)
 	return newCorp
@@ -77,8 +79,9 @@ def collocateAndLDA(allWords, stopFile):
 	measureFunc = BigramAssocMeasures().likelihood_ratio
 	filters = [lambda bg: bg.apply_word_filter(lambda t: t in set(punct) | {"$|$"}),\
 				 lambda bg: bg.apply_ngram_filter(lambda w1,w2: (w1 in stops) and (w2 in stops))]
-	return toLdaModel(makeCollocated(collocRecursively(\
-		allWords,interpFunc,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
+	# return toLdaModel(makeCollocated(collocRecursively(\
+		# allWords,interpFunc,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
+	return toLdaModel(makeCollocated(allWords,interpFunc,stops),70)
 
 
 def timeToDate(time):
