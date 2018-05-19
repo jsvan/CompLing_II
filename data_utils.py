@@ -132,7 +132,7 @@ def stitchTogether(postFs, textFs, timeFs):
 				dct = pickle.load(f)
 				for usr,lst in dct.items():
 					suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
-	except e:
+	except:
 		print(pf)
 	return allPosts,allText,suicideTimes
 
