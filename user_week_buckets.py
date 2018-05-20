@@ -109,7 +109,7 @@ def _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec):
 	return truck
 
 
-def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalHealthVec):
+def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalHealthVec, ntopics):
 	'''
 	:param userList: list for a single user of their posts
 	:param suicideDic: dic of user to list of timestamp of every time posted in suicide watch
@@ -122,9 +122,9 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	u = userList[0][USER_ID_IDX]
 	truck = []
 	if u in suicideDic:
-		truck= _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec)
+		truck= _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec, ntopics)
 	else:
-		truck= _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec)
+		truck= _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec, ntopics)
 
 	steady_label = truck[0][LABEL_IDX]
 	for post in truck:

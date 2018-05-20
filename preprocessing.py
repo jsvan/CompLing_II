@@ -114,11 +114,11 @@ def nextStep(allocationDict,allPosts,allText,suicideTimes,stopFile):
 		outUnlabelled = list()
 		for user in userPostDict:
 			if allocationDict[user][1] == 0:
-				bucketList = uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec)
+				bucketList = uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec,ntopics)
 				outUnlabelled.append([bucket for bucket in bucketList if bucket[0][-1] == 0])
 				outLabelled.append([bucket for bucket in bucketList if bucket[0][-1] == -1])
 			else:
-				outLabelled.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec))
+				outLabelled.append(uwb.interpret_post_features_by_user(userPostDict[user], suicideTimes, subredditVecDict, mentalHealthVec,ntopics))
 		outTup = (outLabelled,outUnlabelled)
 		with open(fname,"wb") as f:
 			pickle.dump(outTup,f)
