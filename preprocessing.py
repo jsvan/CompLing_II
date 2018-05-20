@@ -29,16 +29,12 @@ def _processDataset(dataFiles,liwcFile,stopFile):
 	:return: pickles all the text as a list of tokenized words
 	:return: pickles suicide times dict
 	'''
-#	print(dataFiles)
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
 	msDict = dict()	
 	dataFilenames = list()
-	# suicideTimes = dict()
 	for dataFilePtrn in dataFiles:
-#		print(dataFilePtrn)
 		dataFilenames += glob(dataFilePtrn)
-#	print(dataFilenames)
 	for dataFile in dataFilenames:
 		print(dataFile)
 		with open(dataFile,"rU",errors="surrogateescape") as data:
@@ -70,13 +66,14 @@ def _processDataset(dataFiles,liwcFile,stopFile):
 						features[-4] = weekend
 						features[-3] = daytime
 						allPosts.append(features)
-			print('Pickling')
-			with open(dataFile+"_allText.p", "wb") as f:
-				pickle.dump(allText, f)
-			with open(dataFile+"_allPosts.p", "wb") as f:
-				pickle.dump(allPosts, f)
-			with open(dataFile+"_suicideTimes.p", "wb") as f:
-				pickle.dump(suicideTimes, f)
+		print('Pickling')
+		with open(dataFile+"_allText.p", "wb") as f:
+			pickle.dump(allText, f)
+		with open(dataFile+"_allPosts.p", "wb") as f:
+			pickle.dump(allPosts, f)
+		with open(dataFile+"_suicideTimes.p", "wb") as f:
+			pickle.dump(suicideTimes, f)
+		return allPosts, allText, suicideTimes
 
 def _allText2TopicModel(allocationDict, allPosts, allText, suicideTimes, stopFile):
 	print('B')
