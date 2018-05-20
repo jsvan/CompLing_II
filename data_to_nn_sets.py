@@ -10,11 +10,13 @@ def appendpickles(picklefiles):
 	lt=[]
 	for file in picklefiles:
 		p= pickle.load(open(file, 'rb'))
-		ft, lt = _feat_lab(p)
+		ft, lt = feat_lab(p)
 		features+=ft
+		labels+=lt
+	return features, labels
 
-def _feat_lab(lol):
+def feat_lab(lol):
 	a = np.array(lol).T
 	#labels = a[-1]
 	#features = a[:-1]
-	return a[:-1], a[-1] numpy.concatenate
+	return a[:-1], a[-1]

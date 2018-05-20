@@ -9,117 +9,116 @@ input_size = 24       #
 hidden_size_a = 12      # The number of nodes at the hidden layer
 hidden_size_b = 6     # The number of nodes at the hidden layer
 num_classes = 2      # The number of output classes. -1, 1
-
+num_data = 0
 num_epochs = 10         # The number of times entire dataset is trained
 learning_rate = 0.01 # The speed of convergence
 labels = []
 features = []
 
-def prepareData():
-    global labels
-    global features
-    f, l = data_to_nn_sets.appendpickles()
-    labels = torch.from_numpy(f).type(torch.LongTensor)
-    features = torch.from_numpy(l).type(torch.FloatTensor)
+
+def prepareData(twoWeekRepresentations, picklePath):
+	global labels
+	global features
+	global num_data
+	if not twoWeekRepresentations:
+		f, l = data_to_nn_sets.appendpickles(picklePath)
+	else:
+		f, l = data_to_nn_sets.feat_lab(twoWeekRepresentations)
+	labels = torch.from_numpy(f).type(torch.LongTensor)
+	features = torch.from_numpy(l).type(torch.FloatTensor)
+	num_data = len(labels)
 
 def tupleToTensor(a):
-    tens = torch.zeros(1, len(a))
-    for i in a:
-        tens[0][i] = i
-    return tens
+	tens = torch.zeros(1, len(a))
+	for i in a:
+		tens[0][i] = i
+	return tens
 
 def categoryToTensor(a):
-    a = numpy.int64(int(a))
-    tens = torch.zeros(1, 1)
-    tens[0][0] = a   # 1 prime 0 not
+	a = numpy.int64(int(a))
+	tens = torch.zeros(1, 1)
+	tens[0][0] = a   # 1 prime 0 not
   #  tens[0][1] = 1-a # 0 prime 1 not
-    return tens
+	return tens
 
 
 def data_batcher(X, Y, batch_size=25):
-    indices = numpy.arange(num_data)
-    count = 0
-    while count < len(X):
-        draw = indices[count:min(count+batch_size, len(X))]
-        yield X[draw, :], Y[draw]
-        count += batch_size
+	indices = numpy.arange(num_data)
+	count = 0
+	while count < len(X):
+		draw = indices[count:min(count+batch_size, len(X))]
+		yield X[draw, :], Y[draw]
+		count += batch_size
 
 
-class RNN(nn.Module):
-    def __init__(self, input_size, hidden_size_a, hidden_size_b, num_classes):
-        super(RNN, self).__init__()
-        self.hidden_size_a = hidden_size_a
-        self.hidden_size_b = hidden_size_b
+class simple_feed_forward(nn.Module):
+	def __init__(self, input_size, hidden_size_a, hidden_size_b, num_classes):
+		super(simple_feed_forward, self).__init__()
+		self.hidden_size_a = hidden_size_a
+		self.hidden_size_b = hidden_size_b
 
-        self.relu = nn.ReLU()                          # Non-Linear ReLU Layer: max(0,x)
-        self.i2ha = nn.Linear(input_size, hidden_size_a)
-        self.ha2hb = nn.Linear(hidden_size_a, hidden_size_b)
-        self.hb2o = nn.Linear(hidden_size_b, num_classes)
-        self.softmax = nn.Softmax(dim =1)
+		self.relu = nn.ReLU()                          # Non-Linear ReLU Layer: max(0,x)
+		self.i2ha = nn.Linear(input_size, hidden_size_a)
+		self.ha2hb = nn.Linear(hidden_size_a, hidden_size_b)
+		self.hb2o = nn.Linear(hidden_size_b, num_classes)
+		self.softmax = nn.Softmax(dim =1)
 
-    def forward(self, input):
-        hidden_a = self.i2ha(input)
-        hidden_b = self.ha2hb(self.relu(hidden_a))
-        out = self.hb2o(self.relu(hidden_b))
-        return self.softmax(out)
+	def forward(self, input):
+		hidden_a = self.i2ha(input)
+		hidden_b = self.ha2hb(self.relu(hidden_a))
+		out = self.hb2o(self.relu(hidden_b))
+		return self.softmax(out)
 
 def train(data):
 
-    net.zero_grad()
-    for epoch in range(num_epochs):
-        print(epoch)
-        totLoss=0.0
-        for x, y in data_batcher(features, labels, 25):   # Load a batch of images with its (index, data, class)
-            x = Variable(x)
-            y = Variable(y)
-            optimizer.zero_grad()
-            out = net.forward(x)
+	net.zero_grad()
+	for epoch in range(num_epochs):
+		print(epoch)
+		totLoss=0.0
+		for x, y in data_batcher(features, labels, 25):   # Load a batch of images with its (index, data, class)
+			x = Variable(x)
+			y = Variable(y)
+			optimizer.zero_grad()
+			out = net.forward(x)
 
-            loss = criterion(out, y.squeeze())
-            totLoss+=loss
-            loss.backward()
-            optimizer.step()
+			loss = criterion(out, y.squeeze())
+			totLoss+=loss
+			loss.backward()
+			optimizer.step()
 
-        print(totLoss.data.numpy()/len(labels))
-
-
-
-'''
-
-'''
-
-def __init__(picklefile):
-    prepareData()
-
-    net = RNN(input_size, hidden_size_a, hidden_size_b, num_classes)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
+		print(totLoss.data.numpy()/len(labels))
 
 
-    train()
 
-num_test_data=1800
-num_test_data_d2=num_test_data /2
-ls = 0.0
-n =0
-tf='F'
-med=0.0
-avg=0.0
-print("\n\n\n***TESTING***\n\n\n")
 
-tlabels = torch.from_numpy(numpy.array([1 for j in range(num_test_data)])).type(torch.LongTensor)
-ttrain = torch.from_numpy(numpy.array([[0 for i in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
-count=0
-for x, y in data_batcher(ttrain, tlabels, 25):
+net = simple_feed_forward(input_size, hidden_size_a, hidden_size_b, num_classes)
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
 
-    X=Variable(x)
-    out = net.forward(X)
-    loss =criterion(out, Variable(y).squeeze())
-    ls+=loss
-    print("OUT")
-    print(out.max(1)[1].data[0], out)
-    print("FROM")
-    print(ttrain[count][0], tlabels[count])
 
-    count+=25
-print(ls/num_test_data)
+def test():
+	num_test_data=1800
+	num_test_data_d2=num_test_data /2
+	ls = 0.0
+	n =0
+	tf='F'
+	med=0.0
+	avg=0.0
+	print("\n\n\n***TESTING***\n\n\n")
+
+	tlabels = torch.from_numpy(numpy.array([1 for j in range(num_test_data)])).type(torch.LongTensor)
+	ttrain = torch.from_numpy(numpy.array([[0 for i in range(input_size)] for j in range(num_test_data)])).type(torch.FloatTensor)
+	count=0
+	for x, y in data_batcher(ttrain, tlabels, 25):
+
+		X=Variable(x)
+		out = net.forward(X)
+		loss =criterion(out, Variable(y).squeeze())
+		ls+=loss
+		print("OUT")
+		print(out.max(1)[1].data[0], out)
+		print("FROM")
+		print(ttrain[count][0], tlabels[count])
+
+		count+=25
+	print(ls/num_test_data)
