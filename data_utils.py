@@ -85,7 +85,6 @@ def collocateAndLDA(allWords, stopFile):
 		# allWords,interpFunc,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
 	return toLdaModel(makeCollocated(allWords,interpFunc,stops),70)
 
-
 def timeToDate(time):
 	weekend = 0
 	s= datetime.datetime.fromtimestamp(time)
@@ -114,14 +113,14 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),-1)) for line in total[0::2]})
 	return allocationDict
 
-
 def toLdaModel(docLists, num_topics):
 	dictionary = corpora.dictionary.Dictionary(docLists)
 	corpus = [dictionary.doc2bow(docList) for docList in docLists]
 	model = models.LdaModel(corpus, num_topics)
 	with open("ldaModel.p","wb") as f:
 		pickle.dump(model,f)
-	return [[t[1] for t in sorted(model.get_document_topics(doc), key=lambda tup: tup[0])] for doc in corpus]
+	## TODO ---doc representation may be sparse!!! ----##
+	return [[t[1] for t in sorted(model.get_document_topics(doc), key=lambda tup: tup[0])] for doc in corpus], num_topics
 
 def stitchTogether(postFs, textFs, timeFs):
 	'''
