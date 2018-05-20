@@ -11,13 +11,24 @@ EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch",
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
 			"ptsd","rapecounseling","schizophrenia","socialanxiety","survivorsofabuse","traumatoolbox"}
 TOTAL_LIWC = 18
-TRAINFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt', 'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
-TESTFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
-DEVFS = ['umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
-ANNOFS = ['umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
+TRAINFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TRAIN.txt', 'umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TRAIN.txt']
+TESTFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
+DEVFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
+ANNOFS = ['../umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
 
 #[postid, userid, timestamp, subreddit]
-def processDataset(dataFiles,liwcFile,stopFile):
+
+
+def _processDataset(dataFiles,liwcFile,stopFile):
+	'''
+
+	:param dataFiles:
+	:param liwcFile:
+	:param stopFile:
+	:return: pickles post data object
+	:return: pickles all the text as a list of tokenized words
+	:return: pickles suicide times dict
+	'''
 #	print(dataFiles)
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
@@ -67,10 +78,12 @@ def processDataset(dataFiles,liwcFile,stopFile):
 			with open(dataFile+"_suicideTimes.p", "wb") as f:
 				pickle.dump(suicideTimes, f)
 
-def nextStep(allocationDict,allPosts,allText,suicideTimes,stopFile):
+def _allText2TopicModel(allocationDict, allPosts, allText, suicideTimes, stopFile):
 	print('B')
-	docTopicVecs = collocateAndLDA(allText,stopFile)
+	model = collocateAndLDA(allText,stopFile)
 	ntopics = len(docTopicVecs[0])
+
+def _nextStuff():
 	longVeclen = ntopics + TOTAL_LIWC
 	trainPosts = list()
 	testPosts = list()
@@ -102,6 +115,8 @@ def nextStep(allocationDict,allPosts,allText,suicideTimes,stopFile):
 				devTestPosts.append(post)		 
 		idx += 1
 	mentalHealthVec = [mentalHealthVec[i]/totMH for i in range(ntopics)]
+
+
 	print('C')
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
 		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
@@ -139,8 +154,11 @@ def nextStep(allocationDict,allPosts,allText,suicideTimes,stopFile):
 	with open("suicideTimes.p","wb") as tp:
 		pickle.dump(suicideTimes,tp)
 
+	### DONE WITH PIPELINE?
+
+
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
-def processPostText(post, docFile, msdict, liwcDict, featureList):
+def _processPostText(post, docFile, msdict, liwcDict, featureList):
 	wrdList = [spellcheck(wrd.lower(),featureList,msdict) for wrd in word_tokenize(post)]
 	docFile += wrdList
 	docFile.append("$|$")
@@ -191,7 +209,7 @@ def spellcheck(wrd,lst,msdict):
   [post_body]'''
 
 
-if __name__ =='__main__':
+def prepare():
 	# processDataset([argv[1]], "./liwc.p", "engStops")
 	# allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
 	# with open("allocator.p","wb") as f:
@@ -199,6 +217,12 @@ if __name__ =='__main__':
 	with open("allocator.p",'rb') as f:
 		allocator = pickle.load(f)
 	a,b,c = stitchTogether(argv[1],argv[2],argv[3])
-	nextStep(allocator,a,b,c,"engStops")
+	_allText2TopicModel(allocator, a, b, c, "engStops")
+	_nextStuff()
+
+	#Lets have every method pickle the results, but pass the data structures in memory
+	#Each step checks if stuff in memory, if not, creates data from previous step by opening files from pickle
+	#
+	return #list of Two Week Representations
 
 

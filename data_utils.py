@@ -124,6 +124,13 @@ def toLdaModel(docLists, num_topics):
 	return [[t[1] for t in sorted(model.get_document_topics(doc), key=lambda tup: tup[0])] for doc in corpus]
 
 def stitchTogether(postFs, textFs, timeFs):
+	'''
+
+	:param postFs:
+	:param textFs:
+	:param timeFs:
+	:return: unpickles everything and returns union of each
+	'''
 	allPosts = list()
 	allText = list()
 	suicideTimes = dict()
