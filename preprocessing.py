@@ -24,7 +24,7 @@ thread_pool = ThreadPool(processes=THREAD_COUNT)
 
 
 def _threadedProcessing(dataFile):
-	msDict = []
+	msDict = {}
 	with open(dataFile, "rU", errors="surrogateescape") as data:
 		allText = list()
 		allPosts = list()
