@@ -50,17 +50,16 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 			raise "Multiple users found in bucket. Expected "+ user_id+ " but found "+ post[0]
 
 		current_timestamp=post[TIMESTAMP_IDX]
-		interpretted_post = feat.interpretFeatures(post, dicSub2TopVec, mentalHealthVec)
 
 		if current_timestamp < end_of_two_weeks:
-			bucket.append(interpretted_post)
+			bucket.append(post)
 		else:
 			if bucket:
-				truck.append(bucket)
+				truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
 			begin_of_two_weeks=current_timestamp
 			end_of_two_weeks = begin_of_two_weeks+TWO_WEEKS
 			bucket=[]
-			bucket.append(interpretted_post)
+			bucket.append(post)
 
 		while suicideTime < begin_of_two_weeks and suicideList:
 			suicideTime=suicideList.pop()
@@ -71,7 +70,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	#      maintain label
 
 	if bucket:
-		truck.append(bucket)
+		truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
 
 	return truck
 
@@ -120,7 +119,9 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 
 
 	u = userList[0][USER_ID_IDX]
-	truck = []
+
+	userList.sort(key = lambda post: post[29])
+
 	if u in suicideDic:
 		truck= _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec, ntopics)
 	else:

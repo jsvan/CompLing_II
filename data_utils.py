@@ -1,11 +1,7 @@
-from nltk.collocations import *
-from nltk.util import ngrams
-from nltk.metrics import BigramAssocMeasures
-from glob import glob
+
 import pickle
 from gensim import corpora, models, similarities
 from scipy.stats.stats import pearsonr as pr
-from string import punctuation as punct
 import datetime
 import math
 
@@ -72,6 +68,7 @@ def collocRecursively(corp,constructor,threshhold,addUnrelated,addBigram,measure
 def collocateAndLDA(allWords, stopFile):
 	with open(stopFile,"rU") as sf:
 		stops = {line.lower().strip() for line in sf.readlines()}
+		'''
 	constructor = lambda c: BigramCollocationFinder.from_words(c)
 	threshhold = 6000
 	addUnrelated = lambda c, x: c.append(x)
@@ -81,7 +78,8 @@ def collocateAndLDA(allWords, stopFile):
 				 lambda bg: bg.apply_ngram_filter(lambda w1,w2: (w1 in stops) and (w2 in stops))]
 	# return toLdaModel(makeCollocated(collocRecursively(\
 		# allWords,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
-	return toLdaModel(makeCollocated(allWords,interpFunc,stops),70)
+		'''
+	return toLdaModel(makeCollocated(allWords,stops),70)
 
 def timeToDate(time):
 	weekend = 0
