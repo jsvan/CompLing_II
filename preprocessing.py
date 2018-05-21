@@ -3,6 +3,8 @@ from autocorrect import spell
 import user_week_buckets as uwb
 from data_utils import *
 import os.path
+from multiprocessing.pool import ThreadPool
+
 
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
@@ -12,8 +14,48 @@ TRAINFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10
 TESTFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
 DEVFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
 ANNOFS = ['../umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
+msDict = {}
+liwc = []
+THREAD_COUNT = 7
+thread_pool = ThreadPool(processes=THREAD_COUNT)
 
 #[postid, userid, timestamp, subreddit]
+
+
+def _threadedProcessing(dataFile):
+	global msDict
+	global liwc
+
+	print(dataFile)
+	with open(dataFile, "rU", errors="surrogateescape") as data:
+		allText = list()
+		allPosts = list()
+		suicideTimes = dict()
+		for post in data:  # post string, a line from file
+			# print('*', end='', flush=True)
+			post = post.strip().split("\t")
+			if len(post) > 4:  # post a list of strings (post info)
+				titleLast = post[4][-1:]
+				if titleLast.isalnum():  # i.e. not a punctuation mark:
+					post[4] += "."
+				post = post[:4] + [" ".join(post[4:])]
+				subreddit = post[3]
+				if subreddit in EXCLUDE:
+					allText += [spellcheck(wrd.lower(), False, msDict) for wrd in word_tokenize(post[4])]
+					allText.append("$|$")
+					allPosts.append("IGNORE")
+					if subreddit == "SuicideWatch":
+						suicideTimes[post[1]] = suicideTimes.get(post[1], list()) + [int(post[2])]
+				else:
+					features = [0] * 31
+					features[0] = post[1]
+					features[-2] = int(post[2])
+					features[1] = subreddit
+					features = processPostText(post[4], allText, msDict, liwc, features)
+					weekend, daytime = timeToDate(int(post[2]))
+					features[-4] = weekend
+					features[-3] = daytime
+					allPosts.append(features)
 
 
 def _processDataset(dataFiles,liwcFile):
@@ -25,44 +67,19 @@ def _processDataset(dataFiles,liwcFile):
 	:return: pickles all the text as a list of tokenized words
 	:return: pickles suicide times dict
 	'''
-	print("A")
+	global liwc
+
 	with open(liwcFile,"rb") as lfile:
 		liwc = pickle.load(lfile)
-	msDict = dict()	
 	dataFilenames = list()
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 	for dataFile in dataFilenames:
-		print(dataFile)
-		with open(dataFile,"rU",errors="surrogateescape") as data:
-			allText = list()
-			allPosts = list()
-			suicideTimes = dict()
-			for post in data: #post string, a line from file
-				# print('*', end='', flush=True)
-				post = post.strip().split("\t")
-				if len(post) > 4: #post a list of strings (post info)
-					titleLast = post[4][-1:]
-					if titleLast.isalnum(): #i.e. not a punctuation mark:
-						post[4] += "."
-					post = post[:4] + [" ".join(post[4:])]
-					subreddit = post[3]
-					if subreddit in EXCLUDE:
-						allText += [spellcheck(wrd.lower(),False,msDict) for wrd in word_tokenize(post[4])]
-						allText.append("$|$")
-						allPosts.append("IGNORE")
-						if subreddit == "SuicideWatch":
-							suicideTimes[post[1]] = suicideTimes.get(post[1],list()) + [int(post[2])]
-					else:
-						features = [0]*31
-						features[0] = post[1]
-						features[-2] = int(post[2])
-						features[1] = subreddit
-						features = processPostText(post[4],allText,msDict,liwc,features)
-						weekend, daytime = timeToDate(int(post[2]))
-						features[-4] = weekend
-						features[-3] = daytime
-						allPosts.append(features)
+		thread_pool.map(_threadedProcessing(),
+		                dataFilenames)
+
+
+
 	print('Pickling')
 	with open("allText.p", "wb") as f:
 		pickle.dump(allText, f)
@@ -247,6 +264,7 @@ def prepare():
 
 	#else go through each piece
 	else:
+		#part A
 		if os.path.exists('allText.p') and os.path.exists('allPosts.p') and os.path.exists('suicideTimes.p'):
 			with open('allText.p', 'rb') as f:
 				allText = pickle.load(f)

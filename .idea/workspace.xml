@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d788d4c-5675-47d0-963d-f7dbc009520f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nn.py" afterPath="$PROJECT_DIR$/nn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pipeline_main.py" afterPath="$PROJECT_DIR$/pipeline_main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prepThread.py" afterPath="$PROJECT_DIR$/prepThread.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preprocessing.py" afterPath="$PROJECT_DIR$/preprocessing.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,7 +14,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pipeline_main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pipeline_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pipeline_main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
@@ -28,37 +26,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data_utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_utils.py">
+      <file leaf-file-name="preprocessing.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/preprocessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="22" column="48" lean-forward="false" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="48" />
+            <state relative-caret-position="56">
+              <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
               <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="nn.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nn.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="42" column="4" lean-forward="false" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="data_to_nn_sets.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_to_nn_sets.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#0#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,31 +41,11 @@
       <file leaf-file-name="prepThread.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prepThread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="39" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_create_suicide_bucket.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_create_suicide_bucket.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="25" column="29" lean-forward="false" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+            <state relative-caret-position="216">
+              <caret line="193" column="27" lean-forward="false" selection-start-line="193" selection-start-column="21" selection-end-line="193" selection-end-column="27" />
               <folding>
-                <element signature="e#0#29#0" expanded="true" />
+                <element signature="e#0#30#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user_week_buckets.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user_week_buckets.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1372">
-              <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -107,11 +61,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>word</find>
       <find>tag</find>
       <find>tag\(</find>
       <find>print(word</find>
-      <find>msDict</find>
       <find>8</find>
       <find>for</find>
       <find>dim=</find>
@@ -131,12 +83,14 @@
       <find>addTopicVe</find>
       <find>collocateAnd</find>
       <find>interpretFeatsAndAllocate</find>
-      <find>_processDataset</find>
       <find>_allText2TopicModel</find>
       <find>_addTopicVectorDataAndGroupByUser</find>
       <find>makeAllocationDict</find>
       <find>_interpretFeatsAndAllocate</find>
       <find>pearsonsR</find>
+      <find>_processDataset</find>
+      <find>msDict</find>
+      <find>thread</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -149,13 +103,13 @@
         <option value="$PROJECT_DIR$/test_create_suicide_bucket.py" />
         <option value="$PROJECT_DIR$/user_week_buckets.py" />
         <option value="$PROJECT_DIR$/feature_intepretation.py" />
-        <option value="$PROJECT_DIR$/prepThread.py" />
         <option value="$PROJECT_DIR$/prepThreadByPost.py" />
         <option value="$PROJECT_DIR$/data_to_nn_sets.py" />
         <option value="$PROJECT_DIR$/data_utils.py" />
-        <option value="$PROJECT_DIR$/preprocessing.py" />
         <option value="$PROJECT_DIR$/nn.py" />
         <option value="$PROJECT_DIR$/pipeline_main.py" />
+        <option value="$PROJECT_DIR$/prepThread.py" />
+        <option value="$PROJECT_DIR$/preprocessing.py" />
       </list>
     </option>
   </component>
@@ -390,7 +344,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/preprocessing.py</url>
-          <line>209</line>
+          <line>226</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
@@ -451,7 +405,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2621">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -540,7 +496,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="365">
           <caret line="216" column="75" lean-forward="false" selection-start-line="216" selection-start-column="59" selection-end-line="216" selection-end-column="75" />
-          <folding />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -669,7 +627,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="369">
           <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -716,14 +676,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prepThread.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="39" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/prepThreadByPost.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -749,16 +701,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="42" column="4" lean-forward="false" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/feature_intepretation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
@@ -769,22 +711,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+    <entry file="file://$PROJECT_DIR$/pipeline_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="277" column="52" lean-forward="true" selection-start-line="277" selection-start-column="8" selection-end-line="277" selection-end-column="52" />
+        <state relative-caret-position="90">
+          <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
           <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_to_nn_sets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -799,12 +731,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pipeline_main.py">
+    <entry file="file://$PROJECT_DIR$/nn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+        <state relative-caret-position="177">
+          <caret line="42" column="4" lean-forward="false" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
           <folding>
-            <element signature="e#0#20#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_to_nn_sets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prepThread.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="193" column="27" lean-forward="false" selection-start-line="193" selection-start-column="21" selection-end-line="193" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
