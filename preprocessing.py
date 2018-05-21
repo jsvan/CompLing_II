@@ -2,6 +2,7 @@ from nltk import word_tokenize,pos_tag,download
 from autocorrect import spell
 import user_week_buckets as uwb
 from data_utils import *
+import os.path
 
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
 			"depression","feelgood","getting_over_it","hardshipmates","mentalhealth","psychoticreddit",\
@@ -15,7 +16,7 @@ ANNOFS = ['../umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_
 #[postid, userid, timestamp, subreddit]
 
 
-def _processDataset(dataFiles,liwcFile,stopFile):
+def _processDataset(dataFiles,liwcFile):
 	'''
 	:param dataFiles:
 	:param liwcFile:
@@ -69,6 +70,7 @@ def _processDataset(dataFiles,liwcFile,stopFile):
 		pickle.dump(allPosts, f)
 	with open("suicideTimes.p", "wb") as f:
 		pickle.dump(suicideTimes, f)
+
 	return allPosts, allText, suicideTimes
 
 def _allText2TopicModel(allText, stopFile):
@@ -231,19 +233,51 @@ def spellcheck(wrd,lst,msdict):
 
 
 def prepare():
-	# processDataset([argv[1]], "./liwc.p", "engStops")
-	# allocationDict = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
-	# with open("allocator.p","wb") as f:
-	# 	pickle.dump(allocationDict,f)
-	with open("allocator.p",'rb') as f:
-		allocator = pickle.load(f)
-	a,b,c = stitchTogether(argv[1],argv[2],argv[3])
-	_allText2TopicModel(allocator, a, b, c, "engStops")
-	_nextStuff()
+	#If done with process unpickle
+	if os.path.exists('trainingData.p') and os.path.exists('testData.p') and os.path.exists(
+			'devData.p') and os.path.exists('devTestData.p'):
+		with open("trainingData.p", "rb") as f:
+			trainPosts = pickle.load(f)
+		with open("testData.p", "rb") as f:
+			testPosts = pickle.load(f)
+		with open("devData.p", "rb") as f:
+			devPosts = pickle.load(f)
+		with open("devTestData.p", "rb") as f:
+			devTestPosts = pickle.load(f)
 
-	#Lets have every method pickle the results, but pass the data structures in memory
-	#Each step checks if stuff in memory, if not, creates data from previous step by opening files from pickle
-	#
-	return #list of Two Week Representations
+	#else go through each piece
+	else:
+		if os.path.exists('allText.p') and os.path.exists('allPosts.p') and os.path.exists('suicideTimes.p'):
+			with open('allText.p', 'rb') as f:
+				allText = pickle.load(f)
+			with open('allPosts.p', 'rb') as f:
+				allPosts = pickle.load(f)
+			with open('suicideTimes.p', 'rb') as f:
+				allSuicideTimes = pickle.load(f)
+		else:
+			allText, allPosts, allSuicideTimes = _processDataset(['../umd_reddit_suicidewatch_dataset/reddit_posts/*/*.posts'],'liwc.p')
+
+		if os.path.exists('docTopicVecs.p'):
+			with open('docTopicVecs.p', 'rb') as f:
+				docTopicVecs = pickle.load(f)
+				ntopics = len(docTopicVecs[0])
+		else:
+			docTopicVecs, ntopics = _allText2TopicModel(allText, 'engStops')
+
+		if os.path.exists('userDict.p') and os.path.exists('mentalHealthVec.p') and os.path.exists('subredditVecs.p'):
+			with open('userDict.p', 'rb') as f:
+				userDict = pickle.load(f)
+			with open('mentalHealthVec.p', 'rb') as f:
+				mentalHealthVec = pickle.load(f)
+			with open('subredditVecs.p', 'rb') as f:
+				subredditVecDict = pickle.load(f)
+		else:
+			userDict, mentalHealthVec, subredditVecDict = _addTopicVectorDataAndGroupByUser(docTopicVecs, ntopics, allPosts)
+
+		allocator = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
+		trainPosts, testPosts, devPosts, devTestPosts = _interpretFeatsAndAllocate(userDict, mentalHealthVec, subredditVecDict, allSuicideTimes, ntopics, allocator)
+
+	return trainPosts, testPosts, devPosts, devTestPosts
+
 
 
