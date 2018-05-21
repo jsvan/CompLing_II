@@ -24,7 +24,6 @@ thread_pool = ThreadPool(processes=THREAD_COUNT)
 
 def _threadedProcessing(dataFile):
 	global msDict
-	global liwc
 
 	print(dataFile)
 	with open(dataFile, "rU", errors="surrogateescape") as data:
@@ -51,12 +50,12 @@ def _threadedProcessing(dataFile):
 					features[0] = post[1]
 					features[-2] = int(post[2])
 					features[1] = subreddit
-					features = processPostText(post[4], allText, msDict, liwc, features)
+					features = _processPostText(post[4], allText, msDict, liwc, features)
 					weekend, daytime = timeToDate(int(post[2]))
 					features[-4] = weekend
 					features[-3] = daytime
 					allPosts.append(features)
-
+	return allText, allPosts, suicideTimes
 
 def _processDataset(dataFiles,liwcFile):
 	'''
@@ -74,10 +73,11 @@ def _processDataset(dataFiles,liwcFile):
 	dataFilenames = list()
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
-	for dataFile in dataFilenames:
-		thread_pool.map(_threadedProcessing(),
+
+	dividedDataFromFiles = thread_pool.map(_threadedProcessing,
 		                dataFilenames)
 
+	allPosts, allText, suicideTimes = stitchTogether(dividedDataFromFiles)
 
 
 	print('Pickling')
