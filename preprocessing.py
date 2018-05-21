@@ -238,7 +238,9 @@ def spellcheck(wrd,lst):
 			lst[2] += 1
 			if new != wrd:
 				lst[3] += 1
-	return new
+		return new
+	else:
+		return wrd.lower()
 	#else:
 	#	return wrd
 
