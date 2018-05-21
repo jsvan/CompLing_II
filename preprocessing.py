@@ -26,13 +26,15 @@ thread_pool = ThreadPool(processes=THREAD_COUNT)
 
 def _threadedProcessing(dataFile):
 	global msDict
-
-	print(dataFile)
 	with open(dataFile, "rU", errors="surrogateescape") as data:
 		allText = list()
 		allPosts = list()
 		suicideTimes = dict()
+		count = 0
 		for post in data:  # post string, a line from file
+			if count % 500 == 0:
+				print(dataFile, count)
+			count += 1
 			# print('*', end='', flush=True)
 			post = post.strip().split("\t")
 			if len(post) > 4:  # post a list of strings (post info)
@@ -57,6 +59,7 @@ def _threadedProcessing(dataFile):
 					features[-4] = weekend
 					features[-3] = daytime
 					allPosts.append(features)
+	print(dataFile, ' ending.')
 	return allText, allPosts, suicideTimes
 
 def _processDataset(dataFiles,liwcFile):
@@ -76,11 +79,14 @@ def _processDataset(dataFiles,liwcFile):
 	for dataFilePtrn in dataFiles:
 		dataFilenames += glob(dataFilePtrn)
 
+	print('beginning map with : ')
+	for i in dataFilenames:
+		print(i)
+
 	dividedDataFromFiles = thread_pool.map(_threadedProcessing,
 		                dataFilenames)
 
 	allPosts, allText, suicideTimes = stitchTogether(dividedDataFromFiles)
-
 
 	print('Pickling')
 	with open("allText.p", "wb") as f:
