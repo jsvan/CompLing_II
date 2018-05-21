@@ -1,11 +1,8 @@
-from nltk import word_tokenize,pos_tag,download
-from autocorrect import spell
 import user_week_buckets as uwb
 from data_utils import *
 import os.path
 from glob import glob
 import pickle
-from multiprocessing.pool import ThreadPool
 
 
 EXCLUDE = {"Anger","BPD","EatingDisorders","MMFB","StopSelfHarm","SuicideWatch","addiction","alcoholism",\
@@ -16,86 +13,8 @@ TRAINFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10
 TESTFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
 DEVFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
 ANNOFS = ['../umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
-liwc = []
-THREAD_COUNT = 7
-thread_pool = ThreadPool(processes=THREAD_COUNT)
 
 #[postid, userid, timestamp, subreddit]
-
-
-def _threadedProcessing(dataFile):
-	msDict = {}
-	with open(dataFile, "rU", errors="surrogateescape") as data:
-		allText = list()
-		allPosts = list()
-		suicideTimes = dict()
-		count = 0
-		for post in data:  # post string, a line from file
-			if count % 500 == 0:
-				print(dataFile, count)
-			count += 1
-			# print('*', end='', flush=True)
-			post = post.strip().split("\t")
-			if len(post) > 4:  # post a list of strings (post info)
-				titleLast = post[4][-1:]
-				if titleLast.isalnum():  # i.e. not a punctuation mark:
-					post[4] += "."
-				post = post[:4] + [" ".join(post[4:])]
-				subreddit = post[3]
-				if subreddit in EXCLUDE:
-					allText += [spellcheck(wrd.lower(), False, msDict) for wrd in word_tokenize(post[4])]
-					allText.append("$|$")
-					allPosts.append("IGNORE")
-					if subreddit == "SuicideWatch":
-						suicideTimes[post[1]] = suicideTimes.get(post[1], list()) + [int(post[2])]
-				else:
-					features = [0] * 31
-					features[0] = post[1]
-					features[-2] = int(post[2])
-					features[1] = subreddit
-					features = _processPostText(post[4], allText, msDict, liwc, features)
-					weekend, daytime = timeToDate(int(post[2]))
-					features[-4] = weekend
-					features[-3] = daytime
-					allPosts.append(features)
-	print(dataFile, ' ending.')
-	return allText, allPosts, suicideTimes
-
-def _processDataset(dataFiles,liwcFile):
-	'''
-	:param dataFiles:
-	:param liwcFile:
-	:param stopFile:
-	:return: pickles post data object
-	:return: pickles all the text as a list of tokenized words
-	:return: pickles suicide times dict
-	'''
-	global liwc
-
-	with open(liwcFile,"rb") as lfile:
-		liwc = pickle.load(lfile)
-	dataFilenames = list()
-	for dataFilePtrn in dataFiles:
-		dataFilenames += glob(dataFilePtrn)
-
-	print('beginning map with : ')
-	for i in dataFilenames:
-		print(i)
-
-	dividedDataFromFiles = thread_pool.map(_threadedProcessing,
-		                dataFilenames)
-
-	allPosts, allText, suicideTimes = stitchTogether(dividedDataFromFiles)
-
-	print('Pickling')
-	with open("allText.p", "wb") as f:
-		pickle.dump(allText, f)
-	with open("allPosts.p", "wb") as f:
-		pickle.dump(allPosts, f)
-	with open("suicideTimes.p", "wb") as f:
-		pickle.dump(suicideTimes, f)
-
-	return allPosts, allText, suicideTimes
 
 def _allText2TopicModel(allText, stopFile):
 	'''
@@ -204,47 +123,6 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 		pickle.dump(devTestPosts,f)
 	return trainPosts,testPosts,devPosts,devTestPosts
 
-#[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
-def _processPostText(post, docFile, msdict, liwcDict, featureList):
-	wrdList = [spellcheck(wrd.lower(),featureList,msdict) for wrd in word_tokenize(post)]
-	docFile += wrdList
-	docFile.append("$|$")
-	tags = pos_tag(wrdList)
-	for wrd, tag in tags:
-		if tag[0:1] == "V":
-			featureList[7] += 1
-			if tag in {"VBG","VBP","VBZ"}:
-				featureList[6] += 1
-		elif tag[0:3] == "PRP":
-			featureList[5] += 1
-			if wrd in {"me","my","I","myself","mine"}:
-				featureList[4] += 1
-		elif wrd in liwcDict:
-			themes=liwcDict[wrd]
-			for theme in themes:
-				featureList[8+theme] += 1
-	return featureList
-
-def spellcheck(wrd,lst,msdict):
-	if (len(wrd) < 20) and wrd.isalpha():
-		if wrd in msdict:
-			new = msdict[wrd]
-		else:
-			new = spell(wrd).lower()
-			msdict[wrd] = new
-		if lst:
-			lst[2] += 1
-			if new != wrd:
-				lst[3] += 1
-		return new
-	else:
-		return wrd
-
-
-
-
-
-
 '''post from TEXT FILE
   RAW POST
 
@@ -254,7 +132,6 @@ def spellcheck(wrd,lst,msdict):
   [subreddit]
   [post_title]
   [post_body]'''
-
 
 def prepare():
 	#If done with process unpickle
