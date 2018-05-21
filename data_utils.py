@@ -44,7 +44,6 @@ def applyFilters(bigrammer,filterList):
 		f(bigrammer)
 	return bigrammer
 
-
 def collocRecursively(corp,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters=None):
 	bgFinder = constructor(corp)
 	if filters:
@@ -115,10 +114,9 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 def toLdaModel(docLists, num_topics):
 	dictionary = corpora.dictionary.Dictionary(docLists)
 	corpus = [dictionary.doc2bow(docList) for docList in docLists]
-	model = models.LdaModel(corpus, num_topics)
+	model = models.ldamulticore.LdaMulticore(corpus, num_topics,workers=7)
 	with open("ldaModel.p","wb") as f:
 		pickle.dump(model,f)
-	## TODO ---doc representation may be sparse!!! ----##
 	docVecs = list()
 	for doc in corpus:
 		docVec = [0] * num_topics
