@@ -1,4 +1,6 @@
 import user_week_buckets as uwb
+from nltk import word_tokenize, pos_tag
+from autocorrect import *
 from data_utils import *
 import os.path
 from glob import glob
@@ -35,7 +37,7 @@ def _processDataset(dataFiles,liwcFile):
 	allText = list()
 	allPosts = list()
 	suicideTimes = dict()
-	for dataFile in dataFilenames
+	for dataFile in dataFilenames:
 		with open(dataFile, "rU", errors="surrogateescape") as data:
 			count = 0
 			for post in data:  # post string, a line from file
@@ -68,11 +70,11 @@ def _processDataset(dataFiles,liwcFile):
 						allPosts.append(features)
 		print(dataFile, ' ending.')
 	print('Pickling')
-	with open("allText_%d.p" % idx, "wb") as f:
+	with open("allText.p" , "wb") as f:
 		pickle.dump(allText, f)
-	with open("allPosts_%d.p" % idx, "wb") as f:
+	with open("allPosts.p", "wb") as f:
 		pickle.dump(allPosts, f)
-	with open("suicideTimes_%d.p" % idx, "wb") as f:
+	with open("suicideTimes.p", "wb") as f:
 		pickle.dump(suicideTimes, f)
 
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
