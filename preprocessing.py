@@ -3,6 +3,8 @@ from autocorrect import spell
 import user_week_buckets as uwb
 from data_utils import *
 import os.path
+from glob import glob
+import pickle
 from multiprocessing.pool import ThreadPool
 
 
@@ -148,7 +150,7 @@ def _addTopicVectorDataAndGroupByUser(docTopicVecs,ntopics,allPosts):
 		pickle.dump(subredditVecDict,tp)
 	with open("userDict.p","wb") as tp:
 		pickle.dump(userDict)
-	return userDict,mentalHealthVec,subredditVec
+	return userDict,mentalHealthVec,subredditVecDict
 
 
 
