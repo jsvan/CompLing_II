@@ -119,5 +119,5 @@ def spellcheck(wrd, lst, msdict):
 
 
 if __name__ == "__main__":
-	_processDataset(argv[1], 'liwc.p')
+	_processDataset(int(argv[1]), 'liwc.p')
 

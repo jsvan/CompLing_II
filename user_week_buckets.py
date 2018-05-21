@@ -1,4 +1,4 @@
-import feature_intepretation as feat
+import feature_interpretation as feat
 
 TWO_WEEKS = 1209600
 MIN = -99999
