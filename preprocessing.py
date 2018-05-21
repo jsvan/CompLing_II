@@ -16,15 +16,16 @@ TRAINFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10
 TESTFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/TEST.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/TEST.txt']
 DEVFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
 ANNOFS = ['../umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
-#msDict = {}
+msDict = {}
 liwc = []
-THREAD_COUNT = 7
+THREAD_COUNT = 1
 thread_pool = ThreadPool(processes=THREAD_COUNT)
 
 #[postid, userid, timestamp, subreddit]
 
 
 def _threadedProcessing(dataFile):
+	global msDict
 	with open(dataFile, "rU", errors="surrogateescape") as data:
 		allText = list()
 		allPosts = list()
@@ -43,8 +44,7 @@ def _threadedProcessing(dataFile):
 				post = post[:4] + [" ".join(post[4:])]
 				subreddit = post[3]
 				if subreddit in EXCLUDE:
-					#allText += [spellcheck(wrd.lower(), False, msDict) for wrd in word_tokenize(post[4])]
-					allText += [spellcheck(wrd.lower(), False) for wrd in word_tokenize(post[4])]
+					allText += [spellcheck(wrd.lower(), False, msDict) for wrd in word_tokenize(post[4])]
 					allText.append("$|$")
 					allPosts.append("IGNORE")
 					if subreddit == "SuicideWatch":
@@ -54,8 +54,7 @@ def _threadedProcessing(dataFile):
 					features[0] = post[1]
 					features[-2] = int(post[2])
 					features[1] = subreddit
-					features = _processPostText(post[4], allText, liwc, features)
-					#features = _processPostText(post[4], allText, msDict, liwc, features)
+					features = _processPostText(post[4], allText, msDict, liwc, features)
 					weekend, daytime = timeToDate(int(post[2]))
 					features[-4] = weekend
 					features[-3] = daytime
@@ -207,8 +206,8 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 	return trainPosts,testPosts,devPosts,devTestPosts
 
 #[userid,subreddit,totw,totmissp,tot1sg,totpron,totpres,totvrb,[funcwrdcts and liwc],[topicSpaceVec],wkday,hr,timestamp,label]
-def _processPostText(post, docFile, liwcDict, featureList):
-	wrdList = [spellcheck(wrd.lower(),featureList) for wrd in word_tokenize(post)]
+def _processPostText(post, docFile, msdict, liwcDict, featureList):
+	wrdList = [spellcheck(wrd.lower(),featureList,msdict) for wrd in word_tokenize(post)]
 	docFile += wrdList
 	docFile.append("$|$")
 	tags = pos_tag(wrdList)
@@ -227,22 +226,20 @@ def _processPostText(post, docFile, liwcDict, featureList):
 				featureList[8+theme] += 1
 	return featureList
 
-def spellcheck(wrd,lst):
+def spellcheck(wrd,lst,msdict):
 	if (len(wrd) < 20) and wrd.isalpha():
-		#if wrd in msdict:
-		#	new = msdict[wrd]
-		#else:
-		new = spell(wrd).lower()
-		#	msdict[wrd] = new
+		if wrd in msdict:
+			new = msdict[wrd]
+		else:
+			new = spell(wrd).lower()
+			msdict[wrd] = new
 		if lst:
 			lst[2] += 1
 			if new != wrd:
 				lst[3] += 1
 		return new
 	else:
-		return wrd.lower()
-	#else:
-	#	return wrd
+		return wrd
 
 
 
