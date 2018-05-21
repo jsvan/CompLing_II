@@ -24,13 +24,13 @@ def pearsonsR(masterList):
 	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
 	return vals
 
-def makeCollocated(corp,interpFunc,stops):
+def makeCollocated(corp,stops):
 	newCorp = list()
 	curDoc = list()
 	for word in corp:
 		if type(word) != str:
 			print(word)
-		elif interpFunc(word) == "$|$":
+		elif word == "$|$":
 			newCorp.append(curDoc)
 			curDoc = list()
 		elif word in stops:
@@ -45,7 +45,7 @@ def applyFilters(bigrammer,filterList):
 	return bigrammer
 
 
-def collocRecursively(corp,interp,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters=None):
+def collocRecursively(corp,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters=None):
 	bgFinder = constructor(corp)
 	if filters:
 		bgFinder = applyFilters(bgFinder,filters)
@@ -57,7 +57,7 @@ def collocRecursively(corp,interp,constructor,threshhold,addUnrelated,addBigram,
 	flag = False
 	while idx < N-1:
 		bg = (corp[idx],corp[idx+1])
-		if bgScores.get((interp(bg[0]),interp(bg[1])),0) > threshhold:
+		if bgScores.get((bg[0],bg[1]),0) > threshhold:
 			addBigram(newCorp,bg)
 			idx += 2
 			flag = True
@@ -67,22 +67,21 @@ def collocRecursively(corp,interp,constructor,threshhold,addUnrelated,addBigram,
 	if idx == N-1:
 		addUnrelated(newCorp,corp[idx])
 	if flag:
-		return collocRecursively(newCorp, interp, constructor, threshhold, addUnrelated, addBigram, filters)
+		return collocRecursively(newCorp, constructor, threshhold, addUnrelated, addBigram, filters)
 	return newCorp
 
 def collocateAndLDA(allWords, stopFile):
 	with open(stopFile,"rU") as sf:
-		stops = {line.strip() for line in sf.readlines()}
-	interpFunc = lambda x: x
+		stops = {line.lower().strip() for line in sf.readlines()}
 	constructor = lambda c: BigramCollocationFinder.from_words(c)
-	threshhold = 600
+	threshhold = 6000
 	addUnrelated = lambda c, x: c.append(x)
 	addBigram = lambda c, tup: c.append(tup[0]+"_"+tup[1])
 	measureFunc = BigramAssocMeasures().likelihood_ratio
-	filters = [lambda bg: bg.apply_word_filter(lambda t: t in set(punct) | {"$|$"}),\
+	filters = [lambda bg: bg.apply_word_filter(lambda t: (len(t) <2 and not t.isalnum()) or (t in set(punct) | {"$|$"})),\
 				 lambda bg: bg.apply_ngram_filter(lambda w1,w2: (w1 in stops) and (w2 in stops))]
 	# return toLdaModel(makeCollocated(collocRecursively(\
-		# allWords,interpFunc,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
+		# allWords,constructor,threshhold,addUnrelated,addBigram,measureFunc,filters),interpFunc),70)
 	return toLdaModel(makeCollocated(allWords,interpFunc,stops),70)
 
 def timeToDate(time):
@@ -120,11 +119,17 @@ def toLdaModel(docLists, num_topics):
 	with open("ldaModel.p","wb") as f:
 		pickle.dump(model,f)
 	## TODO ---doc representation may be sparse!!! ----##
-	return [[t[1] for t in sorted(model.get_document_topics(doc), key=lambda tup: tup[0])] for doc in corpus], num_topics
+	docVecs = list()
+	for doc in corpus:
+		docVec = [0] * num_topics
+		sparse = model.get_document_topics(doc)
+		for top,val in sparse:
+			docVec[top] = val
+		docVecs.append(docVec)
+	return docVecs, num_topics
 
-def stitchTogether(postFs, textFs, timeFs):
+def stitchTogether(threadList):
 	'''
-
 	:param postFs:
 	:param textFs:
 	:param timeFs:
@@ -133,20 +138,11 @@ def stitchTogether(postFs, textFs, timeFs):
 	allPosts = list()
 	allText = list()
 	suicideTimes = dict()
-	try:
-		for pf in glob(postFs):
-			with open(pf,'rb') as f:
-				allPosts += pickle.load(f)
-		for pf in glob(textFs):
-			with open(pf,'rb') as f:
-				allText += pickle.load(f)
-		for pf in glob(timeFs):
-			with open(pf,'rb') as f:
-				dct = pickle.load(f)
-				for usr,lst in dct.items():
-					suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
-	except:
-		print(pf)
+	for pf,tf,mf in threadList:
+		allPosts += pf
+		allText += tf
+		for usr,lst in mf.items():
+			suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
 	return allPosts,allText,suicideTimes
 
 
