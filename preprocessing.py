@@ -17,7 +17,7 @@ TESTFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-
 DEVFS = ['../umd_reddit_suicidewatch_dataset/reddit_posts/controls/split_80-10-10/DEV.txt','umd_reddit_suicidewatch_dataset/reddit_posts/sw_users/split_80-10-10/DEV.txt']
 ANNOFS = ['../umd_reddit_suicidewatch_dataset/reddit_annotation/crowd.csv','umd_reddit_suicidewatch_dataset/reddit_annotation/expert.csv']
 liwc = []
-THREAD_COUNT = 1
+THREAD_COUNT = 7
 thread_pool = ThreadPool(processes=THREAD_COUNT)
 
 #[postid, userid, timestamp, subreddit]
