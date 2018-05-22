@@ -254,7 +254,15 @@ def prepare():
 			with open('suicideTimes.p', 'rb') as f:
 				allSuicideTimes = pickle.load(f)
 		else:
+			print("Files not found. Stitching partial batches...")
 			allText, allPosts, allSuicideTimes = stitchTogether(7)
+			with open("allText.p", "wb") as f:
+				pickle.dump(allText, f)
+			with open("allPosts.p", "wb") as f:
+				pickle.dump(allPosts, f)
+			with open("suicideTimes.p", "wb") as f:
+				pickle.dump(allSuicideTimes, f)
+
 
 		if os.path.exists('docTopicVecs.p'):
 			with open('docTopicVecs.p', 'rb') as f:

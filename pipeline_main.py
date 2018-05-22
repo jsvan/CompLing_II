@@ -1,5 +1,5 @@
 import preprocessing
-#import nn
+import nn
 import pickle
 from data_utils import pearsonsR
 
@@ -11,4 +11,7 @@ if __name__ == '__main__':
 	with open('pearsonsR.p', 'wb') as f:
 		pickle.dump(pr)
 
-	#nn = nn.simple_feed_forward()
+	print('Beginning nn')
+	nn = nn.simple_feed_forward()
+	nn.train(trainPosts)
+	nn.test(testPosts)
