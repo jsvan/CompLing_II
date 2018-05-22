@@ -254,7 +254,7 @@ def prepare():
 			with open('suicideTimes.p', 'rb') as f:
 				allSuicideTimes = pickle.load(f)
 		else:
-			allText, allPosts, allSuicideTimes = _processDataset(['../umd_reddit_suicidewatch_dataset/reddit_posts/*/*.posts'],'liwc.p')
+			allText, allPosts, allSuicideTimes = stitchTogether(7)
 
 		if os.path.exists('docTopicVecs.p'):
 			with open('docTopicVecs.p', 'rb') as f:
