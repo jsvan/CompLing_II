@@ -25,7 +25,7 @@ def makeCollocated(corp,stops):
 	curDoc = list()
 	for word in corp:
 		if type(word) != str:
-			print(word)
+			print(word, ' is not a string (data_utils.makeCollocated)')
 		elif word == "$|$":
 			newCorp.append(curDoc)
 			curDoc = list()

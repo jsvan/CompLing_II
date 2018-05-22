@@ -247,7 +247,7 @@ def prepare():
 	else:
 		#part A
 		print("Stitching partial batches...")
-		allText, allPosts, allSuicideTimes = stitchTogether(7)
+		allPosts, allText, allSuicideTimes = stitchTogether(7)
 
 		if os.path.exists('docTopicVecs.p'):
 			with open('docTopicVecs.p', 'rb') as f:
