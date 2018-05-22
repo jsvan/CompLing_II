@@ -246,23 +246,8 @@ def prepare():
 	#else go through each piece
 	else:
 		#part A
-		if os.path.exists('allText.p') and os.path.exists('allPosts.p') and os.path.exists('suicideTimes.p'):
-			with open('allText.p', 'rb') as f:
-				allText = pickle.load(f)
-			with open('allPosts.p', 'rb') as f:
-				allPosts = pickle.load(f)
-			with open('suicideTimes.p', 'rb') as f:
-				allSuicideTimes = pickle.load(f)
-		else:
-			print("Files not found. Stitching partial batches...")
-			allText, allPosts, allSuicideTimes = stitchTogether(7)
-			with open("allText.p", "wb") as f:
-				pickle.dump(allText, f)
-			with open("allPosts.p", "wb") as f:
-				pickle.dump(allPosts, f)
-			with open("suicideTimes.p", "wb") as f:
-				pickle.dump(allSuicideTimes, f)
-
+		print("Stitching partial batches...")
+		allText, allPosts, allSuicideTimes = stitchTogether(7)
 
 		if os.path.exists('docTopicVecs.p'):
 			with open('docTopicVecs.p', 'rb') as f:
