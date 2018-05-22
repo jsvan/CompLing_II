@@ -124,7 +124,7 @@ def toLdaModel(docLists, num_topics):
 		docVecs.append(docVec)
 	return docVecs, num_topics
 
-def stitchTogether(threadList):
+def stitchTogether(numFs):
 	'''
 	:param postFs:
 	:param textFs:
@@ -134,11 +134,15 @@ def stitchTogether(threadList):
 	allPosts = list()
 	allText = list()
 	suicideTimes = dict()
-	for pf,tf,mf in threadList:
-		allPosts += pf
-		allText += tf
-		for usr,lst in mf.items():
-			suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
+	for idx in range(numFs):
+		with open("allText_%d.p" %idx, "rb") as f:
+			allText += pickle.load(f)
+		with open("allPosts_%d.p" %idx, "rb") as f:
+			allPosts += pickle.load(f)
+		with open("suicideTimes_%d.p" %idx, "rb") as f:
+			dc = pickle.load(f)
+			for usr,lst in dc.items():
+				suicideTimes[usr] = suicideTimes.get(usr,list()) + lst
 	return allPosts,allText,suicideTimes
 
 
