@@ -148,7 +148,7 @@ def _addTopicVectorDataAndGroupByUser(docTopicVecs,ntopics,allPosts):
 	idx = 0
 	for post in allPosts:
 		if post == "IGNORE":
-			mentalHealthVec = [mentalHealthVec[i]+docTopicVecs[i] for i in range(ntopics)]
+			mentalHealthVec = [mentalHealthVec[i]+docTopicVecs[idx][i] for i in range(ntopics)]
 			totMH += 1
 		else:
 			subreddit = post[1]
