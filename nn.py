@@ -2,31 +2,27 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 import numpy
-import data_to_nn_sets
 from numpy.random import normal
 
 input_size = 24  #
 hidden_size_a = 12  # The number of nodes at the hidden layer
 hidden_size_b = 6  # The number of nodes at the hidden layer
 num_classes = 2  # The number of output classes. -1, 1
-num_data = 0
 num_epochs = 10  # The number of times entire dataset is trained
 learning_rate = 0.01  # The speed of convergence
-labels = []
-features = []
 
 
-def prepareData(twoWeekRepresentations, picklePath):
-	global labels
-	global features
-	global num_data
-	if not twoWeekRepresentations:
-		f, l = data_to_nn_sets.appendpickles(picklePath)
-	else:
-		f, l = data_to_nn_sets.feat_lab(twoWeekRepresentations)
-	labels = torch.from_numpy(f).type(torch.LongTensor)
-	features = torch.from_numpy(l).type(torch.FloatTensor)
-	num_data = len(labels)
+
+def prepareData(data):
+	data = numpy.array(data)
+	features = data.T[:-1].T
+	labels = data.T[-1].T
+	num_data = len(data)
+
+	return  torch.from_numpy(features).type(torch.LongTensor), torch.from_numpy(labels).type(torch.FloatTensor), num_data
+
+
+
 
 
 def tupleToTensor(a):
@@ -44,7 +40,7 @@ def categoryToTensor(a):
 	return tens
 
 
-def data_batcher(X, Y, batch_size=25):
+def data_batcher(X, Y, num_data, batch_size=25):
 	indices = numpy.arange(num_data)
 	count = 0
 	while count < len(X):
@@ -73,11 +69,12 @@ class simple_feed_forward(nn.Module):
 
 
 def train(data):
+	features, labels, num_data  = prepareData(data)
 	net.zero_grad()
 	for epoch in range(num_epochs):
 		print(epoch)
 		totLoss = 0.0
-		for x, y in data_batcher(features, labels, 25):  # Load a batch of images with its (index, data, class)
+		for x, y in data_batcher(features, labels, num_data, 25):  # Load a batch of images with its (index, data, class)
 			x = Variable(x)
 			y = Variable(y)
 			optimizer.zero_grad()
@@ -96,29 +93,18 @@ criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
 
 
-def test():
-	num_test_data = 1800
-	num_test_data_d2 = num_test_data / 2
-	ls = 0.0
-	n = 0
-	tf = 'F'
-	med = 0.0
-	avg = 0.0
-	print("\n\n\n***TESTING***\n\n\n")
+def test(data):
+	features, labels, num_data  = prepareData(data)
 
-	tlabels = torch.from_numpy(numpy.array([1 for j in range(num_test_data)])).type(torch.LongTensor)
-	ttrain = torch.from_numpy(numpy.array([[0 for i in range(input_size)] for j in range(num_test_data)])).type(
-		torch.FloatTensor)
+	print("\n\n\n***TESTING***\n\n\n")
+	ls = 0
 	count = 0
-	for x, y in data_batcher(ttrain, tlabels, 25):
+	for x, y in data_batcher(features, labels, num_data, 25):
 		X = Variable(x)
 		out = net.forward(X)
 		loss = criterion(out, Variable(y).squeeze())
 		ls += loss
-		print("OUT")
-		print(out.max(1)[1].data[0], out)
-		print("FROM")
-		print(ttrain[count][0], tlabels[count])
-
 		count += 25
-	print(ls / num_test_data)
+
+	print(ls / num_data)
+
