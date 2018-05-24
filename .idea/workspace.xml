@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d788d4c-5675-47d0-963d-f7dbc009520f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nn.py" afterPath="$PROJECT_DIR$/nn.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preprocessing.py" afterPath="$PROJECT_DIR$/preprocessing.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,24 +25,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preprocessing.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="preprocessing.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/preprocessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-151">
-              <caret line="207" column="17" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+            <state relative-caret-position="468">
+              <caret line="274" column="17" lean-forward="false" selection-start-line="274" selection-start-column="17" selection-end-line="274" selection-end-column="17" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-                <marker date="1527139528447" expanded="true" signature="6961:7012" ph="..." />
+                <marker date="1527188218359" expanded="true" signature="6961:7012" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nn.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nn.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+            <state relative-caret-position="224">
+              <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -155,10 +155,10 @@
         <option value="$PROJECT_DIR$/partA.py" />
         <option value="$PROJECT_DIR$/data_utils.py" />
         <option value="$PROJECT_DIR$/feature_interpretation.py" />
-        <option value="$PROJECT_DIR$/preprocessing.py" />
         <option value="$PROJECT_DIR$/user_week_buckets.py" />
         <option value="$PROJECT_DIR$/pipeline_main.py" />
         <option value="$PROJECT_DIR$/nn.py" />
+        <option value="$PROJECT_DIR$/preprocessing.py" />
       </list>
     </option>
   </component>
@@ -471,7 +471,7 @@
           <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="63" selection-end-line="58" selection-end-column="70" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-            <marker date="1527139528447" expanded="true" signature="6961:7012" ph="..." />
+            <marker date="1527188218359" expanded="true" signature="6961:7012" ph="..." />
           </folding>
         </state>
       </provider>
@@ -546,7 +546,7 @@
           <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="63" selection-end-line="58" selection-end-column="70" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-            <marker date="1527139528447" expanded="true" signature="6961:7012" ph="..." />
+            <marker date="1527188218359" expanded="true" signature="6961:7012" ph="..." />
           </folding>
         </state>
       </provider>
@@ -657,17 +657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/preprocessing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-151">
-          <caret line="207" column="17" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-            <marker date="1527139528447" expanded="true" signature="6961:7012" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pipeline_main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -680,10 +669,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+        <state relative-caret-position="224">
+          <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="274" column="17" lean-forward="false" selection-start-line="274" selection-start-column="17" selection-end-line="274" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+            <marker date="1527188218359" expanded="true" signature="6961:7012" ph="..." />
           </folding>
         </state>
       </provider>

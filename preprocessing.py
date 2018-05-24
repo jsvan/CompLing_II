@@ -236,7 +236,8 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 
 def prepare():
 	#If done with process unpickle
-	if os.path.exists('trainingData.p') and os.path.exists('testData.p') and os.path.exists(
+
+	'''if os.path.exists('trainingData.p') and os.path.exists('testData.p') and os.path.exists(
 			'devData.p') and os.path.exists('devTestData.p'):
 		with open("trainingData.p", "rb") as f:
 			trainPosts = pickle.load(f)
@@ -248,30 +249,30 @@ def prepare():
 			devTestPosts = pickle.load(f)
 
 	#else go through each piece
+	else:'''
+	#part A
+	print("Stitching partial batches...")
+	allPosts, allText, allSuicideTimes = stitchTogether(7)
+
+	if os.path.exists('docTopicVecs.p'):
+		with open('docTopicVecs.p', 'rb') as f:
+			docTopicVecs = pickle.load(f)
+			ntopics = len(docTopicVecs[0])
 	else:
-		#part A
-		print("Stitching partial batches...")
-		allPosts, allText, allSuicideTimes = stitchTogether(7)
+		docTopicVecs, ntopics = _allText2TopicModel(allText, 'engStops')
 
-		if os.path.exists('docTopicVecs.p'):
-			with open('docTopicVecs.p', 'rb') as f:
-				docTopicVecs = pickle.load(f)
-				ntopics = len(docTopicVecs[0])
-		else:
-			docTopicVecs, ntopics = _allText2TopicModel(allText, 'engStops')
+	if os.path.exists('userDict.p') and os.path.exists('mentalHealthVec.p') and os.path.exists('subredditVecs.p'):
+		with open('userDict.p', 'rb') as f:
+			userDict = pickle.load(f)
+		with open('mentalHealthVec.p', 'rb') as f:
+			mentalHealthVec = pickle.load(f)
+		with open('subredditVecs.p', 'rb') as f:
+			subredditVecDict = pickle.load(f)
+	else:
+		userDict, mentalHealthVec, subredditVecDict = _addTopicVectorDataAndGroupByUser(docTopicVecs, ntopics, allPosts)
 
-		if os.path.exists('userDict.p') and os.path.exists('mentalHealthVec.p') and os.path.exists('subredditVecs.p'):
-			with open('userDict.p', 'rb') as f:
-				userDict = pickle.load(f)
-			with open('mentalHealthVec.p', 'rb') as f:
-				mentalHealthVec = pickle.load(f)
-			with open('subredditVecs.p', 'rb') as f:
-				subredditVecDict = pickle.load(f)
-		else:
-			userDict, mentalHealthVec, subredditVecDict = _addTopicVectorDataAndGroupByUser(docTopicVecs, ntopics, allPosts)
-
-		allocator = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
-		trainPosts, testPosts, devPosts, devTestPosts = _interpretFeatsAndAllocate(userDict, mentalHealthVec, subredditVecDict, allSuicideTimes, ntopics, allocator)
+	allocator = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
+	trainPosts, testPosts, devPosts, devTestPosts = _interpretFeatsAndAllocate(userDict, mentalHealthVec, subredditVecDict, allSuicideTimes, ntopics, allocator)
 
 	return trainPosts, testPosts, devPosts, devTestPosts
 
