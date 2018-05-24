@@ -48,9 +48,9 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	for post in userList:
 		if post[0] != user_id:
 			raise "Multiple users found in bucket. Expected "+ user_id+ " but found "+ post[0]
-
+		input('type \' something \'  to continue. ')
 		current_timestamp=post[TIMESTAMP_IDX]
-
+		print(str(current_timestamp), end='')
 		if current_timestamp < end_of_two_weeks:
 			bucket.append(post)
 		else:
@@ -63,7 +63,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 
 		while suicideTime < begin_of_two_weeks and suicideList:
 			suicideTime=suicideList.pop()
-
+		print(str(begin_of_two_weeks), ' < ', str(current_timestamp), ' < ', str(end_of_two_weeks))
 		if suicideTime < begin_of_two_weeks or end_of_two_weeks < suicideTime: #this bucket is NOT SW
 			post[LABEL_IDX] = -1
 		else:

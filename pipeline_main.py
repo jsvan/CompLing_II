@@ -9,7 +9,8 @@ if __name__ == '__main__':
 	for item in pr:
 		print(item)
 	with open('pearsonsR.p', 'wb') as f:
-		pickle.dump(pr)
+		pickle.dump( object=pr, file=f)
+		pickle.dump
 
 	print('Beginning nn')
 	nn = nn.simple_feed_forward()
