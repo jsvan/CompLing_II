@@ -95,13 +95,13 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 	allocationDict = dict() #userid to (int,int): first int for train,test,devtest, or dev, second for label
 	for annoteFile in annoteFiles:
 		with open(annoteFile) as f:
-			allocationDict.update({line[0]:line[1] for line in [l.strip().split(",") for l in f.readlines()]})
+			allocationDict.update({line[0]:line[1] for line in [l.strip().split(",") for l in f]})
 	for trainFile in trainFiles:
 		with open(trainFile) as tfile:
-			allocationDict.update({line.strip():(0,allocationDict.get(line.strip(),-1)) for line in tfile.readlines()})
+			allocationDict.update({line.strip():(0,allocationDict.get(line.strip(),-1)) for line in tfile})
 	for testFile in testFiles:
 		with open(testFile) as tfile:
-			allocationDict.update({line.strip():(1,allocationDict.get(line.strip(),-1)) for line in tfile.readlines()})
+			allocationDict.update({line.strip():(1,allocationDict.get(line.strip(),-1)) for line in tfile})
 	for devFile in devFiles:
 		with open(devFile) as dfile:
 			total = dfile.readlines()
