@@ -99,7 +99,7 @@
         <entry file="file://$PROJECT_DIR$/user_week_buckets.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
-              <caret line="150" column="12" lean-forward="false" selection-start-line="150" selection-start-column="12" selection-end-line="150" selection-end-column="12" />
+              <caret line="147" column="0" lean-forward="true" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -142,10 +142,10 @@
       <find>w[</find>
       <find>uwb</find>
       <find>-1</find>
-      <find>print</find>
       <find>u</find>
       <find>input</find>
       <find>makeCollocated</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -719,7 +719,7 @@
     <entry file="file://$PROJECT_DIR$/user_week_buckets.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
-          <caret line="150" column="12" lean-forward="false" selection-start-line="150" selection-start-column="12" selection-end-line="150" selection-end-column="12" />
+          <caret line="147" column="0" lean-forward="true" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -44,7 +44,6 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	if not _is_sorted(suicideList):
 		suicideList.sort()
 	suicideList.reverse()
-	print('suicideList times is: ', suicideList)
 
 	for post in userList:
 		if post[0] != user_id:
@@ -146,7 +145,5 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	# sim(subreddit,post),
 	# sim(subredditstyle,poststyle),
 	# sim(post,mentalhealth)]
-	for p in truck:
-		if p[-1] != -1:
-			print('Non trivial label, ', p[-1])
+
 	return truck
