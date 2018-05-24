@@ -63,7 +63,7 @@ def day_time_probs(bucket, n):
 	t_buck = np.array(bucket).T
 	weekends = t_buck[0][:]
 	day_quartile = t_buck[1][:]
-	day_time_buckets = np.zeros(8)
+	day_time_buckets = [0] * 8
 	weekends = 4 * weekends
 	for post_idx in range(n):
 		day_time_buckets[weekends[post_idx] + day_quartile[post_idx]] += (1.0 / float(n))
