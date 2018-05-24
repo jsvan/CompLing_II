@@ -49,7 +49,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	for post in userList:
 		if post[0] != user_id:
 			raise "Multiple users found in bucket. Expected "+ user_id+ " but found "+ post[0]
-		input('type \' something \'  to continue. ')
+		#input('type \' something \'  to continue. ')
 		current_timestamp=post[TIMESTAMP_IDX]
 		if current_timestamp < end_of_two_weeks:
 			bucket.append(post)
@@ -63,12 +63,13 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 
 		while suicideTime < begin_of_two_weeks and suicideList:
 			suicideTime=suicideList.pop()
-		print('is suic Time in this two week? ', str(begin_of_two_weeks), ' < ', str(suicideTime), ' < ', str(end_of_two_weeks))
+		#print('is suic Time in this two week? ', str(begin_of_two_weeks), ' < ', str(suicideTime), ' < ', str(end_of_two_weeks))
 		if suicideTime < begin_of_two_weeks or end_of_two_weeks < suicideTime: #this bucket is NOT SW
-			print('NOT SW, label should be -1, but is originally ', post[LABEL_IDX], " -- ", str(begin_of_two_weeks), ' < ', str(current_timestamp), ' < ', str(end_of_two_weeks))
+			#print('NOT SW, label should be -1, but is originally ', post[LABEL_IDX], " -- ", str(begin_of_two_weeks), ' < ', str(current_timestamp), ' < ', str(end_of_two_weeks))
 			post[LABEL_IDX] = -1
 		else:
-			print("THIS BUCKET SW, label is ", post[LABEL_IDX])
+			if post[LABEL_IDX] != -1:
+				print("THIS BUCKET SW, label is ", post[LABEL_IDX])
 	#   else:                                                                   #ths bucket is SW
 	#      maintain label
 

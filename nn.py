@@ -89,10 +89,6 @@ def train(data):
 		print(totLoss.data.numpy() / len(labels))
 
 
-net = simple_feed_forward(input_size, hidden_size_a, hidden_size_b, num_classes)
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
-
 
 def test(data):
 	features, labels, num_data  = prepareData(data)
@@ -109,3 +105,9 @@ def test(data):
 
 	print(ls / num_data)
 
+
+
+
+net = simple_feed_forward(input_size, hidden_size_a, hidden_size_b, num_classes)
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
