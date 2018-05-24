@@ -56,7 +56,9 @@ w = {
 def cos_sim(a, b):
 	a = np.array(a)
 	b = np.array(b)
-	return 1.0 - distance.cosine(a, b)
+	if np.any(a) and np.any(b):
+		return 1.0 - distance.cosine(a, b)
+	return 0
 
 
 def day_time_probs(bucket, n):
@@ -77,7 +79,7 @@ def interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics):
 	:param mentalHealthVec:
 	:return: interpretted_post: a list of updated features
 	'''
-	# [ dayTime x 8, nposts, avgPostLen, missp%, Liwc%s (same order as above), vrbRatio,\
+	# [ dayTime x 8, nposts, avgPostLen, missp%, Liwc%s (fam-death, same order as above), vrbRatio,\
 	#   pronRatio, sim(subreddit,post), sim(subredditstyle,poststyle), sim(post,mentalhealth)]
 	out = list()
 	n = len(bucket)
