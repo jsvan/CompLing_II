@@ -124,7 +124,8 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	u = userList[0][USER_ID_IDX]
 
 	userList.sort(key = lambda post: post[29])
-
+	print(suicideDic)
+	input('type \' something \'  to continue. ')
 	if u in suicideDic:
 		truck= _create_suicide_bucket(userList, suicideDic[userList[0][USER_ID_IDX]], dicSub2TopVec, mentalHealthVec, ntopics)
 	else:
