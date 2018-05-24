@@ -272,8 +272,8 @@ def prepare():
 		else:
 			userDict, mentalHealthVec, subredditVecDict = _addTopicVectorDataAndGroupByUser(docTopicVecs, ntopics, allPosts)
 
-	allocator = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
-	trainPosts, testPosts, devPosts, devTestPosts = _interpretFeatsAndAllocate(userDict, mentalHealthVec, subredditVecDict, allSuicideTimes, ntopics, allocator)
+		allocator = makeAllocationDict(TRAINFS, TESTFS, DEVFS, ANNOFS)
+		trainPosts, testPosts, devPosts, devTestPosts = _interpretFeatsAndAllocate(userDict, mentalHealthVec, subredditVecDict, allSuicideTimes, ntopics, allocator)
 
 	return trainPosts, testPosts, devPosts, devTestPosts
 
