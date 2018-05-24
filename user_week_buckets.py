@@ -128,9 +128,9 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 		truck= _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec, ntopics)
 
 	print(len(truck[0]))
-	for i in len(truck[0]):
+	for i in range(len(truck[0])):
 		print(i, ": ", truck[0][i])
-		
+
 	steady_label = truck[0][LABEL_IDX]
 	for post in truck:
 		if post[LABEL_IDX] != steady_label:
