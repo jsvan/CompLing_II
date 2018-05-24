@@ -146,7 +146,7 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	# sim(subreddit,post),
 	# sim(subredditstyle,poststyle),
 	# sim(post,mentalhealth)]
-
-	if truck[-1] != -1:
-		print('Non trivial label, ', truck[-1])
+	for p in truck:
+		if p[-1] != -1:
+			print('Non trivial label, ', p[-1])
 	return truck
