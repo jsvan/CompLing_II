@@ -61,8 +61,8 @@ def cos_sim(a, b):
 
 def day_time_probs(bucket, n):
 	t_buck = np.array(bucket).T
-	weekends = t_buck[27][:]
-	day_quartile = t_buck[28][:]
+	weekends = t_buck[0][:]
+	day_quartile = t_buck[1][:]
 	day_time_buckets = np.zeros(8)
 	weekends = 4 * weekends
 	for post_idx in range(n):
@@ -81,7 +81,7 @@ def interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics):
 	out = list()
 	n = len(bucket)
 
-	out += day_time_probs(bucket, n)
+	out += day_time_probs([post[27:29] for post in bucket], n)
 
 	summedVec = getSums(bucket, range(2, 26))
 	totw = summedVec[0]
