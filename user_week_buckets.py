@@ -25,7 +25,7 @@ def _is_sorted(l):
 #{0: 'verb', 1: 'auxverb', 2: 'past', 3: 'present', 4: 'future', 5: 'adverb', 6: 'conj', 7: 'negate', 8: 'quant',
 # 9: 'number', 10: 'family', 11: 'friend', 12: 'anger', 13: 'sad', 14: 'health', 15: 'sexual', 16: 'money', 17: 'death'}
 
-def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec):
+def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec, ntopics):
 	'''
 		labels in suicide bucket keep same
 		labels outside suicide bucket keep zero
@@ -55,7 +55,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 			bucket.append(post)
 		else:
 			if bucket:
-				truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
+				truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics))
 			begin_of_two_weeks=current_timestamp
 			end_of_two_weeks = begin_of_two_weeks+TWO_WEEKS
 			bucket=[]
@@ -70,13 +70,13 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	#      maintain label
 
 	if bucket:
-		truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
+		truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics))
 
 	return truck
 
 
 
-def _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec):
+def _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec,ntopics):
 	'''
 
 	:param userList:
@@ -97,13 +97,13 @@ def _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec):
 			bucket.append(post)
 		else:
 			if bucket:
-				truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
+				truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics))
 			end_of_two_weeks = current_timestamp + TWO_WEEKS
 			bucket = []
 			bucket.append(post)
 
 	if bucket:
-		truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec))
+		truck.append(feat.interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics))
 
 	return truck
 
