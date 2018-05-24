@@ -95,7 +95,7 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 	allocationDict = dict() #userid to (int,int): first int for train,test,devtest, or dev, second for label
 	for annoteFile in annoteFiles:
 		with open(annoteFile) as f:
-			allocationDict.update({line[0]:line[1] for line in [l.strip().split(",") for l in f]})
+			allocationDict.update({line[0]:int(line[1]) for line in [l.strip().split(",") for l in f]})
 	for trainFile in trainFiles:
 		with open(trainFile) as tfile:
 			allocationDict.update({line.strip():(0,allocationDict.get(line.strip(),-1)) for line in tfile})

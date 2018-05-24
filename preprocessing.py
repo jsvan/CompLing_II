@@ -198,6 +198,8 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 		val,lab = allocationDict.get(user,(0,-1))
 		for post in postList:
 			post[-1] = lab
+		if lab != -1:
+			print(user)
 		bucketList = uwb.interpret_post_features_by_user(postList, suicideTimes, subredditVecDict, mentalHealthVec,ntopics)	
 		if val == 1:
 			testPosts += bucketList
