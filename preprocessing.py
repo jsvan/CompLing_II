@@ -203,9 +203,9 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 			testPosts += bucketList
 		else:
 			for bucket in bucketList:
-				if len(bucketList) > 1:
-					print('Length is big! ', len(bucketList))
-				print('Bucket label: ',str(bucket[-1]))
+				if (bucket[-1] != -1):
+					print(bucket[-1])
+				#print('Bucket label: ',str(bucket[-1]))
 				lab = 0 == bucket[-1]
 				if val == 0:
 					trainPosts[lab].append(bucket)
