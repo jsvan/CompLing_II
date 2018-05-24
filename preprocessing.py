@@ -156,13 +156,17 @@ def _addTopicVectorDataAndGroupByUser(docTopicVecs,ntopics,allPosts):
 			longVec = post[8:8+TOTAL_LIWC]+docTopicVecs[idx]
 			subredditVecDict[subreddit] = ([subredditVec[i]+longVec[i] for i in range(longVeclen)],count+1,words+post[2])
 			post[-5] = docTopicVecs[idx]
-			userDict[post[0]] = userDict.get(post[0],[post])	 
+			userDict[post[0]] = userDict.get(post[0],list()) + [post]	 
 		idx += 1
 
 	mentalHealthVec = [mentalHealthVec[i]/totMH for i in range(ntopics)]
 
+	
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
-		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
+		try:
+			subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
+		except:
+			print(subreddit,"\n", subredditVecDict[subreddit])
 
 	print("Pickling")
 	with open("mentalHealthVec.p","wb") as tp:
