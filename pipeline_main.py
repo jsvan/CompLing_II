@@ -13,6 +13,6 @@ if __name__ == '__main__':
 		pickle.dump
 
 	print('Beginning nn')
-	nn = nn.simple_feed_forward()
+#	nn = nn.simple_feed_forward()
 	nn.train(trainPosts)
 	nn.test(testPosts)
