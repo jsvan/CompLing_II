@@ -18,17 +18,11 @@ def prepareData(d):
 	features = data.T[:-1].T
 	labels = data.T[-1]
 	input('start d')
-	for i in d:
-		print(i)
-		a = input('q to quit')
-		if a == 'q':
-			break
-	input('start data')
 	for i in data:
 		print(i)
-		a = input('q to quit')
-		if a == 'q':
-			break
+		print(numpy.shape(i))
+		input('q to quit')
+
 	print(labels)
 	num_data = len(data)
 
