@@ -17,11 +17,13 @@ def prepareData(d):
 	data = numpy.array(d)
 	features = data.T[:-1].T
 	labels = data.T[-1]
-	for i in data:
+	input('start d')
+	for i in d:
 		print(i)
 		a = input('q to quit')
 		if a == 'q':
 			break
+	input('start data')
 	for i in data:
 		print(i)
 		a = input('q to quit')
