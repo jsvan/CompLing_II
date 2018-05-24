@@ -160,7 +160,6 @@ def _addTopicVectorDataAndGroupByUser(docTopicVecs,ntopics,allPosts):
 		idx += 1
 
 	mentalHealthVec = [mentalHealthVec[i]/totMH for i in range(ntopics)]
-
 	
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
 		w = min(w,1)
