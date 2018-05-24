@@ -16,7 +16,8 @@ learning_rate = 0.01  # The speed of convergence
 def prepareData(d):
 	data = numpy.array(d)
 	features = data.T[:-1].T
-	labels = data.T[-1].T
+	labels = data.T[-1]
+	print(labels)
 	num_data = len(data)
 
 	return  torch.from_numpy(features).type(torch.LongTensor), torch.from_numpy(labels).type(torch.FloatTensor), num_data
