@@ -145,13 +145,5 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	# sim(subredditstyle,poststyle),
 	# sim(post,mentalhealth)]
 
-	print(len(truck[0]))
-	for i in range(len(truck[0])):
-		print(i, ": ", truck[0][i])
-		print(i,"-: ", truck[0][-i])
-	steady_label = truck[0][LABEL_IDX]
-	for post in truck:
-		if post[LABEL_IDX] != steady_label:
-			print( "Bucket with Unmatchin Labels Found with User ", str(post[USER_ID_IDX])+". Label ", str(post[LABEL_IDX])," Does Not Match with Expected ", str(steady_label), ".")
 
 	return truck
