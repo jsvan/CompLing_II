@@ -44,13 +44,16 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	if not _is_sorted(suicideList):
 		suicideList.sort()
 	suicideList.reverse()
-
+	print('suicideList times is: ', suicideList)
+	print('post times are ')
+	for i in userList:
+		print(i[TIMESTAMP_IDX])
+		
 	for post in userList:
 		if post[0] != user_id:
 			raise "Multiple users found in bucket. Expected "+ user_id+ " but found "+ post[0]
 		input('type \' something \'  to continue. ')
 		current_timestamp=post[TIMESTAMP_IDX]
-		print(str(current_timestamp), end='')
 		if current_timestamp < end_of_two_weeks:
 			bucket.append(post)
 		else:
