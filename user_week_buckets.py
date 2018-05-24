@@ -45,10 +45,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 		suicideList.sort()
 	suicideList.reverse()
 	print('suicideList times is: ', suicideList)
-	print('post times are ')
-	for i in userList:
-		print(i[TIMESTAMP_IDX])
-
+	
 	for post in userList:
 		if post[0] != user_id:
 			raise "Multiple users found in bucket. Expected "+ user_id+ " but found "+ post[0]
