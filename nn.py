@@ -17,6 +17,16 @@ def prepareData(d):
 	data = numpy.array(d)
 	features = data.T[:-1].T
 	labels = data.T[-1]
+	for i in data:
+		print(i)
+		a = input('q to quit')
+		if a == 'q':
+			break
+	for i in data:
+		print(i)
+		a = input('q to quit')
+		if a == 'q':
+			break
 	print(labels)
 	num_data = len(data)
 
