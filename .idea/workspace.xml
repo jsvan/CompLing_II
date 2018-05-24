@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d788d4c-5675-47d0-963d-f7dbc009520f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_utils.py" afterPath="$PROJECT_DIR$/data_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preprocessing.py" afterPath="$PROJECT_DIR$/preprocessing.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user_week_buckets.py" afterPath="$PROJECT_DIR$/user_week_buckets.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -41,22 +41,10 @@
       <file leaf-file-name="nn.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
+            <state relative-caret-position="1110">
               <caret line="74" column="13" lean-forward="false" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="13" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="preprocessing.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/preprocessing.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="249" column="54" lean-forward="false" selection-start-line="249" selection-start-column="45" selection-end-line="249" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -72,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user_week_buckets.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="user_week_buckets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/user_week_buckets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="99" column="41" lean-forward="false" selection-start-line="99" selection-start-column="41" selection-end-line="99" selection-end-column="41" />
+            <state relative-caret-position="513">
+              <caret line="132" column="8" lean-forward="false" selection-start-line="132" selection-start-column="8" selection-end-line="132" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -89,12 +77,16 @@
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
+                <marker date="1527128133756" expanded="true" signature="1469:1518" ph="..." />
+                <marker date="1527128133756" expanded="true" signature="2861:2893" ph="..." />
+                <marker date="1527128133756" expanded="true" signature="2922:2976" ph="..." />
+                <marker date="1527128133756" expanded="true" signature="3127:5249" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data_utils.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="data_utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_utils.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="874">
@@ -117,14 +109,12 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>LABEL</find>
       <find>nextStep</find>
       <find>processData</find>
       <find>addTopicVectorDataAndGroupByUser</find>
       <find>addTopicVe</find>
       <find>collocateAnd</find>
       <find>interpretFeatsAndAllocate</find>
-      <find>_addTopicVectorDataAndGroupByUser</find>
       <find>makeAllocationDict</find>
       <find>_interpretFeatsAndAllocate</find>
       <find>pearsonsR</find>
@@ -145,8 +135,10 @@
       <find>collocRecursively</find>
       <find>collocateAndLDA</find>
       <find>_allText2TopicModel</find>
-      <find>print</find>
       <find>makeCollocated</find>
+      <find>B</find>
+      <find>_addTopicVectorDataAndGroupByUser</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,12 +154,12 @@
         <option value="$PROJECT_DIR$/data_to_nn_sets.py" />
         <option value="$PROJECT_DIR$/prepThread.py" />
         <option value="$PROJECT_DIR$/test_collocateAndLDA.py" />
-        <option value="$PROJECT_DIR$/user_week_buckets.py" />
         <option value="$PROJECT_DIR$/partA.py" />
         <option value="$PROJECT_DIR$/nn.py" />
         <option value="$PROJECT_DIR$/pipeline_main.py" />
         <option value="$PROJECT_DIR$/data_utils.py" />
         <option value="$PROJECT_DIR$/preprocessing.py" />
+        <option value="$PROJECT_DIR$/user_week_buckets.py" />
       </list>
     </option>
   </component>
@@ -348,10 +340,10 @@
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22132471" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09612278" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287483" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287483" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287483" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -396,6 +388,17 @@
           <caret line="33" column="33" lean-forward="false" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="33" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <marker date="1527128133756" expanded="true" signature="6961:7012" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7126:9029" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7128:8064" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1527128133756" expanded="true" signature="8229:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8484:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8513:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9031:9149" ph="'''...'''" />
+            <marker date="1527128133756" expanded="true" signature="9340:9621" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9805:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9848:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="10107:10341" ph="..." />
           </folding>
         </state>
       </provider>
@@ -490,6 +493,17 @@
           <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="63" selection-end-line="58" selection-end-column="70" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <marker date="1527128133756" expanded="true" signature="6961:7012" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7126:9029" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7128:8064" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1527128133756" expanded="true" signature="8229:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8484:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8513:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9031:9149" ph="'''...'''" />
+            <marker date="1527128133756" expanded="true" signature="9340:9621" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9805:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9848:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="10107:10341" ph="..." />
           </folding>
         </state>
       </provider>
@@ -564,6 +578,17 @@
           <caret line="58" column="70" lean-forward="false" selection-start-line="58" selection-start-column="63" selection-end-line="58" selection-end-column="70" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <marker date="1527128133756" expanded="true" signature="6961:7012" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7126:9029" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7128:8064" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1527128133756" expanded="true" signature="8229:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8484:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8513:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9031:9149" ph="'''...'''" />
+            <marker date="1527128133756" expanded="true" signature="9340:9621" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9805:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9848:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="10107:10341" ph="..." />
           </folding>
         </state>
       </provider>
@@ -628,30 +653,16 @@
     <entry file="file://$PROJECT_DIR$/test_collocateAndLDA.py" />
     <entry file="file://$PROJECT_DIR$/feature_intepretation.py" />
     <entry file="file://$PROJECT_DIR$/prepThread.py" />
-    <entry file="file://$PROJECT_DIR$/nn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="74" column="13" lean-forward="false" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_week_buckets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="99" column="41" lean-forward="false" selection-start-line="99" selection-start-column="41" selection-end-line="99" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/feature_interpretation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-29">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+            <marker date="1527128133756" expanded="true" signature="1469:1518" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="2861:2893" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="2922:2976" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="3127:5249" ph="..." />
           </folding>
         </state>
       </provider>
@@ -662,6 +673,16 @@
           <caret line="118" column="0" lean-forward="true" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="874">
+          <caret line="74" column="49" lean-forward="false" selection-start-line="74" selection-start-column="49" selection-end-line="74" selection-end-column="49" />
+          <folding>
+            <element signature="e#1#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -678,21 +699,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/preprocessing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="249" column="54" lean-forward="false" selection-start-line="249" selection-start-column="45" selection-end-line="249" selection-end-column="59" />
+        <state relative-caret-position="62">
+          <caret line="130" column="37" lean-forward="false" selection-start-line="130" selection-start-column="37" selection-end-line="130" selection-end-column="37" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <marker date="1527128133756" expanded="true" signature="6961:7012" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7126:9029" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="7128:8064" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1527128133756" expanded="true" signature="8229:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8484:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="8513:8696" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9031:9149" ph="'''...'''" />
+            <marker date="1527128133756" expanded="true" signature="9340:9621" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9805:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="9848:9917" ph="..." />
+            <marker date="1527128133756" expanded="true" signature="10107:10341" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data_utils.py">
+    <entry file="file://$PROJECT_DIR$/nn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="874">
-          <caret line="74" column="49" lean-forward="false" selection-start-line="74" selection-start-column="49" selection-end-line="74" selection-end-column="49" />
+        <state relative-caret-position="1110">
+          <caret line="74" column="13" lean-forward="false" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="13" />
           <folding>
-            <element signature="e#1#14#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_week_buckets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="132" column="8" lean-forward="false" selection-start-line="132" selection-start-column="8" selection-end-line="132" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
