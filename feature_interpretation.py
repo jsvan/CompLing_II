@@ -77,7 +77,8 @@ def interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics):
 	:param mentalHealthVec:
 	:return: interpretted_post: a list of updated features
 	'''
-	# [ dayTime x 8, nposts, avgPostLen, missp%, Liwc%s, vrbRatio, pronRatio, cosSims]
+	# [ dayTime x 8, nposts, avgPostLen, missp%, Liwc%s (same order as above), vrbRatio,\
+	#   pronRatio, sim(subreddit,post), sim(subredditstyle,poststyle), sim(post,mentalhealth)]
 	out = list()
 	n = len(bucket)
 
