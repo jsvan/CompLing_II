@@ -66,6 +66,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 		print(str(begin_of_two_weeks), ' < ', str(current_timestamp), ' < ', str(end_of_two_weeks))
 		if suicideTime < begin_of_two_weeks or end_of_two_weeks < suicideTime: #this bucket is NOT SW
 			post[LABEL_IDX] = -1
+			print(str(begin_of_two_weeks), ' < ', str(current_timestamp), ' < ', str(end_of_two_weeks))
 		else:
 			print("THIS BUCKET SW")
 	#   else:                                                                   #ths bucket is SW
