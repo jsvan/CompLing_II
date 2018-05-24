@@ -3,7 +3,7 @@ import feature_interpretation as feat
 TWO_WEEKS = 1209600
 MIN = -99999
 TIMESTAMP_IDX = 29
-LABEL_IDX = 30
+LABEL_IDX = -1
 USER_ID_IDX=0
 
 def _is_sorted(l):
@@ -127,10 +127,28 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	else:
 		truck= _create_safe_bucket(userList, dicSub2TopVec, mentalHealthVec, ntopics)
 
+	# 0 [ dayTime x 8,
+	# 1
+	# 2
+	# 3
+	# 4
+	# 5
+	# 6
+	# 7
+	# 8 nposts,
+	# 9 avgPostLen,
+	# 10 missp%,
+	# 11 Liwc%s (same order as above),
+	# vrbRatio,
+	# \ pronRatio,
+	# sim(subreddit,post),
+	# sim(subredditstyle,poststyle),
+	# sim(post,mentalhealth)]
+
 	print(len(truck[0]))
 	for i in range(len(truck[0])):
 		print(i, ": ", truck[0][i])
-
+		print(i,"-: ", truck[0][-i])
 	steady_label = truck[0][LABEL_IDX]
 	for post in truck:
 		if post[LABEL_IDX] != steady_label:
