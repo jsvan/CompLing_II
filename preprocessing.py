@@ -163,10 +163,8 @@ def _addTopicVectorDataAndGroupByUser(docTopicVecs,ntopics,allPosts):
 
 	
 	for (subreddit, (vec,n,w)) in subredditVecDict.items():
-		try:
-			subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
-		except:
-			print(subreddit,"\n", subredditVecDict[subreddit])
+		w = min(w,1)
+		subredditVecDict[subreddit] = [vec[i]/w for i in range(TOTAL_LIWC)]+[vec[i]/n for i in range(TOTAL_LIWC,longVeclen)]
 
 	print("Pickling")
 	with open("mentalHealthVec.p","wb") as tp:
@@ -174,7 +172,7 @@ def _addTopicVectorDataAndGroupByUser(docTopicVecs,ntopics,allPosts):
 	with open("subredditVecs.p","wb") as tp:
 		pickle.dump(subredditVecDict,tp)
 	with open("userDict.p","wb") as tp:
-		pickle.dump(userDict)
+		pickle.dump(userDict,tp)
 	return userDict,mentalHealthVec,subredditVecDict
 
 
