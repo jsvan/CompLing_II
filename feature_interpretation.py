@@ -88,16 +88,19 @@ def interpretFeatures(bucket, dicSub2TopVec, mentalHealthVec, ntopics):
 
 	out.append(n)
 	out.append(totw / n)
+
+	totw = max(totw,1)
+
 	out.append(summedVec[1] / totw)
 	out += [summedVec[i] / totw for i in range(16, 24)]
-	out.append(summedVec[4] / summedVec[5])
-	out.append(summedVec[2] / summedVec[3])
+	out.append(summedVec[4] / max(summedVec[5],1))
+	out.append(summedVec[2] / max(summedVec[3],1))
 
 	topicVecs = [(vec[1], vec[26]) for vec in bucket]
 	funcVecs = [(vec[1], vec[8:18]) for vec in bucket]
 	out.append(sumSimilarity(topicVecs, dicSub2TopVec, 18, 18 + ntopics) / n)
 	out.append(sumSimilarity([(name, [val / totw for val in vec]) for name, vec in funcVecs], dicSub2TopVec, 0, 10) / n)
-	out.append(cos_sim(getSums((vec[1] for vec in topicVecs), range(ntopics)), mentalHealthVec))
+	out.append(cos_sim([i/n for i in getSums((vec[1] for vec in topicVecs), range(ntopics))], mentalHealthVec))
 
 	return out
 
