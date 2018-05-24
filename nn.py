@@ -13,8 +13,8 @@ learning_rate = 0.01  # The speed of convergence
 
 
 
-def prepareData(data):
-	data = numpy.array(data)
+def prepareData(d):
+	data = numpy.array(d)
 	features = data.T[:-1].T
 	labels = data.T[-1].T
 	num_data = len(data)
