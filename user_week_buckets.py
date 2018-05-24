@@ -63,13 +63,11 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 
 		while suicideTime < begin_of_two_weeks and suicideList:
 			suicideTime=suicideList.pop()
-		#print('is suic Time in this two week? ', str(begin_of_two_weeks), ' < ', str(suicideTime), ' < ', str(end_of_two_weeks))
 		if suicideTime < begin_of_two_weeks or end_of_two_weeks < suicideTime: #this bucket is NOT SW
 			#print('NOT SW, label should be -1, but is originally ', post[LABEL_IDX], " -- ", str(begin_of_two_weeks), ' < ', str(current_timestamp), ' < ', str(end_of_two_weeks))
 			post[LABEL_IDX] = -1
 		else:
-			if post[LABEL_IDX] != -1:
-				print("THIS BUCKET SW, label is ", post[LABEL_IDX])
+			pass
 	#   else:                                                                   #ths bucket is SW
 	#      maintain label
 
@@ -149,5 +147,6 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	# sim(subredditstyle,poststyle),
 	# sim(post,mentalhealth)]
 
-
+	if truck[-1] != -1:
+		print('Non trivial label, ', truck[-1])
 	return truck
