@@ -152,6 +152,6 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	steady_label = truck[0][LABEL_IDX]
 	for post in truck:
 		if post[LABEL_IDX] != steady_label:
-			raise "Bucket with Unmatchin Labels Found with User "+ post[USER_ID_IDX]+". Label "+ post[LABEL_IDX]+" Does Not Match with Expected "+ steady_label+ "."
+			raise "Bucket with Unmatchin Labels Found with User "+ str(post[USER_ID_IDX])+". Label "+ str(post[LABEL_IDX])+" Does Not Match with Expected "+ str(steady_label)+ "."
 
 	return truck
