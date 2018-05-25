@@ -123,9 +123,9 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 				allUsrs = f.readlines()
 				shuffle(allUsrs)
 				t = int(len(allUsrs) * 0.8)
-				allocationDict.update({line[0]:(0,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[0:t]])
-				allocationDict.update({line[0]:(2,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[t::2]])
-				allocationDict.update({line[0]:(3,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[t+1::2]])
+				allocationDict.update({line[0]:(0,int(line[1])) for line in [l.strip().split(",") for l in allUsrs[0:t]]})
+				allocationDict.update({line[0]:(2,int(line[1])) for line in [l.strip().split(",") for l in allUsrs[t::2]]})
+				allocationDict.update({line[0]:(3,int(line[1])) for line in [l.strip().split(",") for l in allUsrs[t+1::2]]})
 	for trainFile in trainFiles:
 		default = - ("controls" in trainFile)
 		with open(trainFile) as tfile:
