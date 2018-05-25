@@ -101,12 +101,14 @@ def train(data):
 				truePos += 1
 			elif pred == 1:
 				falsePos += 1
-			else:
+			elif y==1:
 				falseNeg += 1
 
-		print('precision is ', truePos / (truePos + falsePos))
-		print('recall is ', truePos / (truePos + falseNeg))
-
+		print('truepositive ', truePos, ', falsepositive ', falsePos, ', falsenegative ', falseNeg)
+		if truePos+falsePos != 0:
+			print('precision is ', truePos / (truePos + falsePos))
+		if truePos + falseNeg != 0:
+			print('recall is ', truePos / (truePos + falseNeg))
 
 
 def test(data):
