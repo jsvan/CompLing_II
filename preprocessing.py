@@ -198,8 +198,27 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 		val,lab = allocationDict.get(user,(0,-1))
 		for post in postList:
 			post[-1] = lab
+		countNot1=0
+		count1=0
+		for post in postList:
+			if post[-1] == -1:
+				count1 += 1
+			else:
+				countNot1 +=1
 
-		bucketList = uwb.interpret_post_features_by_user(postList, suicideTimes, subredditVecDict, mentalHealthVec,ntopics)	
+		print('Count Not -1/ count -1 preproc 209: ', countNot1, " / ", count1)
+		bucketList = uwb.interpret_post_features_by_user(postList, suicideTimes, subredditVecDict, mentalHealthVec,ntopics)
+
+		countNot1 = 0
+		count1 = 0
+		for post in bucketList:
+			if post[-1] == -1:
+				count1 += 1
+			else:
+				countNot1 += 1
+
+		print('Count Not -1/ count -1 preproc 220: ', countNot1, " / ", count1)
+
 		if val == 1:
 			testPosts += bucketList
 		else:
