@@ -19,8 +19,9 @@ def pearsonsR(masterList):
 	y = [instance[-1] for instance in masterList]
 	print('y types:')
 	count=0
+	print('length: ', len(y))
 	for i in y:
-		if count %250 ==0:
+		if count % 5000 ==0:
 			print(type(i))
 			print(i)
 		count +=1
