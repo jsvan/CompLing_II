@@ -116,21 +116,32 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 	for annoteFile in annoteFiles:
 		with open(annoteFile) as f:
 			f.readline()
-			allocationDict.update({line[0]:int(line[1]) for line in [l.strip().split(",") for l in f]})
+			if "expert" in annoteFile:
+				allocationDict.update({line[0]:(1,int(line[1])) for line in [l.strip().split(",") for l in f]})
+			else:
+				allUsrs = f.readlines()
+				t = int(len(allUsrs) * 0.8)
+				allocationDict.update({line[0]:(0,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[0:t]])
+				allocationDict.update({line[0]:(2,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[t::2]])
+				allocationDict.update({line[0]:(3,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[t+1::2]])
 	for trainFile in trainFiles:
 		default = - ("controls" in trainFile)
 		with open(trainFile) as tfile:
-			allocationDict.update({line.strip():(0,allocationDict.get(line.strip(),default)) for line in tfile})
+			allocationDict.update({line.strip():allocationDict.get(line.strip(),(0,default)) for line in tfile})
 	for testFile in testFiles:
 		default = - ("controls" in testFile)
-		with open(testFile) as tfile:
-			allocationDict.update({line.strip():(1,allocationDict.get(line.strip(),default)) for line in tfile})
+		val = - default # 1 (testSet) if controls, 0 (training) if otherwise 
+		with open(testFile) as tfile:	
+			allocationDict.update({line.strip():allocationDict.get(line.strip(),(val,default)) for line in tfile})
 	for devFile in devFiles:
 		default = - ("controls" in devFile)
 		with open(devFile) as dfile:
 			total = dfile.readlines()
 			allocationDict.update({line.strip():(2,allocationDict.get(line.strip(),default)) for line in total[1::2]})
 			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),default)) for line in total[0::2]})
+	with open("allocationDict.p","wb") as f:
+		print("Pickling allocator")
+		pickle.dump(allocationDict,f)
 	return allocationDict
 
 def toLdaModel(docLists, num_topics):
