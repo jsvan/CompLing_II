@@ -24,9 +24,9 @@ def pearsonsR(masterList):
 	print('len ', len(x))
 	print(str(x)[0:1000])
 	for i in x:
-		if count % 5000 ==0:
-			for j in i:
-				print(type(j), j)
+		for j in i:
+			if type(j) != 'int' and type(j) != 'float':
+				print(type(j), j, i)
 		count += 1
 
 	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
