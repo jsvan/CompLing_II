@@ -97,7 +97,9 @@ def train(data):
 
 def test(data):
 	features, labels, num_data  = prepareData(data)
-
+	truePos =0
+	falsePos=0
+	falseNeg=0
 	print("\n\n\n***TESTING***\n\n\n")
 	ls = 0
 	count = 0
@@ -106,9 +108,18 @@ def test(data):
 		out = net.forward(X)
 		loss = criterion(out, Variable(y).squeeze())
 		ls += loss
+		pred = out.data.max(1)[1].data
+		if pred == 1 and pred == y:
+			truePos += 1
+		elif pred == 1 :
+			falsePos+=1
+		else:
+			falseNeg +=1
+
 		count += 25
 
-	print(ls / num_data)
+	print('precision is ', truePos / (truePos + falsePos))
+	print('recall is ', truePos / (truePos + falseNeg))
 
 
 

@@ -21,4 +21,4 @@ if __name__ == '__main__':
 	print('Beginning nn')
 #	nn = nn.simple_feed_forward()
 	nn.train(trainPosts[0])
-	nn.test(testPosts)
+	nn.test(devTestPosts[0])
