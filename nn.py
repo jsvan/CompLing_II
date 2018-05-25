@@ -96,7 +96,7 @@ def train(data):
 			totLoss += loss
 			loss.backward()
 			optimizer.step()
-			pred = out.data.max(1)[1]
+			pred = out.max(1)[1].data[0]
 			if pred == 1 and pred == y:
 				truePos += 1
 			elif pred == 1:
@@ -122,7 +122,7 @@ def test(data):
 		out = net.forward(X)
 		loss = criterion(out, Variable(y).squeeze())
 		ls += loss
-		pred = out.data.max(1)[1]
+		pred = out.max(1)[1].data[0]
 		if pred == 1 and pred == y:
 			truePos += 1
 		elif pred == 1 :
