@@ -77,7 +77,13 @@ class simple_feed_forward(nn.Module):
 def train(data):
 	features, labels, num_data  = prepareData(data)
 	net.zero_grad()
+	truePos=0
+	falsePos =0
+	falseNeg=0
 	for epoch in range(num_epochs):
+		truePos = 0
+		falsePos = 0
+		falseNeg = 0
 		print(epoch)
 		totLoss = 0.0
 		for x, y in data_batcher(features, labels, num_data, 25):  # Load a batch of images with its (index, data, class)
@@ -90,8 +96,16 @@ def train(data):
 			totLoss += loss
 			loss.backward()
 			optimizer.step()
+			pred = out.data.max(1)[1]
+			if pred == 1 and pred == y:
+				truePos += 1
+			elif pred == 1:
+				falsePos += 1
+			else:
+				falseNeg += 1
 
-		print(totLoss.data.numpy() / len(labels))
+		print('precision is ', truePos / (truePos + falsePos))
+		print('recall is ', truePos / (truePos + falseNeg))
 
 
 
@@ -108,7 +122,7 @@ def test(data):
 		out = net.forward(X)
 		loss = criterion(out, Variable(y).squeeze())
 		ls += loss
-		pred = out.data.max(1)[1].data
+		pred = out.data.max(1)[1]
 		if pred == 1 and pred == y:
 			truePos += 1
 		elif pred == 1 :
