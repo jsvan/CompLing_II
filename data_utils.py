@@ -21,11 +21,11 @@ def pearsonsR(masterList):
 	count=0
 	for i in y:
 		if count %250 ==0:
-			print(type(y))
-			print(y)
+			print(type(i))
+			print(i)
 		count +=1
 	print('x types:')
-	(print(type(x), "\n", x) for x in ((instance[j] for instance in masterList) for j in range(featlen)))
+	print((type(i), "\n", i) for i in [[instance[j] for instance in masterList] for j in range(featlen)])
 
 	for i in y:
 		if count %250 ==0:
