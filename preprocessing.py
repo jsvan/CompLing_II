@@ -198,27 +198,17 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 		val,lab = allocationDict.get(user,(0,-1))
 		for post in postList:
 			post[-1] = lab
-		countNot1=0
-		count1=0
-		for post in postList:
-			if post[-1] == -1:
-				count1 += 1
-			else:
-				countNot1 +=1
 
-		print('Count Not -1/ count -1 preproc 209: ', countNot1, " / ", count1)
 		bucketList = uwb.interpret_post_features_by_user(postList, suicideTimes, subredditVecDict, mentalHealthVec,ntopics)
 
-		countNot1 = 0
-		count1 = 0
+		stuff = False
 		for post in bucketList:
-			if post[-1] == -1:
-				count1 += 1
-			else:
-				countNot1 += 1
+			if post[-1] != -1:
+				stuff = True
 
-		print('Count Not -1/ count -1 preproc 220: ', countNot1, " / ", count1)
-
+		if stuff:
+			print('prep 218, found not -1 stuff')
+		# corresponds to if this chunk belongs to train test dev or devtest, takes 0 - 3
 		if val == 1:
 			testPosts += bucketList
 		else:
@@ -233,6 +223,22 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 					devPosts[lab].append(bucket)
 				else:
 					devTestPosts[lab].append(bucket)
+
+	stuff = False
+	for post in trainPosts[0]:
+		if post[-1] != -1:
+			stuff = True
+
+	if stuff:
+		print('trainposts[0] prep 228, found not -1 stuff')
+
+	stuff = False
+	for post in trainPosts[1]:
+		if post[-1] != -1:
+			stuff = True
+
+	if stuff:
+		print('trainposts[1], prep 241, found not -1 stuff')
 	print("Pickling")
 	with open("trainingData.p","wb") as f:
 		pickle.dump(trainPosts,f)
@@ -256,7 +262,7 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 
 def prepare():
 	#If done with process unpickle
-	if 1 ==0:
+	if 1 == 0:
 		#os.path.exists('trainingData.p') and os.path.exists('testData.p') and os.path.exists(
 		#	'devData.p') and os.path.exists('devTestData.p'):
 		with open("trainingData.p", "rb") as f:

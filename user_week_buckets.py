@@ -146,13 +146,5 @@ def interpret_post_features_by_user(userList, suicideDic, dicSub2TopVec, mentalH
 	# sim(subredditstyle,poststyle),
 	# sim(post,mentalhealth)]
 
-	countNot1 = 0
-	count1 = 0
-	for post in truck:
-		if post[-1] == -1:
-			count1 += 1
-		else:
-			countNot1 += 1
 
-	print('Count Not -1/ count -1 uwb 157 trucks: ', countNot1, " / ", count1)
 	return truck
