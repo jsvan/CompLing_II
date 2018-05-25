@@ -17,9 +17,12 @@ def prepareData(d):
 	data = numpy.array(d)
 	features = data.T[:-1].T
 	labels = data.T[-1]
-	print(numpy.shape(data))
-	print(numpy.shape(labels))
-	print(labels)
+	labels = (labels + 1) / 2
+	r = numpy.ptp(labels, axis=0)
+	print('datashape is ', numpy.shape(data))
+	print('labels shape is ',numpy.shape(labels))
+	print('range of labels is ', r)
+	print('unique items in labels are, ', numpy.unique(labels))
 	num_data = len(data)
 
 	return  torch.from_numpy(features).type(torch.FloatTensor), torch.from_numpy(labels).type(torch.LongTensor), num_data
