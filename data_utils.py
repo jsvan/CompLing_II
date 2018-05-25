@@ -118,16 +118,19 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 			f.readline()
 			allocationDict.update({line[0]:int(line[1]) for line in [l.strip().split(",") for l in f]})
 	for trainFile in trainFiles:
+		default = - ("controls" in trainFile)
 		with open(trainFile) as tfile:
-			allocationDict.update({line.strip():(0,allocationDict.get(line.strip(),-1)) for line in tfile})
+			allocationDict.update({line.strip():(0,allocationDict.get(line.strip(),default)) for line in tfile})
 	for testFile in testFiles:
+		default = - ("controls" in testFile)
 		with open(testFile) as tfile:
-			allocationDict.update({line.strip():(1,allocationDict.get(line.strip(),-1)) for line in tfile})
+			allocationDict.update({line.strip():(1,allocationDict.get(line.strip(),default)) for line in tfile})
 	for devFile in devFiles:
+		default = - ("controls" in devFile)
 		with open(devFile) as dfile:
 			total = dfile.readlines()
-			allocationDict.update({line.strip():(2,allocationDict.get(line.strip(),-1)) for line in total[1::2]})
-			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),-1)) for line in total[0::2]})
+			allocationDict.update({line.strip():(2,allocationDict.get(line.strip(),default)) for line in total[1::2]})
+			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),default)) for line in total[0::2]})
 	return allocationDict
 
 def toLdaModel(docLists, num_topics):
