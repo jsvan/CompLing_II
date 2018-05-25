@@ -120,7 +120,7 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 				allocationDict.update({line[0]:(1,int(line[1])) for line in [l.strip().split(",") for l in f]})
 			else:
 				allUsrs = f.readlines()
-				allUsrs.shuffle()
+				shuffle(allUsrs)
 				t = int(len(allUsrs) * 0.8)
 				allocationDict.update({line[0]:(0,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[0:t]])
 				allocationDict.update({line[0]:(2,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[t::2]])
