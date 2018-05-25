@@ -26,7 +26,7 @@ def pearsonsR(masterList):
 	for i in x:
 		for j in i:
 			if type(j) != 'int' and type(j) != 'float':
-				print(type(j), j, i)
+				print(type(j), j)
 		count += 1
 
 	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
