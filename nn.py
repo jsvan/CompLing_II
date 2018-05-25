@@ -97,12 +97,11 @@ def train(data):
 			loss.backward()
 			optimizer.step()
 			pred = out.max(1)[1].data[0]
-			if pred == 1 :
-				if pred == y.data[0]:
-					truePos += 1
+			if pred == 1 and pred == y.data[0]:
+				truePos += 1
 			elif pred == 1:
 				falsePos += 1
-			elif y==1:
+			elif y.data[0]==1:
 				falseNeg += 1
 
 		print('truepositive ', truePos, ', falsepositive ', falsePos, ', falsenegative ', falseNeg)
@@ -126,12 +125,11 @@ def test(data):
 		loss = criterion(out, Variable(y).squeeze())
 		ls += loss
 		pred = out.max(1)[1].data[0]
-		if pred == 1:
-			if pred == y.data[0]:
-				truePos += 1
+		if pred == 1 and pred == y.data[0]:
+			truePos += 1
 		elif pred == 1 :
 			falsePos+=1
-		else:
+		elif y.data[0] == 1:
 			falseNeg +=1
 
 		count += 25
