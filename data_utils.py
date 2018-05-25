@@ -18,10 +18,11 @@ def pearsonsR(masterList):
 	featlen = len(masterList[0])
 	y = [instance[-1] for instance in masterList]
 	count= 0
+	x = [x for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
+
 	print('x types:')
 	print('len ', len(x))
 	print(str(x)[0:500])
-	x = [x for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
 	for i in x:
 		if count % 5000 ==0:
 			print(type(i))
