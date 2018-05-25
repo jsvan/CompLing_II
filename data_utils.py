@@ -15,17 +15,17 @@ def pearsonsR(masterList):
 	# input masterlist[featurelist, featurelist, featurelist, featurelist ...]
 	# where featurelist has the label at last spot
 	# want pr(x,y) to output (1.0, 0.0) or (-1.0, 0.0). (0, 1) is very uncorrelated.
-	featlen = len(masterList[0])
+	featlen = len(masterList[0]) - 1
 	y = [instance[-1] for instance in masterList]
+	countNot1 = 0
 	count1 = 0
-	count2 = 0
 	for yval in y:
-		if y != -1:
-			count1+=1 
+		if yval != -1:
+			countNot1+=1
 		else:
-			count2+=1
-	print("Not -1: %d" %count1)
-	print("-1: %d" %count2)
+			count1+=1
+	print("Not -1: %d" %countNot1)
+	print("-1: %d" %count1)
 	exes = [[instance[j] for instance in masterList] for j in range(featlen)]
 	idx = 0
 	for x in exes:
@@ -34,7 +34,7 @@ def pearsonsR(masterList):
 		for xval in x:
 			out = out and (xval == firstVal)
 		if out:
-			print(idx)
+			print('problem index ', idx)
 		idx += 1
 	
 	vals = [pr(x,y) for x in exes]
