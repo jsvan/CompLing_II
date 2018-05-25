@@ -201,13 +201,6 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 
 		bucketList = uwb.interpret_post_features_by_user(postList, suicideTimes, subredditVecDict, mentalHealthVec,ntopics)
 
-		stuff = False
-		for post in bucketList:
-			if post[-1] != -1:
-				stuff = True
-
-		if stuff:
-			print('prep 218, found not -1 stuff')
 		# corresponds to if this chunk belongs to train test dev or devtest, takes 0 - 3
 		if val == 1:
 			testPosts += bucketList
@@ -230,7 +223,7 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 			stuff = True
 
 	if stuff:
-		print('trainposts[0] prep 228, found not -1 stuff')
+		print('trainposts[0] prep 226, found not -1 stuff')
 
 	stuff = False
 	for post in trainPosts[1]:
@@ -238,7 +231,8 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 			stuff = True
 
 	if stuff:
-		print('trainposts[1], prep 241, found not -1 stuff')
+		print('trainposts[1], prep 234, found not -1 stuff')
+		
 	print("Pickling")
 	with open("trainingData.p","wb") as f:
 		pickle.dump(trainPosts,f)
