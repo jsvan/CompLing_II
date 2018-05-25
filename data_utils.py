@@ -26,7 +26,18 @@ def pearsonsR(masterList):
 			count2+=1
 	print("Not -1: %d" %count1)
 	print("-1: %d" %count2)
-	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
+	exes = [[instance[j] for instance in masterList] for j in range(featlen)]
+	idx = 0
+	for x in exes:
+		firstVal = x[0]
+		out = True
+		for xval in x:
+			out = out and (xval == firstVal)
+		if out:
+			print(idx)
+		idx += 1
+	
+	vals = [pr(x,y) for x in exes]
 	return vals
 
 def makeCollocated(corp,stops):
