@@ -17,21 +17,17 @@ def pearsonsR(masterList):
 	# want pr(x,y) to output (1.0, 0.0) or (-1.0, 0.0). (0, 1) is very uncorrelated.
 	featlen = len(masterList[0])
 	y = [instance[-1] for instance in masterList]
-	print('y types:')
-	count=0
-	print('length: ', len(y))
-	for i in y:
-		if count % 5000 ==0:
-			print(type(i))
-			print(i)
-		count +=1
+	count= 0
 	print('x types:')
+	print('len ', len(x))
+	print(str(x)[0:500])
 	x = [x for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
 	for i in x:
 		if count % 5000 ==0:
 			print(type(i))
 			print(i)
-		count +=1
+		count += 1
+
 	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
 	return vals
 

@@ -22,7 +22,7 @@ def prepareData(d):
 	print(labels)
 	num_data = len(data)
 
-	return  torch.from_numpy(features).type(torch.LongTensor), torch.from_numpy(labels).type(torch.FloatTensor), num_data
+	return  torch.from_numpy(features).type(torch.FloatTensor), torch.from_numpy(labels).type(torch.LongTensor), num_data
 
 
 
