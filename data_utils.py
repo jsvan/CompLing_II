@@ -120,6 +120,7 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 				allocationDict.update({line[0]:(1,int(line[1])) for line in [l.strip().split(",") for l in f]})
 			else:
 				allUsrs = f.readlines()
+				allUsrs.shuffle()
 				t = int(len(allUsrs) * 0.8)
 				allocationDict.update({line[0]:(0,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[0:t]])
 				allocationDict.update({line[0]:(2,int(line[1]))} for line in [l.strip().split(",") for l in allUsrs[t::2]])
@@ -137,8 +138,8 @@ def makeAllocationDict(trainFiles,testFiles,devFiles,annoteFiles):
 		default = - ("controls" in devFile)
 		with open(devFile) as dfile:
 			total = dfile.readlines()
-			allocationDict.update({line.strip():(2,allocationDict.get(line.strip(),default)) for line in total[1::2]})
-			allocationDict.update({line.strip():(3,allocationDict.get(line.strip(),default)) for line in total[0::2]})
+			allocationDict.update({line.strip():(allocationDict.get(line.strip(),(2,default))) for line in total[1::2]})
+			allocationDict.update({line.strip():(allocationDict.get(line.strip(),(2,default))) for line in total[0::2]})
 	with open("allocationDict.p","wb") as f:
 		print("Pickling allocator")
 		pickle.dump(allocationDict,f)
