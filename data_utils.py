@@ -26,9 +26,12 @@ def pearsonsR(masterList):
 			print(i)
 		count +=1
 	print('x types:')
-	print((type(i), "\n", i) for i in [[instance[j] for instance in masterList] for j in range(featlen)])
-
-	
+	x = [x for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
+	for i in x:
+		if count % 5000 ==0:
+			print(type(i))
+			print(i)
+		count +=1
 	vals = [pr(x,y) for x in [[instance[j] for instance in masterList] for j in range(featlen)]]
 	return vals
 
