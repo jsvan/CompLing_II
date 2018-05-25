@@ -97,7 +97,7 @@ def train(data):
 			loss.backward()
 			optimizer.step()
 			pred = out.max(1)[1].data[0]
-			if pred == 1 and pred == y:
+			if pred == 1 and pred == y.data:
 				truePos += 1
 			elif pred == 1:
 				falsePos += 1
@@ -125,7 +125,7 @@ def test(data):
 		loss = criterion(out, Variable(y).squeeze())
 		ls += loss
 		pred = out.max(1)[1].data[0]
-		if pred == 1 and pred == y:
+		if pred == 1 and pred == y.data:
 			truePos += 1
 		elif pred == 1 :
 			falsePos+=1
@@ -134,10 +134,11 @@ def test(data):
 
 		count += 25
 
-	print('precision is ', truePos / (truePos + falsePos))
-	print('recall is ', truePos / (truePos + falseNeg))
-
-
+	print('truepositive ', truePos, ', falsepositive ', falsePos, ', falsenegative ', falseNeg)
+	if truePos + falsePos != 0:
+		print('precision is ', truePos / (truePos + falsePos))
+	if truePos + falseNeg != 0:
+		print('recall is ', truePos / (truePos + falseNeg))
 
 
 net = simple_feed_forward(input_size, hidden_size_a, hidden_size_b, num_classes)
