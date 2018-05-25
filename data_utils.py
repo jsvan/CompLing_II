@@ -3,6 +3,7 @@ import pickle
 from gensim import corpora, models, similarities
 from scipy.stats.stats import pearsonr as pr
 import datetime
+from random import shuffle
 import math
 
 '''
