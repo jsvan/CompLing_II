@@ -17,7 +17,6 @@ def prepareData(d):
 	data = numpy.array(d)
 	features = data.T[:-1].T
 	labels = data.T[-1]
-	input('start d')
 	print(numpy.shape(data))
 	print(numpy.shape(labels))
 	print(labels)
