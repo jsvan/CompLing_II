@@ -207,8 +207,9 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 				count+=1
 
 		if count > 0:
-			print('prep 210, found not -1 stuff, ', count, 'val ', val )
-
+			print('prep 210, found not -1 stuff, ', count)
+			if val != 1:
+				print ('VAL IS NOT 1, BUT ', val)
 
 		# corresponds to if this chunk belongs to train test dev or devtest, takes 0 - 3
 		if val == 1:
