@@ -206,8 +206,9 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 			if post[-1] != -1:
 				count+=1
 
-		if count>0:
-			print('prep 210, found not -1 stuff, ', count)
+		if count > 0:
+			print('prep 210, found not -1 stuff, ', count, 'val ', val )
+
 
 		# corresponds to if this chunk belongs to train test dev or devtest, takes 0 - 3
 		if val == 1:
