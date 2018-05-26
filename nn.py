@@ -76,6 +76,7 @@ class simple_feed_forward(nn.Module):
 
 def train(data):
 	features, labels, num_data  = prepareData(data)
+	weights = torch.zeros(1, 2)
 	net.zero_grad()
 	truePos=0
 	falsePos =0
@@ -141,6 +142,10 @@ def test(data):
 		print('recall is ', truePos / (truePos + falseNeg))
 
 
+weights = torch.zeros(2)
+weights[0]=1
+weights[1]=1000
+
 net = simple_feed_forward(input_size, hidden_size_a, hidden_size_b, num_classes)
-criterion = nn.CrossEntropyLoss()
+criterion = nn.CrossEntropyLoss(weights)
 optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
