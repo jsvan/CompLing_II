@@ -144,7 +144,7 @@ def test(data):
 
 weights = torch.zeros(2)
 weights[0]=1
-weights[1]=1000
+weights[1]=100000
 
 net = simple_feed_forward(input_size, hidden_size_a, hidden_size_b, num_classes)
 criterion = nn.CrossEntropyLoss(weights)
