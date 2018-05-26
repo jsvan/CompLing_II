@@ -206,11 +206,6 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 			if post[-1] != -1:
 				count+=1
 
-		if count > 0:
-			#print('prep 210, found not -1 stuff, ', count)
-			if val != 1:
-				print ('VAL IS NOT 1, BUT ', val)
-				print('prep 213, found not -1 stuff, ', count)
 
 		# corresponds to if this chunk belongs to train test dev or devtest, takes 0 - 3
 		if val == 1:
@@ -228,21 +223,7 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 				else:
 					devTestPosts[lab].append(bucket)
 
-	stuff = False
-	for post in trainPosts[0]:
-		if post[-1] != -1:
-			stuff = True
 
-	if stuff:
-		print('trainposts[0] prep 226, found not -1 stuff')
-
-	stuff = False
-	for post in trainPosts[1]:
-		if post[-1] != -1:
-			stuff = True
-
-	if stuff:
-		print('trainposts[1], prep 234, found not -1 stuff')
 
 	print("Pickling")
 	with open("trainingData.p","wb") as f:
