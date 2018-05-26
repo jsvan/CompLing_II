@@ -267,8 +267,7 @@ def _interpretFeatsAndAllocate(userDict,mentalHealthVec,subredditVecDict,suicide
 
 def prepare():
 	#If done with process unpickle
-	if os.path.exists('trainingData.p') and os.path.exists('testData.p') and os.path.exists(
-			'devData.p') and os.path.exists('devTestData.p'):
+	if 1==0: #os.path.exists('trainingData.p') and os.path.exists('testData.p') and os.path.exists('devData.p') and os.path.exists('devTestData.p'):
 		with open("trainingData.p", "rb") as f:
 			trainPosts = pickle.load(f)
 		with open("testData.p", "rb") as f:

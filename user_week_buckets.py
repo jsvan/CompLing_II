@@ -35,7 +35,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 	'''
 	suicideTime=0
 	begin_of_two_weeks = userList[0][TIMESTAMP_IDX]
-	end_of_two_weeks=userList[0][TIMESTAMP_IDX]
+	end_of_two_weeks = begin_of_two_weeks + TWO_WEEKS
 	truck=[]
 	bucket=[]
 	current_timestamp=0
@@ -61,7 +61,7 @@ def _create_suicide_bucket(userList, suicideList, dicSub2TopVec, mentalHealthVec
 			bucket.append(post)
 
 		while suicideTime < begin_of_two_weeks and suicideList:
-			suicideTime=suicideList.pop()
+			suicideTime = suicideList.pop()
 		if suicideTime < begin_of_two_weeks or end_of_two_weeks < suicideTime: #this bucket is NOT SW
 			#print('NOT SW, label should be -1, but is originally ', post[LABEL_IDX], " -- ", str(begin_of_two_weeks), ' < ', str(current_timestamp), ' < ', str(end_of_two_weeks))
 			post[LABEL_IDX] = -1
